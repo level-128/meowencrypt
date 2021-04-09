@@ -5,6 +5,7 @@ from runlib.enc_session_manager import *
 start_clipboard_listen( )
 start_keyboard_listen()
 
+
 if __name__ == '__main__':
 	# while 1:
 		try:
