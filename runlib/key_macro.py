@@ -1,6 +1,5 @@
 import keyboard
 import mouse
-import pyautogui
 import pyperclip
 import time
 import threading
@@ -45,12 +44,12 @@ def _clipboard_to_item():
 	time.sleep(0.1)
 	keyboard.press_and_release('ctrl + a')
 	keyboard.press_and_release('backspace')
-	keyboard.write(pyperclip.paste())
+	keyboard.write(pyperclip.paste( ))
 
 
 def _select_all_text_to_session():
 	_all_keys_released(CONST_HOTKEY_SELECT_ALL_TEXT_TO_SESSION)
-	_item_to_clipboard()
+	_item_to_clipboard( )
 	# now the text is in clipboard
 	clipboard_content = pyperclip.paste( )
 	try:
@@ -63,7 +62,7 @@ def _select_all_text_to_session():
 
 def _select_all_text_and_encrypt():
 	_all_keys_released(CONST_HOTKEY_SELECT_ALL_TEXT_TO_ENCRYPT)
-	_item_to_clipboard()
+	_item_to_clipboard( )
 	clipboard_content = pyperclip.paste( )
 	try:
 		encrypt_content(clipboard_content)
@@ -71,7 +70,6 @@ def _select_all_text_and_encrypt():
 		print('nothing')
 	except EvtNotification:
 		_clipboard_to_item( )
-
 
 
 def start_keyboard_listen():
