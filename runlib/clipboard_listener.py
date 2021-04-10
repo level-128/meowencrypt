@@ -5,9 +5,11 @@ import threading
 
 import pyperclip
 from runlib.enc_session_manager import to_session_from_clipboard, NullSessionError, ContentError
-from runlib.notification import EvtNotification, is_ignore_last_clipboard
+from runlib.pushed_content import EvtNotification, is_ignore_last_clipboard, push_notification
+from typing import *
 
-is_listen_clipboard: bool = True
+
+is_listen_clipboard: bool = False
 
 
 def _clipboard_session():
@@ -67,3 +69,20 @@ def toggle_listen_clipboard() -> bool:
 	global is_listen_clipboard
 	is_listen_clipboard = not is_listen_clipboard
 	return is_listen_clipboard
+
+
+def get_is_listen_clipboard() -> bool:
+	return is_listen_clipboard
+
+
+def toggle_listen_clipboard_wrapper(func: callable) -> callable:
+
+	def inner(*args, **kwargs):
+		if get_is_listen_clipboard():
+			toggle_listen_clipboard()
+			func(*args, **kwargs)
+			toggle_listen_clipboard()
+		else:
+			func(*args, **kwargs)
+
+	return inner

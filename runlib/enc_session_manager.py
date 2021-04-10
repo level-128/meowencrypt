@@ -1,6 +1,6 @@
+# encoding=ASCII
 from enclib.enc_session import encryption, ContentError, CONST_NEW_SESSION_NOTATION, CONST_MSG_NOTATION, CONST_KEY_EXCHANGE_NOTATION
-from runlib.notification import EvtNotification
-import pyperclip
+from runlib.pushed_content import EvtNotification, get_clipboard
 
 from time import time
 from typing import *
@@ -36,7 +36,7 @@ def to_session(content: str) -> None:
 	:param content: the message from either clipboard or input box.
 	:raise enclib.enc_session.ContentError: the content of the message is incorrect.
 	:raise NullSessionError: the message does not belong to any session.
-	:raise EvtPushToClipboard: push the EvtPushToClipboard().content into the clipboard.
+	:raise EvtNotification: push the EvtPushToClipboard().content into the clipboard.
 	:raise ContentError: When the input content could not be parsed.
 	"""
 	if not content.isascii( ):
@@ -68,10 +68,18 @@ def to_session(content: str) -> None:
 
 
 def to_session_from_clipboard():
-	return to_session(pyperclip.paste( ))
+	"""
+	equals to to_session(runlib.pushed_content.get_clipboard())
+	"""
+	return to_session(get_clipboard())
 
 
 def new_session() -> None:
+	"""
+	create a new session.
+	This function is used for create a new session triggered by user.
+	:raise EvtNotification: notification only.
+	"""
 	session_ = encryption( )
 	session_request = session_.create_session_request( )
 	__add_session(session_)
@@ -81,11 +89,11 @@ def new_session() -> None:
 
 def encrypt_content(content: str, session_id: Union[str, None] = None) -> None:
 	"""
-
-	:param content:
-	:param session_id:
-	:return:
+	encrypt the message into encoded content
+	:param content: message
+	:param session_id: the session to where the message belongs. default last session's id.
 	:raise NullSessionError: if the session does not exist.
+	:raise EvtNotification: returns the encrypted content.
 	"""
 	if not session_id:
 		session_id = last_session
