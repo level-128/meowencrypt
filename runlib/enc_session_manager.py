@@ -1,4 +1,3 @@
-# encoding=ASCII
 from enclib.enc_session import encryption, ContentError, CONST_NEW_SESSION_NOTATION, CONST_MSG_NOTATION, CONST_KEY_EXCHANGE_NOTATION
 from runlib.pushed_content import EvtNotification, get_clipboard
 

@@ -1,4 +1,3 @@
-# encoding=ASCII
 from runlib.key_macro import start_keyboard_listen
 from runlib.enc_session_manager import *
 

@@ -9,6 +9,7 @@ from enclib.enc_utilities import b94encode, b94decode, get_md5_checksum_str
 from enclib.DHElib.DHE import DHE_target
 from config.config_library import config
 
+# TODO: __check_sum_len and session_id_len should use config lib.
 
 #  the printable characters which b85 does not include are:
 B85_EXCLUDE_CHAR = ('"', "'", ',', '.', '/', ':', ']')
