@@ -42,7 +42,7 @@ class modify_config:
     def __getattr__(self, item: str) -> Any:
         if item in self.__modifiable_config:
             return self.__modifiable_config[item]
-        elif item in self.__default_config:
+        elif item in self.__default_config.__dict__:
             return self.__default_config.__getattribute__(item)
         else:
             raise AttributeError(f"the '{item}' is not in config library.")
