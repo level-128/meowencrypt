@@ -3,11 +3,11 @@ import mouse
 import time
 import threading
 
-from runlib.pushed_content import EvtNotification, get_clipboard, push_notification, push_clipboard, get_last_pasted_item
-from runlib.enc_session_manager import get_last_session, to_session, NullSessionError, ContentError, encrypt_content
+from runlib.pushed_content import EvtNotification, get_clipboard, push_notification, push_clipboard
+from runlib.enc_session_manager import to_session, NullSessionError, ContentError, encrypt_content
 from runlib.clipboard_listener import toggle_listen_clipboard, get_is_listen_clipboard, start_clipboard_listen, toggle_listen_clipboard_wrapper
 
-# TODO: error in using to session to decrypt.
+#  TODO: replace the hotkey constant into config.config_library.config's modifiable config.
 
 CONST_HOTKEY_SELECT_ALL_TEXT_TO_SESSION: str = 'ctrl + alt + a'
 
@@ -96,6 +96,14 @@ def _select_all_text_and_auto_process():
 def _toggle_listen_clipboard():
 	push_notification("turned off clipboard listener" if get_is_listen_clipboard() else "clipboard listener active")
 	toggle_listen_clipboard()
+
+
+def change_keyboard_hotkey() -> None:
+	keyboard.remove_all_hotkeys()
+	keyboard.add_hotkey(CONST_HOTKEY_SELECT_ALL_TEXT_TO_SESSION, _select_all_text_to_session)
+	keyboard.add_hotkey(CONST_HOTKEY_SELECT_ALL_TEXT_TO_ENCRYPT, _select_all_text_and_encrypt)
+	keyboard.add_hotkey('ctrl + shift + q', _toggle_listen_clipboard)
+	keyboard.add_hotkey(CONST_HOTKEY_SELECT_ALL_TEXT_AND_AUTO_PROCESS, _select_all_text_and_auto_process)
 
 
 def start_keyboard_listen():

@@ -76,7 +76,7 @@ def to_session_from_clipboard():
 def new_session() -> None:
 	"""
 	create a new session.
-	This function is used for create a new session triggered by user.
+	This function will create a new session triggered by the user.
 	:raise EvtNotification: notification only.
 	"""
 	session_ = encryption( )
