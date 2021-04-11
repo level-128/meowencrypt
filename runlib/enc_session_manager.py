@@ -13,12 +13,18 @@ last_session: str = ''
 
 class NullSessionError(Exception):
 	def __init__(self):
-		super(NullSessionError, self).__init__("the message does not belong to any session.")
+		super(NullSessionError, self).__init__("the message does not belongs to any session.")
+
+
+class SessionLimitExceedError(Exception):
+	def __init__(self):
+		super(SessionLimitExceedError, self).\
+			__init__(f"the active session number has exceed the limit ({config.max_session})")
 
 
 def __add_session(session_instance: encryption):
 	if len(active_session) == config.max_session:
-		raise Exception(f"the active session number has exceed the limit ({config.max_session})")
+		raise SessionLimitExceedError
 	active_session[session_instance.get_session_id( )] = session_instance
 	active_session_time[session_instance.get_session_id( )] = time( )
 
@@ -36,10 +42,11 @@ def to_session(content: str) -> None:
 	"""
 	enters a message and determine the right session to process the message
 	:param content: the message from either clipboard or input box.
-	:raise enclib.enc_session.ContentError: the content of the message is incorrect.
-	:raise NullSessionError: the message does not belong to any session.
+
 	:raise EvtNotification: push the EvtPushToClipboard().content into the clipboard.
+	:raise NullSessionError: the message does not belongs to any session.
 	:raise ContentError: When the input content could not be parsed.
+	:raise SessionLimitExceedError: When the session count exceed the limit. Raised when receive a new session request.
 	"""
 	if not content.isascii( ):
 		raise ContentError

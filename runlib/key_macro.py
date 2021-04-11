@@ -5,14 +5,15 @@ import threading
 
 from runlib.pushed_content import EvtNotification, get_clipboard, push_notification, push_clipboard
 from runlib.enc_session_manager import to_session, NullSessionError, ContentError, encrypt_content
-from runlib.clipboard_listener import toggle_listen_clipboard, get_is_listen_clipboard, start_clipboard_listen, toggle_listen_clipboard_wrapper
+from runlib.clipboard_listener import toggle_listen_clipboard, get_is_listen_clipboard, start_clipboard_listen,\
+	toggle_listen_clipboard_wrapper
 from config.config_library import config
 
 
 def _all_keys_released(keys: str):
 	for x in keys.split('+'):
 		while keyboard.is_pressed(x.strip( )):
-			time.sleep(0.05)
+			time.sleep(0.08)
 
 
 @toggle_listen_clipboard_wrapper
@@ -86,7 +87,7 @@ def _select_all_text_and_auto_process():
 
 
 def _toggle_listen_clipboard():
-	push_notification("turned off clipboard listener" if get_is_listen_clipboard() else "clipboard listener active")
+	push_notification("Clipboard listener has turned off" if get_is_listen_clipboard() else "clipboard listener active")
 	toggle_listen_clipboard()
 
 
