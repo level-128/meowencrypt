@@ -6,10 +6,11 @@ import threading
 import pyperclip
 from runlib.enc_session_manager import to_session_from_clipboard, NullSessionError, ContentError
 from runlib.pushed_content import EvtNotification, is_ignore_last_clipboard, push_notification
+from config.config_library import config
 from typing import *
 
 
-is_listen_clipboard: bool = False
+is_listen_clipboard: bool = config.is_default_listen_clipboard
 
 
 def _clipboard_session():

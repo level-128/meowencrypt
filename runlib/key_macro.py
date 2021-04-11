@@ -6,16 +6,7 @@ import threading
 from runlib.pushed_content import EvtNotification, get_clipboard, push_notification, push_clipboard
 from runlib.enc_session_manager import to_session, NullSessionError, ContentError, encrypt_content
 from runlib.clipboard_listener import toggle_listen_clipboard, get_is_listen_clipboard, start_clipboard_listen, toggle_listen_clipboard_wrapper
-
-#  TODO: replace the hotkey constant into config.config_library.config's modifiable config.
-
-CONST_HOTKEY_SELECT_ALL_TEXT_TO_SESSION: str = 'ctrl + alt + a'
-
-CONST_HOTKEY_SELECT_ALL_TEXT_TO_ENCRYPT: str = 'ctrl + alt + s'
-
-CONST_HOTKEY_SELECT_ALL_TEXT_AND_AUTO_PROCESS: str = 'ctrl + alt + z'
-
-CONST_HOTKEY_TOGGLE_LISTEN_CLIPBOARD_CHANGE: str = 'ctrl + alt + q'
+from config.config_library import config
 
 
 def _all_keys_released(keys: str):
@@ -52,7 +43,7 @@ def _clipboard_to_item():
 
 
 def _select_all_text_to_session():
-	_all_keys_released(CONST_HOTKEY_SELECT_ALL_TEXT_TO_SESSION)
+	_all_keys_released(config.hotkey_select_all_text_to_session)
 	_item_to_clipboard( )
 	# now the text is in clipboard
 	clipboard_content = get_clipboard()
@@ -65,7 +56,7 @@ def _select_all_text_to_session():
 
 
 def _select_all_text_and_encrypt():
-	_all_keys_released(CONST_HOTKEY_SELECT_ALL_TEXT_TO_ENCRYPT)
+	_all_keys_released(config.hotkey_select_all_text_to_encrypt)
 	_item_to_clipboard( )
 	clipboard_content = get_clipboard()
 	try:
@@ -77,7 +68,7 @@ def _select_all_text_and_encrypt():
 
 
 def _select_all_text_and_auto_process():
-	_all_keys_released(CONST_HOTKEY_SELECT_ALL_TEXT_AND_AUTO_PROCESS)
+	_all_keys_released(config.hotkey_select_all_text_and_auto_process)
 	_item_to_clipboard( )
 	clipboard_content = get_clipboard( )
 	try:
@@ -93,6 +84,7 @@ def _select_all_text_and_auto_process():
 	except EvtNotification:
 		pass
 
+
 def _toggle_listen_clipboard():
 	push_notification("turned off clipboard listener" if get_is_listen_clipboard() else "clipboard listener active")
 	toggle_listen_clipboard()
@@ -100,18 +92,18 @@ def _toggle_listen_clipboard():
 
 def change_keyboard_hotkey() -> None:
 	keyboard.remove_all_hotkeys()
-	keyboard.add_hotkey(CONST_HOTKEY_SELECT_ALL_TEXT_TO_SESSION, _select_all_text_to_session)
-	keyboard.add_hotkey(CONST_HOTKEY_SELECT_ALL_TEXT_TO_ENCRYPT, _select_all_text_and_encrypt)
-	keyboard.add_hotkey('ctrl + shift + q', _toggle_listen_clipboard)
-	keyboard.add_hotkey(CONST_HOTKEY_SELECT_ALL_TEXT_AND_AUTO_PROCESS, _select_all_text_and_auto_process)
+	keyboard.add_hotkey(config.hotkey_select_all_text_to_session, _select_all_text_to_session)
+	keyboard.add_hotkey(config.hotkey_select_all_text_to_encrypt, _select_all_text_and_encrypt)
+	keyboard.add_hotkey(config.const_hotkey_toggle_listen_clipboard_change, _toggle_listen_clipboard)
+	keyboard.add_hotkey(config.hotkey_select_all_text_and_auto_process, _select_all_text_and_auto_process)
 
 
 def start_keyboard_listen():
 	def _start_keyboard_listen():
-		keyboard.add_hotkey(CONST_HOTKEY_SELECT_ALL_TEXT_TO_SESSION, _select_all_text_to_session)
-		keyboard.add_hotkey(CONST_HOTKEY_SELECT_ALL_TEXT_TO_ENCRYPT, _select_all_text_and_encrypt)
-		keyboard.add_hotkey(CONST_HOTKEY_TOGGLE_LISTEN_CLIPBOARD_CHANGE, _toggle_listen_clipboard)
-		keyboard.add_hotkey(CONST_HOTKEY_SELECT_ALL_TEXT_AND_AUTO_PROCESS, _select_all_text_and_auto_process)
+		keyboard.add_hotkey(config.hotkey_select_all_text_to_session, _select_all_text_to_session)
+		keyboard.add_hotkey(config.hotkey_select_all_text_to_encrypt, _select_all_text_and_encrypt)
+		keyboard.add_hotkey(config.const_hotkey_toggle_listen_clipboard_change, _toggle_listen_clipboard)
+		keyboard.add_hotkey(config.hotkey_select_all_text_and_auto_process, _select_all_text_and_auto_process)
 		keyboard.wait( )
 
 	start_clipboard_listen()

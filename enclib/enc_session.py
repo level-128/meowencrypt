@@ -9,8 +9,6 @@ from enclib.enc_utilities import b94encode, b94decode, get_md5_checksum_str
 from enclib.DHElib.DHE import DHE_target
 from config.config_library import config
 
-# TODO: __check_sum_len and session_id_len should use config lib.
-
 #  the printable characters which b85 does not include are:
 B85_EXCLUDE_CHAR = ('"', "'", ',', '.', '/', ':', ']')
 ALL_PRINTABLE_CHR = tuple(chr(_) for _ in range(33, 127))
@@ -29,8 +27,8 @@ class encryption:
 	def __init__(self, enc_strength: int = 15):
 		self.__key: Union[bytes, None] = None
 		self.DHE_target_instance = DHE_target(enc_strength)
-		self.__check_sum_len = 3
-		self.session_id_len = 3
+		self.__check_sum_len = config.check_sum_len
+		self.session_id_len = config.session_id_len
 		self.__key: Union[bytes, None] = None
 		self.__session_id: Union[str, None] = None
 		self.__aes: Union[Any, None] = None

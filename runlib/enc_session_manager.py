@@ -1,5 +1,6 @@
 from enclib.enc_session import encryption, ContentError, CONST_NEW_SESSION_NOTATION, CONST_MSG_NOTATION, CONST_KEY_EXCHANGE_NOTATION
 from runlib.pushed_content import EvtNotification, get_clipboard
+from config.config_library import config
 
 from time import time
 from typing import *
@@ -16,6 +17,8 @@ class NullSessionError(Exception):
 
 
 def __add_session(session_instance: encryption):
+	if len(active_session) == config.max_session:
+		raise Exception(f"the active session number has exceed the limit ({config.max_session})")
 	active_session[session_instance.get_session_id( )] = session_instance
 	active_session_time[session_instance.get_session_id( )] = time( )
 
@@ -41,12 +44,14 @@ def to_session(content: str) -> None:
 	if not content.isascii( ):
 		raise ContentError
 	content = content.replace('\n', '').replace('\t', '').lstrip( ).rstrip( )
-	if len(content) < 3:
+	#  all encoded message should at least contains a identification character, session id and checksum.
+	#  if the content is shorter than the sum of these length, means it must not belongs to the session.
+	if len(content) <= 1 + config.session_id_len + config.session_id_len:
 		raise ContentError
 
 	#  not starting a new session
 	if content[0] == CONST_MSG_NOTATION:
-		session_ = __get_session(content[1:4])
+		session_ = __get_session(content[1:config.session_id_len])
 		raise EvtNotification(content_to_notification=session_.decrypt_content(content))
 
 	#  starting a new session
@@ -58,7 +63,7 @@ def to_session(content: str) -> None:
 		                      content_to_notification='received a new session request. paste the session key change request to the sender.')
 
 	elif content[0] == CONST_KEY_EXCHANGE_NOTATION:
-		session_ = __get_session(content[1:4])
+		session_ = __get_session(content[1:config.session_id_len])
 		session_.receive_session_request(content)
 		raise EvtNotification(content_to_notification="the session has been established, start sending messages. ")
 
@@ -68,9 +73,9 @@ def to_session(content: str) -> None:
 
 def to_session_from_clipboard():
 	"""
-	equals to to_session(runlib.pushed_content.get_clipboard())
+	equals to to_session(runlib.pushed_content.get_clipboard( ))
 	"""
-	return to_session(get_clipboard())
+	return to_session(get_clipboard( ))
 
 
 def new_session() -> None:
