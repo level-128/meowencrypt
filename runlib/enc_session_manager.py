@@ -92,6 +92,7 @@ def new_session() -> None:
 	create a new session.
 	This function will create a new session triggered by the user.
 	:raise EvtNotification: notification only.
+	:raise SessionLimitExceedError: When the session count exceed the limit.
 	"""
 	session_ = encryption( )
 	session_request = session_.create_session_request( )
@@ -106,7 +107,7 @@ def encrypt_content(content: str, session_id: Union[str, None] = None) -> None:
 	:param content: message
 	:param session_id: the session to where the message belongs. default last session's id.
 	:raise NullSessionError: if the session does not exist.
-	:raise EvtNotification: returns the encrypted content.
+	:raise EvtNotification: returns the encrypted content to the clipboard. No notification.
 	"""
 	if not session_id:
 		session_id = last_session
@@ -115,4 +116,7 @@ def encrypt_content(content: str, session_id: Union[str, None] = None) -> None:
 
 
 def get_last_session() -> str:
+	"""
+	return the last session's identifier. if there is no established session, return ''
+	"""
 	return last_session

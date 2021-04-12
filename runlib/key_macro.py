@@ -51,7 +51,7 @@ def _select_all_text_to_session():
 	try:
 		to_session(clipboard_content)
 	except (NullSessionError, ContentError):
-		print('null_session')
+		push_notification("The content of the message can't be recognized, or the session is invalid. try again or reestablish the connection.", "Error")
 	except EvtNotification:
 		pass
 
@@ -63,7 +63,7 @@ def _select_all_text_and_encrypt():
 	try:
 		encrypt_content(clipboard_content)
 	except NullSessionError:
-		print('nothing')
+		push_notification("No established encrypt session. Create a session first, then encrypt the message.", "Error", True)
 	except EvtNotification:
 		_clipboard_to_item( )
 
@@ -78,7 +78,7 @@ def _select_all_text_and_auto_process():
 		try:
 			encrypt_content(clipboard_content)
 		except NullSessionError:
-			print('nothing')
+			push_notification("No established encrypt session. Create a session first, then encrypt the message.", "Error", True)
 		except EvtNotification:
 			_clipboard_to_item( )
 

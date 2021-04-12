@@ -1,5 +1,5 @@
 """
-meowencrypt pushed_content:
+meowencrypt runlib.pushed_content:
 
 this module handles clipboard modification and windows 10 notification
 banner.
