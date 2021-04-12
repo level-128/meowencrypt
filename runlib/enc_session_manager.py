@@ -12,8 +12,8 @@ last_session: str = ''
 
 
 class NullSessionError(Exception):
-	def __init__(self):
-		super(NullSessionError, self).__init__("the message does not belongs to any session.")
+	def __init__(self, session_ID: str):
+		super(NullSessionError, self).__init__(f"the message does not belongs to any session, requesting ID = {session_ID}.")
 
 
 class SessionLimitExceedError(Exception):
@@ -25,17 +25,19 @@ class SessionLimitExceedError(Exception):
 def __add_session(session_instance: encryption):
 	if len(active_session) == config.max_session:
 		raise SessionLimitExceedError
+	# print("add session %s, id = %s" % (session_instance, session_instance.get_session_id()))
 	active_session[session_instance.get_session_id( )] = session_instance
 	active_session_time[session_instance.get_session_id( )] = time( )
 
 
 def __get_session(session_ID: str) -> encryption:
 	global last_session
+	# print("get session id=%s" % session_ID)
 	if session_ID in active_session:
 		active_session_time[session_ID] = time( )
 		last_session = session_ID
 		return active_session[session_ID]
-	raise NullSessionError
+	raise NullSessionError(session_ID)
 
 
 def to_session(content: str) -> None:
@@ -58,7 +60,7 @@ def to_session(content: str) -> None:
 
 	#  not starting a new session
 	if content[0] == CONST_MSG_NOTATION:
-		session_ = __get_session(content[1:config.session_id_len])
+		session_ = __get_session(content[1:config.session_id_len + 1])
 		raise EvtNotification(content_to_notification=session_.decrypt_content(content))
 
 	#  starting a new session
@@ -70,7 +72,7 @@ def to_session(content: str) -> None:
 		                      content_to_notification='received a new session request. paste the session key change request to the sender.')
 
 	elif content[0] == CONST_KEY_EXCHANGE_NOTATION:
-		session_ = __get_session(content[1:config.session_id_len])
+		session_ = __get_session(content[1:config.session_id_len + 1])
 		session_.receive_session_request(content)
 		raise EvtNotification(content_to_notification="the session has been established, start sending messages. ")
 
@@ -108,7 +110,7 @@ def encrypt_content(content: str, session_id: Union[str, None] = None) -> None:
 	"""
 	if not session_id:
 		session_id = last_session
-	print(session_id, __get_session(session_id))
+	# print(session_id, __get_session(session_id))
 	raise EvtNotification(content_to_clipboard=__get_session(session_id).encrypt_content(content))
 
 

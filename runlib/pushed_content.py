@@ -41,9 +41,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import pyperclip
 from threading import Thread
-from win32api import GetModuleHandle
-from win32con import IMAGE_ICON, LR_DEFAULTSIZE, LR_LOADFROMFILE, WM_USER, WS_OVERLAPPED, WS_SYSMENU
-from win32gui import CreateWindow, LoadImage, NIF_ICON, NIF_INFO, NIF_MESSAGE, NIF_TIP, NIM_ADD, \
+from win32api import GetModuleHandle, MessageBox
+from win32con import IMAGE_ICON, LR_DEFAULTSIZE, LR_LOADFROMFILE, WM_USER, WS_OVERLAPPED, WS_SYSMENU, MB_OK, MB_SETFOREGROUND
+from win32gui import CreateWindow, LoadImage, NIF_ICON, NIF_INFO, NIF_MESSAGE, NIF_TIP, NIM_ADD,\
 	NIM_MODIFY, RegisterClass, Shell_NotifyIcon, UpdateWindow, WNDCLASS
 
 _is_ignore_last_clipboard: bool = False
@@ -59,7 +59,7 @@ class EvtNotification(Exception):
 		super(EvtNotification, self).__init__("this event has not been handled")
 
 		if self.content_to_notification:
-			Thread(target=lambda:notification_.show_windows_notification(notification_title if notification_title else 'note: ', content_to_notification)).start( )
+			notification_.show_windows_notification(content_to_notification, notification_title if notification_title else 'note: ')
 		if self.content_to_clipboard:
 			global _is_ignore_last_clipboard
 			_is_ignore_last_clipboard = True
@@ -86,20 +86,19 @@ class windows_notification(object):
 		try:
 			self.hicon = LoadImage(self.hinst, icon_path, IMAGE_ICON, 0, 0, icon_flags)
 		except Exception as e:
-			raise Exception("The icon for windows 10 push notification is invalid")
+			raise Exception(f"The icon for windows 10 push notification is invalid {e=}")
 		flags = NIF_ICON | NIF_MESSAGE | NIF_TIP
 		nid = (self.hwnd, 0, flags, WM_USER + 20, self.hicon, "The meowencrypt is running")
 		Shell_NotifyIcon(NIM_ADD, nid)
 
-	def show_windows_notification(self, content_to_notification: str, notification_title: str = 'Note:'):
-		if self.__is_length_count_in_limit(content_to_notification):
+	def show_windows_notification(self, content_to_notification: str, notification_title: str = 'Note:', is_force_message_box: bool = False):
+		if not is_force_message_box and self.__is_length_count_in_limit(content_to_notification):
 			Shell_NotifyIcon(NIM_MODIFY, (self.hwnd, 0, NIF_INFO,
-										  WM_USER + 20,
-										  self.hicon, "", content_to_notification, 200,
-										  notification_title))
+			                              WM_USER + 20,
+			                              self.hicon, "", content_to_notification, 200,
+			                              notification_title))
 		else:
-			#  TODO: create a message box
-			raise NotImplementedError("TODO here")
+			MessageBox(0, content_to_notification, notification_title, MB_OK | MB_SETFOREGROUND)
 
 	@staticmethod
 	def __is_length_count_in_limit(content: str) -> bool:
@@ -115,8 +114,6 @@ class windows_notification(object):
 			if length > 170:
 				return False
 		return True
-
-
 
 
 notification_ = windows_notification( )

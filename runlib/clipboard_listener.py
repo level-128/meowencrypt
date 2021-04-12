@@ -52,9 +52,8 @@ class clipboard_listener:
 			if is_ignore_last_clipboard( ) or not is_listen_clipboard:
 				return
 			clipboard_data = pyperclip.paste( )
-			if self.last_msg_hash != hash(clipboard_data):
-				_clipboard_session( )
-				self.last_msg_hash = hash(clipboard_data)
+			_clipboard_session( )
+			self.last_msg_hash = hash(clipboard_data)
 
 
 def start_clipboard_listen():
