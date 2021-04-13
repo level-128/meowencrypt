@@ -74,7 +74,7 @@ def _select_all_text_and_auto_process():
 	clipboard_content = get_clipboard( )
 	try:
 		to_session(clipboard_content)
-	except (ContentError, NullSessionError):
+	except (ContentError, NullSessionError) as e:
 		try:
 			encrypt_content(clipboard_content)
 		except NullSessionError:

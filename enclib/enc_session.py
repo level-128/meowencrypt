@@ -14,7 +14,7 @@ B85_EXCLUDE_CHAR = ('"', "'", ',', '.', '/', ':', ']')
 ALL_PRINTABLE_CHR = tuple(chr(_) for _ in range(33, 127))
 CONST_NEW_SESSION_NOTATION: str = ':'
 CONST_KEY_EXCHANGE_NOTATION: str = '.'
-CONST_MSG_NOTATION: str = '"'
+CONST_MSG_NOTATION: str = '/'
 
 
 class ContentError(Exception):

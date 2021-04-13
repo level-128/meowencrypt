@@ -114,7 +114,7 @@ class windows_notification(object):
 			if length > 170:
 				return False
 		return True
-
+#  TODO: when AES method decrypt the message, space padding will remain
 
 notification_ = windows_notification( )
 
