@@ -5,14 +5,16 @@ A real-time end-to-end encryption software which encodes encrypted data into pri
 
 ## Table of Contents:
 
-- [Background](#background:)
+- [Background](#background)
 
-- [Install](#Install:)
+- [Install](#Install)
 
-- [Usage](#Usage:)
+- [Usage](#Usage)
+
+- [License](LICENSE)
 
 
-## Background:
+## Background
 
 Meowencrypt is real-time end-to-end encryption software on Microsoft Windows platform. It encrypts your 
 message into printable characters, allowing users to send encrypted message through 
@@ -25,9 +27,12 @@ session has terminated, which means if you close the application or terminate th
 __ANY__ message.
 
 
-## Install:
+## Install
 
 On Microsoft Windows, download the [Windows installation package]() and complete the installation wizard. 
 Meowencrypt does not support any other operating systems (yet).
 
-## Usage:
+## Usage
+
+
+## License
