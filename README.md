@@ -2,7 +2,6 @@
 
 A real-time end-to-end encryption software which encodes encrypted data into printable characters
 
----
 
 ## Table of Contents:
 
@@ -13,7 +12,6 @@ A real-time end-to-end encryption software which encodes encrypted data into pri
 - [Usage](#Usage:)
 
 
----
 ## Background:
 
 Meowencrypt is real-time end-to-end encryption software on Microsoft Windows platform. It encrypts your 
@@ -26,7 +24,7 @@ The password will be generated per-session, and you __CAN NOT__ export the key o
 session has terminated, which means if you close the application or terminate the session, you can't decrypt
 __ANY__ message.
 
----
+
 ## Install:
 
 On Microsoft Windows, download the [Windows installation package]() and complete the installation wizard. 
