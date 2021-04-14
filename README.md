@@ -33,6 +33,3 @@ On Microsoft Windows, download the [Windows installation package]() and complete
 Meowencrypt does not support any other operating systems (yet).
 
 ## Usage
-
-
-## License
