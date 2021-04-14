@@ -4,4 +4,12 @@ A real-time end-to-end encryption software which encodes encrypted data into pri
 
 ---
 
-## 
+## Table of Contents:
+
+- [Background](#background)
+
+- [Install](#Install)
+
+- [Usage](#Usage)
+
+
