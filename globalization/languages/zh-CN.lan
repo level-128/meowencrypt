@@ -1,0 +1,9 @@
+{
+"the session has been established, start sending messages.": "\u52a0\u5bc6\u4f1a\u8bdd\u5df2\u7ecf\u5efa\u7acb\uff0c\u5f00\u59cb\u53d1\u6d88\u606f\u5427",
+"received a new session request. paste the key exchange message from clipboard to the sender.": "\u6536\u5230\u4e86\u4e00\u4e2a\u65b0\u7684\u52a0\u5bc6\u4f1a\u8bdd\u8bf7\u6c42\u3002\u628a\u5bc6\u94a5\u4ea4\u6362\u4fe1\u606f\u4ece\u7c98\u8d34\u677f\u4e2d\u590d\u5236\u7ed9\u53d1\u9001\u8005\u3002",
+"session request has been created.": "\u52a0\u5bc6\u4f1a\u8bdd\u8bf7\u6c42\u5df2\u7ecf\u521b\u5efa",
+"The content of the message can't be recognized, or the session is invalid. try again or reestablish the connection.": "\u6d88\u606f\u7684\u5185\u5bb9\u4e0d\u80fd\u88ab\u8bc6\u522b\uff0c\u6216\u8005\u4f1a\u8bdd\u65e0\u6548\u3002\u5c1d\u8bd5\u91cd\u65b0\u5efa\u7acb\u52a0\u5bc6\u4f1a\u8bdd\u3002",
+"Error": "\u9519\u8bef",
+"No established encrypt session. Create a session first, then encrypt the message.": "\u6ca1\u6709\u5efa\u7acb\u52a0\u5bc6\u4f1a\u8bdd\u3002\u8bf7\u5148\u5efa\u7acb\u4f1a\u8bdd\uff0c\u4e4b\u540e\u52a0\u5bc6\u6d88\u606f\u3002",
+"note:": "\u63d0\u793a\uff1a"
+}

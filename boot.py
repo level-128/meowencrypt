@@ -25,13 +25,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from runlib.key_macro import start_keyboard_listen
 from runlib.enc_session_manager import *
-from config.config_library import config
+from globalization.language_profile import print
 
 start_keyboard_listen( )
 
 print("This program should contains GUI, while currently, no GUI components were integrated in this program. ")
-print("Fall back to CLI until GUI components are ready. ")
-print("APIs: \n-> get_last_session\n-> encrypt_content\n-> new_session\n-> to_session\n-> to_session_from_clipboard\nuse help(api) to show help.\n")
+print("Fall back to CLI until GUI components are ready.")
+print("APIs: \n-> get_last_session\n-> encrypt_content\n-> new_session\n-> to_session\n-> to_session_from_clipboard")
+print('use help(api) to show help.')
 print("""current key bindings: 
     hotkey_select_all_text_to_session: str = 'ctrl + alt + a'
     hotkey_select_all_text_to_encrypt: str = 'ctrl + alt + s'

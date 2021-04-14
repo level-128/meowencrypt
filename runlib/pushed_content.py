@@ -46,6 +46,8 @@ from win32con import IMAGE_ICON, LR_DEFAULTSIZE, LR_LOADFROMFILE, WM_USER, WS_OV
 from win32gui import CreateWindow, LoadImage, NIF_ICON, NIF_INFO, NIF_MESSAGE, NIF_TIP, NIM_ADD,\
 	NIM_MODIFY, RegisterClass, Shell_NotifyIcon, UpdateWindow, WNDCLASS
 
+from globalization.language_profile import _
+
 _is_ignore_last_clipboard: bool = False
 
 _last_push_clipboard_content: str = ''
@@ -59,7 +61,7 @@ class EvtNotification(Exception):
 		super(EvtNotification, self).__init__("this event has not been handled")
 
 		if self.content_to_notification:
-			notification_.show_windows_notification(content_to_notification, notification_title if notification_title else 'note: ')
+			notification_.show_windows_notification(content_to_notification, notification_title if notification_title else 'note:')
 		if self.content_to_clipboard:
 			global _is_ignore_last_clipboard
 			_is_ignore_last_clipboard = True
@@ -88,10 +90,11 @@ class windows_notification(object):
 		except Exception as e:
 			raise Exception(f"The icon for windows 10 push notification is invalid {e=}")
 		flags = NIF_ICON | NIF_MESSAGE | NIF_TIP
-		nid = (self.hwnd, 0, flags, WM_USER + 20, self.hicon, "The meowencrypt is running")
+		nid = (self.hwnd, 0, flags, WM_USER + 20, self.hicon, _("The meowencrypt is running"))
 		Shell_NotifyIcon(NIM_ADD, nid)
 
-	def show_windows_notification(self, content_to_notification: str, notification_title: str = 'Note:', is_force_message_box: bool = False):
+	def show_windows_notification(self, content_to_notification: str, notification_title: str = 'note:', is_force_message_box: bool = False):
+		content_to_notification, notification_title = _(content_to_notification), _(notification_title)
 		if not is_force_message_box and self.__is_length_count_in_limit(content_to_notification):
 			Shell_NotifyIcon(NIM_MODIFY, (self.hwnd, 0, NIF_INFO,
 			                              WM_USER + 20,

@@ -25,6 +25,8 @@ class _default_config:
 
     is_default_listen_clipboard: bool = False
 
+    language: str = 'default'  # default or local code
+
 
 class modify_config:
 
