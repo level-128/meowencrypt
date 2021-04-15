@@ -58,6 +58,7 @@ class EvtNotification(Exception):
 	             notification_title: str = ''):
 		self.content_to_clipboard = content_to_clipboard
 		self.content_to_notification = content_to_notification
+		self.notification_title = notification_title
 		super(EvtNotification, self).__init__("this event has not been handled")
 
 		if self.content_to_notification:
