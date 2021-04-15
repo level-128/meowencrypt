@@ -93,7 +93,8 @@ class windows_notification(object):
 		nid = (self.hwnd, 0, flags, WM_USER + 20, self.hicon, _("The meowencrypt is running"))
 		Shell_NotifyIcon(NIM_ADD, nid)
 
-	def show_windows_notification(self, content_to_notification: str, notification_title: str = 'note:', is_force_message_box: bool = False):
+	def show_windows_notification(self, content_to_notification: str, notification_title: str = 'note:',
+								  is_force_message_box: bool = False):
 		content_to_notification, notification_title = _(content_to_notification), _(notification_title)
 		if not is_force_message_box and self.__is_length_count_in_limit(content_to_notification):
 			Shell_NotifyIcon(NIM_MODIFY, (self.hwnd, 0, NIF_INFO,
