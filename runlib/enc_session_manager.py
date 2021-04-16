@@ -14,9 +14,6 @@ last_session: str = ''
 # TODO: feat: check the checksum for each message to ensure validity and raise ContentError if the checksum does not
 # 	match
 
-# TODO: bug: when created a new session and received the request from the same session, the session will be
-# 	counted twice.
-
 # TODO: feat: complete the function auto_process
 
 class NullSessionError(Exception):
@@ -32,9 +29,14 @@ class SessionLimitExceedError(Exception):
 
 
 def __add_session(session_instance: encryption):
+    """
+
+    """
+    global last_session
     if len(active_session) == config.max_session:
         raise SessionLimitExceedError
     # print("add session %s, id = %s" % (session_instance, session_instance.get_session_id()))
+    last_session = session_instance.get_session_id()
     active_session[session_instance.get_session_id()] = session_instance
     active_session_time[session_instance.get_session_id()] = time()
 
@@ -79,7 +81,7 @@ def to_session(content: str) -> None:
         __add_session(session_)
         raise EvtNotification(content_to_clipboard=session_.create_session_request(),
                               content_to_notification='received a new session request. paste the key exchange message '
-                                                      'from clipboard to the sender.')
+                                                      'from clipboard to the sender and then start sending messages.')
 
     elif content[0] == CONST_KEY_EXCHANGE_NOTATION:
         session_ = __get_session(content[1:config.session_id_len + 1])
