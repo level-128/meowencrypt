@@ -43,10 +43,10 @@ print("""current key bindings:
     const_hotkey_toggle_listen_clipboard_change: str = 'ctrl + alt + q'""")
 
 if __name__ == '__main__':
-	try:
-		new_session( )
-	except:
-		pass
+	# try:
+	# 	new_session( )
+	# except EvtNotification:
+	# 	pass
 	while 1:
 		try:
 			exec(input('\n>>>'))
