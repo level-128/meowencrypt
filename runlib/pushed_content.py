@@ -42,8 +42,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import pyperclip
 from threading import Thread
 from win32api import GetModuleHandle, MessageBox
-from win32con import IMAGE_ICON, LR_DEFAULTSIZE, LR_LOADFROMFILE, WM_USER, WS_OVERLAPPED, WS_SYSMENU, MB_OK, MB_SETFOREGROUND
-from win32gui import CreateWindow, LoadImage, NIF_ICON, NIF_INFO, NIF_MESSAGE, NIF_TIP, NIM_ADD,\
+from win32con import IMAGE_ICON, LR_DEFAULTSIZE, LR_LOADFROMFILE, WM_USER, WS_OVERLAPPED, WS_SYSMENU, MB_OK, \
+	MB_SETFOREGROUND
+from win32gui import CreateWindow, LoadImage, NIF_ICON, NIF_INFO, NIF_MESSAGE, NIF_TIP, NIM_ADD, \
 	NIM_MODIFY, RegisterClass, Shell_NotifyIcon, UpdateWindow, WNDCLASS
 
 from globalization.language_profile import _
@@ -60,9 +61,10 @@ class EvtNotification(Exception):
 		self.content_to_notification = content_to_notification
 		self.notification_title = notification_title
 		super(EvtNotification, self).__init__("this event has not been handled")
-
+		
 		if self.content_to_notification:
-			notification_.show_windows_notification(content_to_notification, notification_title if notification_title else 'note:')
+			notification_.show_windows_notification(content_to_notification,
+			                                        notification_title if notification_title else 'note:')
 		if self.content_to_clipboard:
 			global _is_ignore_last_clipboard
 			_is_ignore_last_clipboard = True
@@ -72,18 +74,18 @@ class EvtNotification(Exception):
 #  TODO: add commit about content inspiration source: https://github.com/jithurjacob/Windows-10-Toast-Notifications
 class windows_notification(object):
 	def __init__(self):
-
+		
 		# Register the window class.
-		self.wc = WNDCLASS( )
+		self.wc = WNDCLASS()
 		self.hinst = self.wc.hInstance = GetModuleHandle(None)
 		self.wc.lpszClassName = 'pushed_content'
 		RegisterClass(self.wc)
-
+		
 		style = WS_OVERLAPPED | WS_SYSMENU
 		self.hwnd = CreateWindow(self.wc.lpszClassName, '', style,
 		                         0, 0, 0, 0, 0, 0, self.hinst, None)
 		UpdateWindow(self.hwnd)
-
+		
 		icon_path = r'files/level-128_avatar_128x128.ico'  # TODO: register it into config_library
 		icon_flags = LR_LOADFROMFILE | LR_DEFAULTSIZE
 		try:
@@ -93,9 +95,9 @@ class windows_notification(object):
 		flags = NIF_ICON | NIF_MESSAGE | NIF_TIP
 		nid = (self.hwnd, 0, flags, WM_USER + 20, self.hicon, _("The meowencrypt is running"))
 		Shell_NotifyIcon(NIM_ADD, nid)
-
+	
 	def show_windows_notification(self, content_to_notification: str, notification_title: str = 'note:',
-								  is_force_message_box: bool = False):
+	                              is_force_message_box: bool = False):
 		content_to_notification, notification_title = _(content_to_notification), _(notification_title)
 		if not is_force_message_box and self.__is_length_count_in_limit(content_to_notification):
 			Shell_NotifyIcon(NIM_MODIFY, (self.hwnd, 0, NIF_INFO,
@@ -104,7 +106,7 @@ class windows_notification(object):
 			                              notification_title))
 		else:
 			MessageBox(0, content_to_notification, notification_title, MB_OK | MB_SETFOREGROUND)
-
+	
 	@staticmethod
 	def __is_length_count_in_limit(content: str) -> bool:
 		"""
@@ -119,9 +121,9 @@ class windows_notification(object):
 			if length > 170:
 				return False
 		return True
-#  TODO: when AES method decrypt the message, space padding will remain
 
-notification_ = windows_notification( )
+
+notification_ = windows_notification()
 
 push_notification = notification_.show_windows_notification
 
@@ -137,7 +139,7 @@ def push_clipboard(content_to_clipboard: str):
 
 
 def get_clipboard() -> str:
-	return pyperclip.paste( )
+	return pyperclip.paste()
 
 
 def get_last_pasted_item() -> str:
