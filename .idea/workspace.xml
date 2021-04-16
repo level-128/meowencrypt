@@ -1,21 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4ae9f1c8-38d8-469f-84b3-1617504544eb" name="Default Changelist" comment="meow">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/meowencrypt.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace-HAL-9000.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace-level128-surface-2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace-level128-surface.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/boot.py" beforeDir="false" afterPath="$PROJECT_DIR$/boot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/runlib/enc_session_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/runlib/enc_session_manager.py" afterDir="false" />
+    <list default="true" id="4ae9f1c8-38d8-469f-84b3-1617504544eb" name="Default Changelist" comment="feat: a new session will not be created when the program starts.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -265,7 +252,7 @@
       <workItem from="1618239448239" duration="1773000" />
       <workItem from="1618505857231" duration="850000" />
       <workItem from="1618507910354" duration="1113000" />
-      <workItem from="1618595094777" duration="2123000" />
+      <workItem from="1618595094777" duration="2650000" />
     </task>
     <task id="LOCAL-00001" summary="add readme">
       <created>1617988226416</created>
@@ -414,7 +401,21 @@
       <option name="project" value="LOCAL" />
       <updated>1618508344469</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="bugfix: correct the last_session recorder.">
+      <created>1618597411354</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1618597411354</updated>
+    </task>
+    <task id="LOCAL-00023" summary="feat: a new session will not be created when the program starts.">
+      <created>1618597488124</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1618597488124</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -451,7 +452,9 @@
     <MESSAGE value="bugfix:&#10;doc:" />
     <MESSAGE value="add doc for runlib.keymacro" />
     <MESSAGE value="meow" />
-    <option name="LAST_COMMIT_MESSAGE" value="meow" />
+    <MESSAGE value="bugfix: correct the last_session recorder." />
+    <MESSAGE value="feat: a new session will not be created when the program starts." />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: a new session will not be created when the program starts." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
