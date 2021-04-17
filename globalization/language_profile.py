@@ -1,7 +1,8 @@
-import locale
 import json
+import locale
 import sys
-from config.config_library import config
+
+from config.config_library import config  # clear import
 
 
 # print function used for print translated items

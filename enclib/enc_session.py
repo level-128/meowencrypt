@@ -1,13 +1,13 @@
-from typing import *
 from base64 import b85encode, b85decode
 from random import randint
+from typing import *
 
 from Crypto.Cipher import AES
 from Crypto.Util import Counter
 
-from enclib.enc_utilities import b94encode, b94decode, get_md5_checksum_str
-from enclib.DHElib.DHE import DHE_target
-from config.config_library import config
+from config.config_library import config  # clear import
+from enclib.DHElib.DHE import DHE_target  # clear import
+from enclib.enc_utilities import b94encode, b94decode, get_md5_checksum_str  # clear import
 
 #  the printable characters which b85 does not include are:
 B85_EXCLUDE_CHAR = ('"', "'", ',', '.', '/', ':', ']')

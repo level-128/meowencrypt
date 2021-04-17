@@ -1,7 +1,8 @@
-from secrets import randbelow
 from hashlib import sha256
-from enclib.DHElib.HDE_const import MODB_GROUPS
 from math import log, ceil
+from secrets import randbelow
+
+from enclib.DHElib.HDE_const import MODB_GROUPS
 
 
 class DHE_target:

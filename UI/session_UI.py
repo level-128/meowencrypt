@@ -1,15 +1,17 @@
-import wx
-from runlib.enc_session_manager import to_session, encrypt_content, auto_process
-from runlib.enc_session_manager import EvtNotification, SessionLimitExceedError, NullSessionError, ContentError
-from runlib.pushed_content import push_clipboard
-
 import threading
+
+import wx
+
+from enclib.enc_session import ContentError
+from runlib.enc_session_manager import SessionLimitExceedError, NullSessionError, auto_process, encrypt_content, \
+    to_session
+from runlib.pushed_content import push_clipboard, EvtNotification
 
 
 class session_UI_frame(wx.Frame):
 
     def __init__(self):
-        super().__init__(None, title='my_frame')
+        super().__init__(None, title='session frame')
         self.SetSize((416, 473))
         self.SetMaxSize((416, 473))
         self.SetMinSize((416, 473))

@@ -40,7 +40,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import pyperclip
-from threading import Thread
 from win32api import GetModuleHandle, MessageBox
 from win32con import IMAGE_ICON, LR_DEFAULTSIZE, LR_LOADFROMFILE, WM_USER, WS_OVERLAPPED, WS_SYSMENU, MB_OK, \
 	MB_SETFOREGROUND

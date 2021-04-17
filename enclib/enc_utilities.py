@@ -19,8 +19,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 from hashlib import md5
-from typing import *
 from math import log, ceil
+from typing import *
 
 B85_EXCLUDE_CHAR = ('"', "'", ',', '.', '/', ':', ']')
 ALL_PRINTABLE_CHR: Tuple[bytes] = tuple(int.to_bytes(_, 1, byteorder='big') for _ in range(33, 127))

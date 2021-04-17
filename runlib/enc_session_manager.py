@@ -1,10 +1,10 @@
-from enclib.enc_session import encryption, ContentError, CONST_NEW_SESSION_NOTATION, CONST_MSG_NOTATION, \
-	CONST_KEY_EXCHANGE_NOTATION
-from runlib.pushed_content import EvtNotification, get_clipboard
-from config.config_library import config
-
 from time import time
 from typing import *
+
+from config.config_library import config
+from enclib.enc_session import encryption, ContentError, CONST_NEW_SESSION_NOTATION, CONST_MSG_NOTATION, \
+	CONST_KEY_EXCHANGE_NOTATION  # clear import
+from runlib.pushed_content import EvtNotification, get_clipboard  # clear import
 
 active_session: Dict[str, encryption] = {}
 active_session_time: Dict[str, float] = {}
