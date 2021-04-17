@@ -18,7 +18,7 @@ class session_UI_frame(wx.Frame):
 
         self.input_tc = wx.TextCtrl(self, style=wx.TE_MULTILINE | wx.TE_PROCESS_ENTER, size=(400, 200), pos=(0, 0))
         self.input_tc.Bind(wx.EVT_TEXT_ENTER, self.on_input_tc)
-        self.input_tc.Bind(wx.EVT_SET_FOCUS, self.neg_set_enter_btn)
+        self.input_tc.Bind(wx.EVT_TEXT, self.neg_set_enter_btn)
 
         self.process_btn = wx.Button(self, label='enter', size=(180, 22), pos=(5, 205))
         self.process_btn.Bind(wx.EVT_BUTTON, self.on_input_tc)
