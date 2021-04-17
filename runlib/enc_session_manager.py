@@ -73,7 +73,7 @@ def to_session(content: str) -> None:
 	if len(content) <= 1 + config.session_id_len + config.check_sum_len:
 		raise ContentError
 
-	notation, *text = content
+	notation, text = content[0], content[1:]
 
 	#  not starting a new session
 	if notation == CONST_MSG_NOTATION:

@@ -50,11 +50,11 @@ class encryption:
 		if self.__session_id is None:
 			#  generate a random printable session ID.
 			self.__session_id = ''.join([chr(randint(33, 126)) for _ in range(self.session_id_len)])
-			_ = CONST_NEW_SESSION_NOTATION + self.__session_id
+			notation = CONST_NEW_SESSION_NOTATION
 		else:
-			_ = CONST_KEY_EXCHANGE_NOTATION + self.__session_id
-		_ = _ + b94encode(self.DHE_target_instance.get_shared_key( )).decode('ASCII')
-		return _ + get_md5_checksum_str(_, self.__check_sum_len)
+			notation = CONST_KEY_EXCHANGE_NOTATION
+		message = self.__session_id + b94encode(self.DHE_target_instance.get_shared_key( )).decode('ASCII')
+		return notation + message + get_md5_checksum_str(message, self.__check_sum_len)
 
 	def receive_session_request(self, bob_share_key: str) -> None:
 		"""
@@ -99,8 +99,9 @@ class encryption:
 		self.__aes = AES.new(self.__key, AES.MODE_CTR, counter=Counter.new(128))
 		original_content: bytes = self.__aes.encrypt(original_content)
 		original_content: str = b85encode(original_content).decode('ASCII')
-		_ = CONST_MSG_NOTATION + self.__session_id + original_content
-		return _ + get_md5_checksum_str(_, self.__check_sum_len)
+
+		message = self.__session_id + original_content
+		return CONST_MSG_NOTATION + message + get_md5_checksum_str(message, self.__check_sum_len)
 
 	def decrypt_content(self, content: str):
 		"""
