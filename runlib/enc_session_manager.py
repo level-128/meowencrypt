@@ -70,28 +70,30 @@ def to_session(content: str) -> None:
 	content = content.replace('\n', '').replace('\t', '').lstrip().rstrip()
 	#  all encoded message should at least contains a identification character, session id and checksum.
 	#  if the content is shorter than the sum of these length, means it must not belongs to the session.
-	if len(content) <= 1 + config.session_id_len + config.session_id_len:
+	if len(content) <= 1 + config.session_id_len + config.check_sum_len:
 		raise ContentError
-	
+
+	notation, *text = content
+
 	#  not starting a new session
-	if content[0] == CONST_MSG_NOTATION:
-		session_ = __get_session(content[1:config.session_id_len + 1])
-		raise EvtNotification(content_to_notification=session_.decrypt_content(content))
-	
+	if notation == CONST_MSG_NOTATION:
+		session_ = __get_session(text[:config.check_sum_len])
+		raise EvtNotification(content_to_notification = session_.decrypt_content(text))
+
 	#  starting a new session
-	elif content[0] == CONST_NEW_SESSION_NOTATION:
+	elif notation == CONST_NEW_SESSION_NOTATION:
 		session_ = encryption()
-		session_.receive_session_request(content)
+		session_.receive_session_request(text)
 		__add_session(session_)
-		raise EvtNotification(content_to_clipboard=session_.create_session_request(),
-		                      content_to_notification='received a new session request. paste the key exchange message '
-		                                              'from clipboard to the sender and then start sending messages.')
-	
-	elif content[0] == CONST_KEY_EXCHANGE_NOTATION:
-		session_ = __get_session(content[1:config.session_id_len + 1])
-		session_.receive_session_request(content)
-		raise EvtNotification(content_to_notification="the session has been established, start sending messages.")
-	
+		raise EvtNotification(content_to_clipboard = session_.create_session_request(),
+		                      content_to_notification = 'received a new session request. paste the key exchange message '
+		                                                'from clipboard to the sender and then start sending messages.')
+
+	elif notation == CONST_KEY_EXCHANGE_NOTATION:
+		session_ = __get_session(text[:config.session_id_len])
+		session_.receive_session_request(text)
+		raise EvtNotification(content_to_notification = "the session has been established, start sending messages.")
+
 	else:
 		raise ContentError
 
@@ -113,8 +115,8 @@ def new_session() -> None:
 	session_ = encryption()
 	session_request = session_.create_session_request()
 	__add_session(session_)
-	raise EvtNotification(content_to_clipboard=session_request,
-	                      content_to_notification="session request has been created.")
+	raise EvtNotification(content_to_clipboard = session_request,
+	                      content_to_notification = "session request has been created.")
 
 
 def encrypt_content(content: str, session_id: Union[str, None] = None) -> None:
@@ -128,7 +130,7 @@ def encrypt_content(content: str, session_id: Union[str, None] = None) -> None:
 	if not session_id:
 		session_id = last_session
 	# print(session_id, __get_session(session_id))
-	raise EvtNotification(content_to_clipboard=__get_session(session_id).encrypt_content(content))
+	raise EvtNotification(content_to_clipboard = __get_session(session_id).encrypt_content(content))
 
 
 def auto_process(content: str, session_id: Union[str, None] = None) -> None:
@@ -151,3 +153,11 @@ def get_last_session() -> str:
 	return the last session's identifier. if there is no established session, return ''
 	"""
 	return last_session
+
+
+def get_active_session_count() -> int:
+	return len(active_session)
+
+
+def get_active_sessions() -> Iterator[tuple[str, encryption, float]]:
+	return zip(active_session.keys(), active_session.values(), active_session_time.values())

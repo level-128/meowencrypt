@@ -23,9 +23,9 @@ class LibrarySys(wx.Frame):
 		self.list.InsertColumn(2, "添加日期")
 
 		for index in range(3):
-			self.list.InsertItem(index, hash(index))
-			self.list.SetItem(index, 1, hash(index + 1))
-			self.list.SetItem(index, 2, hash(index + 2))
+			self.list.InsertItem(index, str(index + 10))
+			self.list.SetItem(index, 1, str(index + 20))
+			self.list.SetItem(index, 2, str(index + 30))
 
 		self.list.SetColumnWidth(0, 60)
 		self.list.SetColumnWidth(1,230)

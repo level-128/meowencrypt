@@ -7,7 +7,8 @@ from Crypto.Util import Counter
 
 from config.config_library import config  # clear import
 from enclib.DHElib.DHE import DHE_target  # clear import
-from enclib.enc_utilities import b94encode, b94decode, get_md5_checksum_str  # clear import
+from enclib.enc_utilities import b94encode, b94decode, get_md5_checksum_str, is_md5_checksum_for_message_correct
+# clear import
 
 #  the printable characters which b85 does not include are:
 B85_EXCLUDE_CHAR = ('"', "'", ',', '.', '/', ':', ']')
@@ -63,9 +64,11 @@ class encryption:
 		request from others.
 		If the session ID exist, this instance has created a new session before receiving this session request.
 		"""
+		if not is_md5_checksum_for_message_correct(bob_share_key, self.__check_sum_len):
+			raise ContentError
 		if self.__session_id is None:
-			self.__session_id = bob_share_key[1:self.session_id_len + 1]
-		bob_share_key: str = bob_share_key[1 + self.session_id_len:-self.__check_sum_len]
+			self.__session_id = bob_share_key[:self.session_id_len]
+		bob_share_key: str = bob_share_key[self.session_id_len:-self.__check_sum_len]
 		bob_share_key: bytes = b94decode(bob_share_key)
 		self.__key = self.DHE_target_instance.generate_shared_key(bob_share_key)
 
@@ -103,7 +106,9 @@ class encryption:
 		"""
 		decrypt the content.
 		"""
-		content = content[1+self.session_id_len:-self.__check_sum_len]
+		if not is_md5_checksum_for_message_correct(content, self.__check_sum_len):
+			raise ContentError
+		content = content[self.session_id_len:-self.__check_sum_len]
 		content = b85decode(content.encode('ASCII'))
 		self.__aes = AES.new(self.__key, AES.MODE_CTR, counter=Counter.new(128))
 		try:

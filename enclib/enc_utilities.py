@@ -48,6 +48,14 @@ def get_md5_checksum_str(content: str, check_str_len: int) -> str:
 	return ''.join([ALL_PRINTABLE_CHR[_ - 1].decode() for _ in checksum_str])
 
 
+def is_md5_checksum_for_message_correct(content_with_checksum: str, check_str_len: int) -> bool:
+	"""
+	check the checksum is correct or not
+	"""
+	content, checksum = content_with_checksum[:-check_str_len], content_with_checksum[-check_str_len:]
+	return checksum == get_md5_checksum_str(content, check_str_len)
+
+
 def b94encode(message: Union[bytes, int]) -> bytes:
 	if isinstance(message, bytes):
 		message = int.from_bytes(message, 'big')
