@@ -84,6 +84,9 @@ class encryption:
 		"""
 		return self.__check_sum_len
 
+	def get_is_session_established(self) -> bool:
+		return bool(self.__key)
+
 	def encrypt_content(self, original_content: str) -> str:
 		"""
 		encrypt the message by creating a AES algorithm object.

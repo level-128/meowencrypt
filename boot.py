@@ -23,12 +23,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from UI.session_UI import start_session_UI
 from globalization.language_profile import print
 from runlib.enc_session_manager import *
 from runlib.key_macro import start_keyboard_listen
+from UI.main_UI import start_UI
 
-start_session_UI( )
+start_UI()
 
 start_keyboard_listen( )
 

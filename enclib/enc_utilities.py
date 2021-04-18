@@ -19,7 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 from hashlib import md5
-from math import log, ceil
+from math import log, ceil, floor
 from typing import *
 
 B85_EXCLUDE_CHAR = ('"', "'", ',', '.', '/', ':', ']')
@@ -35,8 +35,8 @@ def get_md5_checksum_str(content: str, check_str_len: int) -> str:
 	"""
 
 	#  get the md5 checksum of the content
-	check_sum = int.from_bytes(md5(content.encode( )).digest( ), byteorder='big')
-	modulo_check_sum = check_sum % 94**check_str_len
+	check_sum = int.from_bytes(md5(content.encode()).digest(), byteorder='big')
+	modulo_check_sum = check_sum % 94 ** check_str_len
 	# next, the problem is how to convert modulo_check_sum (base 10) into a base 94 int
 
 	checksum_str = []  # contains each number of the converted base 94 int
@@ -59,6 +59,7 @@ def is_md5_checksum_for_message_correct(content_with_checksum: str, check_str_le
 def b94encode(message: Union[bytes, int]) -> bytes:
 	if isinstance(message, bytes):
 		message = int.from_bytes(message, 'big')
+
 	message: int
 	result = bytearray()
 	while True:
@@ -71,13 +72,19 @@ def b94encode(message: Union[bytes, int]) -> bytes:
 	return bytes(result)
 
 
-def b94decode(message: Union[bytes, str]) -> bytes:
-	if isinstance(message, str):
-		message: bytes = message.encode('ASCII')
+def b94decode_to_int(message: Union[bytes, str]) -> int:
+	message: bytes = message.encode('ASCII') if isinstance(message, str) else message
 	message: bytearray = bytearray(x - 33 for x in message)  # base94 starts with ascii 33
 	message.reverse()
-	sum_ = 0
-	for index, x in enumerate(message):
-		sum_ += x * 94**index
-	return int.to_bytes(sum_, ceil(log(sum_, 0xFF)), byteorder='big')
 
+	# noinspection PyRedundantParentheses
+	# bug of PyCharm's parser
+	def power():
+		yield (_ := 1)
+		while True: yield (_ := _ * 94)
+
+	return sum(x * power for power, x in zip(power(), message))
+
+
+def b94decode(message: Union[bytes, str]) -> bytes:
+	return int.to_bytes(_ := b94decode_to_int(message), ceil(log(_, 0xFF)), byteorder='big').lstrip(b'\x00')

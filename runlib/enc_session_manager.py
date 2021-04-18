@@ -4,6 +4,7 @@ from typing import *
 from config.config_library import config
 from enclib.enc_session import encryption, ContentError, CONST_NEW_SESSION_NOTATION, CONST_MSG_NOTATION, \
 	CONST_KEY_EXCHANGE_NOTATION  # clear import
+from enclib.enc_utilities import b94encode, b94decode_to_int
 from runlib.pushed_content import EvtNotification, get_clipboard  # clear import
 
 active_session: Dict[str, encryption] = {}
@@ -119,7 +120,7 @@ def new_session() -> None:
 	                      content_to_notification = "session request has been created.")
 
 
-def encrypt_content(content: str, session_id: Union[str, None] = None) -> None:
+def encrypt_content(content: str, session_id: Union[int, None] = None) -> None:
 	"""
 	encrypt the message into encoded content
 	:param content: message
@@ -129,11 +130,13 @@ def encrypt_content(content: str, session_id: Union[str, None] = None) -> None:
 	"""
 	if not session_id:
 		session_id = last_session
+	else:
+		session_id = b94encode(session_id).decode()
 	# print(session_id, __get_session(session_id))
 	raise EvtNotification(content_to_clipboard = __get_session(session_id).encrypt_content(content))
 
 
-def auto_process(content: str, session_id: Union[str, None] = None) -> None:
+def auto_process(content: str, session_id: Union[int, None] = None) -> None:
 	"""
 	auto decide the process method based on the input content.
 	:param content: message
@@ -145,19 +148,37 @@ def auto_process(content: str, session_id: Union[str, None] = None) -> None:
 	:raise SessionLimitExceedError: When the session count exceed the limit. Raised when receive a new session request.
 	:raise EvtNotification: return the notification for output.
 	"""
-	print("auto process not implemented")
+	if not session_id:
+		session_id = last_session
+	else:
+		session_id = b94encode(session_id).decode()
 
 
-def get_last_session() -> str:
+def get_last_session() -> int:
 	"""
 	return the last session's identifier. if there is no established session, return ''
 	"""
-	return last_session
+	return b94decode_to_int(last_session)
 
 
 def get_active_session_count() -> int:
 	return len(active_session)
 
 
-def get_active_sessions() -> Iterator[tuple[str, encryption, float]]:
-	return zip(active_session.keys(), active_session.values(), active_session_time.values())
+def get_active_sessions(sort_: str = 'none') -> Iterator[tuple[int, bool, float]]:
+	"""
+	return a iterator of all sessions.
+	Usually, this function should not be called, unless generating a summery of all sessions.
+	:return: session ID in int, is session established, session establish time
+	"""
+	active_session_ID = (b94decode_to_int(_) for _ in active_session.keys())
+	content = zip(active_session_ID, (_.get_is_session_established() for _ in active_session.values()),
+	              active_session_time.values())
+	if sort_ == 'none':
+		return content
+	if sort_ == 'session ID':
+		return sorted(content, key=lambda x, _, __: x).__iter__()
+	if sort_ == 'session time':
+		return sorted(content, key=lambda _, __, x: x).__iter__()
+	else:
+		raise ValueError("param: sort_ should be one in ('none', 'session ID', 'session time')")
