@@ -26,9 +26,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 from globalization.language_profile import print
 from runlib.enc_session_manager import *
 from runlib.key_macro import start_keyboard_listen
-from UI.main_UI import start_UI
+from UI.session_manager_UI import show
+from UI.session_UI import show as UIshow
 
-start_UI()
+show()
+UIshow()
 
 start_keyboard_listen( )
 
