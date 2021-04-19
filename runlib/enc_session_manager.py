@@ -9,11 +9,8 @@ from runlib.pushed_content import EvtNotification, get_clipboard  # clear import
 
 active_session: Dict[str, encryption] = {}
 active_session_time: Dict[str, float] = {}
+active_session_name: Dict[str, str] = {}
 last_session: str = ''
-
-
-# TODO: feat: check the checksum for each message to ensure validity and raise ContentError if the checksum does not
-# 	match
 
 # TODO: feat: complete the function auto_process
 
