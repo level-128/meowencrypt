@@ -11,7 +11,6 @@ from runlib.pushed_content import push_clipboard, EvtNotification
 class session_UI(wx.Frame):
 
     def __init__(self):
-        self.app = wx.App()
         super().__init__(None, title='session frame')
         self.SetSize((416, 473))
         self.SetMaxSize((416, 473))
@@ -83,9 +82,5 @@ class session_UI(wx.Frame):
 
 
 def show():
-    def inner():
-        session_UI_frame = session_UI()
-        session_UI_frame.Show()
-        session_UI_frame.app.MainLoop()
-
-    threading.Thread(target=inner).start()
+    session_UI_frame = session_UI()
+    session_UI_frame.Show()

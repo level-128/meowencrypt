@@ -9,8 +9,7 @@ from time import localtime, strftime
 
 class session_manager(wx.Frame):
 	def __init__(self):
-		self.app = wx.App()
-		wx.Frame.__init__(self, None, title="session manager", size=(400, 400))
+		wx.Frame.__init__(self, None, title = "session manager", size = (400, 400))
 		self.Bind(wx.EVT_SET_FOCUS, self.refresh)
 
 		def set_menu_bar():
@@ -22,8 +21,7 @@ class session_manager(wx.Frame):
 			self.menu_bar.Append(self.refresh_menu, "&refresh")
 			self.menu_bar.Bind(wx.EVT_MENU_OPEN, self.refresh)
 
-
-		self.list = wx.ListCtrl(self, -1, style=wx.LC_REPORT)
+		self.list = wx.ListCtrl(self, -1, style = wx.LC_REPORT)
 
 		self.list.InsertColumn(0, "")
 		self.list.InsertColumn(1, "ID")
@@ -48,9 +46,6 @@ class session_manager(wx.Frame):
 			self.list.SetItem(index, 3, strftime("%m/%d %H:%M:%S", localtime(time)))
 
 
-def show():
-	def inner():
-		session_manager_frame = session_manager()
-		session_manager_frame.Show()
-		session_manager_frame.app.MainLoop()
-	threading.Thread(target=inner).start()
+def session_manager_show():
+	session_manager_frame = session_manager()
+	session_manager_frame.Show()

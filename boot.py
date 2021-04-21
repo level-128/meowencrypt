@@ -23,38 +23,19 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from globalization.language_profile import print
-from runlib.enc_session_manager import *
 from runlib.key_macro import start_keyboard_listen
-from UI.session_manager_UI import show
-from UI.session_UI import show as UIshow
+from UI.session_manager_UI import session_manager_show
+from UI.session_UI import show as UI_show
+from UI.cli import show as cli_show
 
-show()
-UIshow()
+import wx
 
-start_keyboard_listen( )
-
-print("This program should contains GUI, while currently, no GUI components were integrated in this program. ")
-print("Fall back to CLI until GUI components are ready.")
-print("APIs: \n-> get_last_session\n-> encrypt_content\n-> new_session\n-> to_session\n-> to_session_from_clipboard")
-print('use help(api) to show help.')
-print("""current key bindings: 
-    hotkey_select_all_text_to_session: str = 'ctrl + alt + a'
-    hotkey_select_all_text_to_encrypt: str = 'ctrl + alt + s'
-    hotkey_select_all_text_and_auto_process: str = 'ctrl + alt + z'
-    const_hotkey_toggle_listen_clipboard_change: str = 'ctrl + alt + q'""")
+app = wx.App()
 
 if __name__ == '__main__':
-	# try:
-	# 	new_session( )
-	# except EvtNotification:
-	# 	pass
-	while 1:
-		try:
-			exec(input('\n>>>'))
-		except EvtNotification as push_content:
-			print(f"\n-->: {push_content.content_to_notification=}\n{push_content.content_to_clipboard=}\n")
-		except NullSessionError:
-			print('\n-->: session not recognized\n')
-		except Exception as e:
-			print('\n-->:', e, '\n')
+	start_keyboard_listen( )
+	session_manager_show()
+	UI_show()
+	cli_show()
+
+	app.MainLoop()
