@@ -6,10 +6,12 @@ from runlib.enc_session_manager import get_active_sessions
 
 from time import localtime, strftime
 
+from UI.theme_setter import detect_darkmode, set_color
+
 
 class session_manager(wx.Frame):
 	def __init__(self):
-		wx.Frame.__init__(self, None, title="session manager", size=(400, 400))
+		wx.Frame.__init__(self, None, title="session manager", size=self.FromDIP(400, 400))
 		self.Bind(wx.EVT_SET_FOCUS, self.refresh)
 
 		def set_menu_bar( ):
@@ -22,16 +24,20 @@ class session_manager(wx.Frame):
 			self.menu_bar.Bind(wx.EVT_MENU_OPEN, self.refresh)
 
 		self.list = wx.ListCtrl(self, -1, style=wx.LC_REPORT)
+		set_color(self.list, True)
 
 		self.list.InsertColumn(0, "")
 		self.list.InsertColumn(1, "ID")
 		self.list.InsertColumn(2, "established")
 		self.list.InsertColumn(3, "time")
 
-		self.list.SetColumnWidth(0, 40)
-		self.list.SetColumnWidth(1, 80)
-		self.list.SetColumnWidth(2, 100)
-		self.list.SetColumnWidth(3, 150)
+		self.list.SetColumnWidth(0, self.FromDIP(40))
+		self.list.SetColumnWidth(1, self.FromDIP(80))
+		self.list.SetColumnWidth(2, self.FromDIP(100))
+		self.list.SetColumnWidth(3, self.FromDIP(150))
+
+		if detect_darkmode():
+			self.list.SetTextColour(wx.Colour(240, 240, 240))
 
 		set_menu_bar( )
 
