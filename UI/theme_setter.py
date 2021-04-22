@@ -25,9 +25,9 @@ def detect_darkmode():
 		return is_darkmode
 
 
-def set_color(item, is_white, is_own = True):
+def set_color(item, is_white, is_background = True):
 	if detect_darkmode():
-		if is_own:
+		if is_background:
 			if is_white:
 				item.SetOwnBackgroundColour(wx.Colour(17, 17, 17))
 			else:

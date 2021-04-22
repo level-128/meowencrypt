@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b18e717d-71d6-490a-b373-0a71ce9aba69" name="Default Changelist" comment="meow">
+    <list default="true" id="b18e717d-71d6-490a-b373-0a71ce9aba69" name="Default Changelist" comment="high dpi and dark mode for session_manager_UI.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/session_UI.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/session_UI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UI/session_manager_UI.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/session_manager_UI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/theme_setter.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/theme_setter.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -212,7 +214,14 @@
       <option name="project" value="LOCAL" />
       <updated>1619043728293</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="high dpi and dark mode for session_manager_UI.py">
+      <created>1619044742985</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1619044742985</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -241,7 +250,8 @@
     <MESSAGE value="remove todo" />
     <MESSAGE value="add theme_setter.py and modified notification_window.py" />
     <MESSAGE value="meow" />
-    <option name="LAST_COMMIT_MESSAGE" value="meow" />
+    <MESSAGE value="high dpi and dark mode for session_manager_UI.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="high dpi and dark mode for session_manager_UI.py" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -272,11 +282,11 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/temp$session_selector_UI.coverage" NAME="session_selector_UI Coverage Results" MODIFIED="1618734722390" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/meowencrypt$HDE_const.coverage" NAME="HDE_const Coverage Results" MODIFIED="1618651015243" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/enclib/DHElib" />
-    <SUITE FILE_PATH="coverage/meowencrypt$boot.coverage" NAME="boot Coverage Results" MODIFIED="1619044662033" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/meowencrypt$boot.coverage" NAME="boot Coverage Results" MODIFIED="1619078134205" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/meowencrypt$theme_setter.coverage" NAME="theme_setter Coverage Results" MODIFIED="1619039706207" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/meowencrypt$session_selector_UI.coverage" NAME="session_selector_UI Coverage Results" MODIFIED="1618673236444" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/temp$boot.coverage" NAME="boot Coverage Results" MODIFIED="1618744343456" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/temp$enc_utilities.coverage" NAME="enc_utilities Coverage Results" MODIFIED="1618738449451" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/enclib" />
-    <SUITE FILE_PATH="coverage/meowencrypt$notification_window.coverage" NAME="notification_window Coverage Results" MODIFIED="1619043461964" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
+    <SUITE FILE_PATH="coverage/meowencrypt$notification_window.coverage" NAME="notification_window Coverage Results" MODIFIED="1619077923481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
   </component>
 </project>

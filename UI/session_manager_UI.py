@@ -11,7 +11,8 @@ from UI.theme_setter import detect_darkmode, set_color
 
 class session_manager(wx.Frame):
 	def __init__(self):
-		wx.Frame.__init__(self, None, title="session manager", size=self.FromDIP(400, 400))
+		super().__init__(None, title="session manager")
+		self.SetSize(self.FromDIP(wx.Size(400, 400)))
 		self.Bind(wx.EVT_SET_FOCUS, self.refresh)
 
 		def set_menu_bar( ):

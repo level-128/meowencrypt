@@ -87,10 +87,6 @@ class notification(wx.Frame):
 
 
 if __name__ == "__main__":
-	import ctypes
-
-
-	ctypes.windll.shcore.SetProcessDpiAwareness(1)
 	_ = notification( )
 	_.set_static_text('this is a example this is a example this is a example this is a example this is a example this is a example this is a example this is a example this is a '
 	                  'example this is a example this is a example this is a example this is a example this is a example ')
