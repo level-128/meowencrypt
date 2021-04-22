@@ -1,27 +1,23 @@
 import platform
 from abc import ABCMeta, abstractmethod
 from typing import List, Union
-from UI.theme_setter import detect_darkmode, set_color
 
 import wx
 
-
-class NotificationError(Exception):
-	def __init__(self):
-		super(NotificationError, self).__init__("you can't create input content if you choose not to block the thread.")
+from UI.theme_setter import detect_darkmode, set_color
 
 
-class __message_frame(wx.Frame):
+class _message_frame(wx.Frame):
 	__metaclass__ = ABCMeta
 
 	def __init__(self, width: int):
 		if not wx.App.GetInstance( ):
 			self.app = wx.App( )
 		else:
-			self.app = wx.App.GetInstance()
+			self.app = wx.App.GetInstance( )
 		super( ).__init__(None, style=0)
 		self.Bind(wx.EVT_CLOSE, self.on_cancel)
-		self.y_axis_accumulator: int = 40
+		self.y_axis_accumulator: int = 5
 		self.width = width
 		self.is_dark_mode = detect_darkmode( )
 		set_color(self, True)
@@ -34,12 +30,14 @@ class __message_frame(wx.Frame):
 		self.Destroy( )
 
 	@abstractmethod
-	def on_ok(self, *args) -> None:
+	def on_ok(self, event):
 		...
 
-	@abstractmethod
-	def set_static_text(self, *args) -> None:
-		...
+	def set_static_text(self, label: str):
+		_ = wx.StaticText(self, label=label, pos=self.conv(10, self.y_axis_accumulator), style=wx.TE_MULTILINE)
+		_.Wrap(self.conv(self.width - 5))
+		set_color(_, False, False)
+		self.y_axis_accumulator += 18 + self.ToDIP(_.GetSize( )[1])
 
 	def show(self) -> None:
 		self.Center( )
@@ -47,35 +45,59 @@ class __message_frame(wx.Frame):
 		self.app.MainLoop( )
 
 
-class message_box(__message_frame):
+class message_dialog(_message_frame):
+	return_ = False
 
-	def __init__(self, title: str = "notification", *, width: int = 400):
-		super( ).__init__(width)
-		self.SetWindowStyle(wx.CLOSE_BOX | wx.STAY_ON_TOP | wx.FRAME_NO_TASKBAR | wx.CAPTION)
-		self.SetTitle(title)
+	def __init__(self, content, title, *, width = 500):
+		super(message_dialog, self).__init__(width)
+		self.SetWindowStyle(wx.STAY_ON_TOP | wx.FRAME_NO_TASKBAR | wx.FRAME_TOOL_WINDOW)
+
+		if title:
+			font = self.GetFont( ).Scale(1.5)
+			_ = wx.StaticText(self, label=title, pos=self.conv(10, self.y_axis_accumulator))
+			_.Wrap(self.conv(self.width - 30))
+			_.SetFont(font)
+			set_color(_, False, False)
+			self.y_axis_accumulator += 35
+
+		self.set_static_text(content)
+
+		self.SetSize(self.conv(self.width, self.y_axis_accumulator + 50))
+		ok_btn = wx.Button(self, label='OK', size=self.conv(140, 30), pos=self.conv(self.width - 170, self.y_axis_accumulator))
+		ok_btn.Bind(wx.EVT_BUTTON, self.on_ok)
+		set_color(ok_btn, True, True)
+		set_color(ok_btn, False, False)
+
+		self.SetSize(self.conv(self.width, self.y_axis_accumulator + 50))
+		ok_btn = wx.Button(self, label='cancel', size=self.conv(140, 30), pos=self.conv(self.width - 320, self.y_axis_accumulator))
+		ok_btn.Bind(wx.EVT_BUTTON, self.on_cancel)
+		set_color(ok_btn, True, True)
+		set_color(ok_btn, False, False)
+
+	def on_ok(self, event):
+		self.return_ = True
+		self.on_cancel(None)
 
 	def show(self):
-		self.SetSize(self.conv(500, 200))
 		super().show()
+		return self.return_
 
 
+class message_window(_message_frame):
 
-class message_dialog(__message_frame):
-	...
-
-
-class message_window(__message_frame):
-
-	def __init__(self, title: str = "notification", *, width: int = 280):
+	def __init__(self, title: str = "", *, width: int = 280):
 		super( ).__init__(width)
+		self.SetWindowStyle(wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX)
 		self.input_boxes: list[Union[wx.ComboBox, wx.TextCtrl, wx.CheckBox]] = []
 		self.return_ = None
 
-		font = self.GetFont( ).Scale(1.3)
-		_ = wx.StaticText(self, label=title + ':', pos=self.conv(5, 5))
-		_.Wrap(self.conv(self.width - 10))
-		_.SetFont(font)
-		set_color(_, False, False)
+		if title:
+			font = self.GetFont( ).Scale(1.35)
+			_ = wx.StaticText(self, label=title + ':', pos=self.conv(5, self.y_axis_accumulator))
+			_.Wrap(self.conv(self.width - 10))
+			_.SetFont(font)
+			set_color(_, False, False)
+			self.y_axis_accumulator += 35
 
 	def set_input_box(self, label: str = '', is_inline: bool = True):
 		if label:
@@ -94,12 +116,6 @@ class message_window(__message_frame):
 		set_color(_, True)
 		set_color(_, False, False)
 		self.y_axis_accumulator += 45
-
-	def set_static_text(self, label: str):
-		_ = wx.StaticText(self, label=label, pos=self.conv(10, self.y_axis_accumulator), style=wx.TE_MULTILINE)
-		_.Wrap(self.conv(self.width - 5))
-		set_color(_, False, False)
-		self.y_axis_accumulator += 18 + self.ToDIP(_.GetSize( )[1])
 
 	def set_checkbox(self, label: str, /, default: bool = False):
 		checkbox = wx.CheckBox(self, pos=self.conv(10, self.y_axis_accumulator))
@@ -130,18 +146,16 @@ class message_window(__message_frame):
 		x, y = self.GetSize( )
 		_ = self.conv(10)
 		self.SetSize(x + _, y + _)
-		super().show()
+		super( ).show( )
 		return self.return_
 
 
 if __name__ == "__main__":
 	if platform.system( ) == 'Windows':
 		import ctypes
-
-
 		ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
-	message_box().show()
+	print(message_dialog('hello', 'title').show())
 
 	my_notification = message_window(width=320)
 	my_notification.set_static_text('this is a example of using message dialog to display static text. This text is too long, so the message dialog will wrap the line and '
