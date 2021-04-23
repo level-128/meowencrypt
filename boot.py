@@ -28,6 +28,7 @@ from runlib.key_macro import start_keyboard_listen
 from UI.session_manager_UI import session_manager_show
 from UI.session_UI import show as UI_show
 from UI.cli import show as cli_show
+# from UI.message import main
 
 import wx
 

@@ -1,10 +1,9 @@
+import multiprocessing
 import platform
-import threading
 from abc import ABCMeta, abstractmethod
 from typing import List, Union
 
 import wx
-import multiprocessing
 
 from UI.theme_setter import detect_darkmode, set_color
 
@@ -151,29 +150,26 @@ class message_window(_message_frame):
 		super( ).show( )
 		return self.return_
 
-def main():
-	print(message_dialog('hello', 'title').show( ))
+# def main():
+# 	print(message_dialog('hello', 'title').show( ))
+#
+# def main2():
+# 	my_notification = message_window(width=320)
+# 	my_notification.set_static_text('this is a example of using message dialog to display static text. This text is too long, so the message dialog will wrap the line and '
+# 	                                'auto-adjust other contents\' position based on the length of the text. ')
+# 	my_notification.set_checkbox("is dark mode", detect_darkmode( ))
+# 	my_notification.set_input_box('input box')
+# 	my_notification.set_input_box('input box with a long description')
+# 	my_notification.set_input_box('input box with a very very long description', False)
+# 	# the method will block the thread until the user responds the message dialog. return None of user click cancel or close box. return all the
+# 	# contents with default sequence if the user click OK button.
+# 	print(my_notification.show( ))
+#
+#
+# if __name__ == "__main__":
+# 	main()
+# 	main2()
 
 
-if __name__ == "__main__":
-	if platform.system( ) == 'Windows':
-		import ctypes
-		ctypes.windll.shcore.SetProcessDpiAwareness(1)
-
-	app = wx.App()
-	multiprocessing.Process(target=main).start()
-	app.MainLoop()
 
 
-
-
-	# my_notification = message_window(width=320)
-	# my_notification.set_static_text('this is a example of using message dialog to display static text. This text is too long, so the message dialog will wrap the line and '
-	#                                 'auto-adjust other contents\' position based on the length of the text. ')
-	# my_notification.set_checkbox("is dark mode", detect_darkmode( ))
-	# my_notification.set_input_box('input box')
-	# my_notification.set_input_box('input box with a long description')
-	# my_notification.set_input_box('input box with a very very long description', False)
-	# # the method will block the thread until the user responds the message dialog. return None of user click cancel or close box. return all the
-	# # contents with default sequence if the user click OK button.
-	# print(my_notification.show( ))
