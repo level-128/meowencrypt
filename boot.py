@@ -23,6 +23,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 import platform
+import sys
+
+print(hasattr(sys, 'ps1'))
 
 from runlib.key_macro import start_keyboard_listen
 from UI.session_manager_UI import session_manager_show

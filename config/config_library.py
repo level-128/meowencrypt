@@ -25,7 +25,11 @@ class _default_config:
 
 	is_default_listen_clipboard: bool = False
 
+	# UI:
 	language: str = 'default'  # default or local code
+	is_dark_mode: Union[bool, None] = None
+	is_default_load_session_UI: bool = False
+	# is_default_load_
 
 
 class modify_config:

@@ -11,7 +11,7 @@ from UI.theme_setter import detect_darkmode, set_color
 class _message_frame(wx.Frame):
 	__metaclass__ = ABCMeta
 
-	def __init__(self, width: int):
+	def __init__(self, width: int, title: str):
 		if not wx.App.GetInstance( ):
 			self.app = wx.App( )
 		else:
@@ -22,6 +22,14 @@ class _message_frame(wx.Frame):
 		self.width = width
 		self.is_dark_mode = detect_darkmode( )
 		set_color(self, True)
+
+		if title:
+			font = self.GetFont( ).Scale(1.4)
+			_ = wx.StaticText(self, label=title, pos=self.conv(10, self.y_axis_accumulator), size=(self.width - 15, -1))
+			_.Wrap(self.conv(self.width - 25))
+			_.SetFont(font)
+			set_color(_, False, False)
+			self.y_axis_accumulator += 35
 
 	def conv(self, x, y = 0):
 		return (self.FromDIP(x), self.FromDIP(y)) if y else self.FromDIP(x)
@@ -46,20 +54,33 @@ class _message_frame(wx.Frame):
 		self.app.MainLoop( )
 
 
+class message_box(_message_frame):
+	def __init__(self, content, title, *, width = 500):
+		super(message_box, self).__init__(width, title)
+		self.SetWindowStyle(wx.STAY_ON_TOP | wx.FRAME_NO_TASKBAR | wx.FRAME_TOOL_WINDOW)
+
+		self.set_static_text(content)
+
+		self.SetSize(self.conv(self.width, self.y_axis_accumulator + 50))
+		ok_btn = wx.Button(self, label='OK', size=self.conv(200, 30), pos=self.conv(self.width - 230, self.y_axis_accumulator))
+		ok_btn.Bind(wx.EVT_BUTTON, self.on_ok)
+		set_color(ok_btn, True, True)
+		set_color(ok_btn, False, False)
+
+	def on_ok(self, event):
+		self.Destroy()
+
+	def show(self) -> None:
+		self.Center( )
+		self.Show( )
+
+
 class message_dialog(_message_frame):
 	return_ = False
 
 	def __init__(self, content, title, *, width = 500):
-		super(message_dialog, self).__init__(width)
+		super(message_dialog, self).__init__(width, title)
 		self.SetWindowStyle(wx.STAY_ON_TOP | wx.FRAME_NO_TASKBAR | wx.FRAME_TOOL_WINDOW)
-
-		if title:
-			font = self.GetFont( ).Scale(1.5)
-			_ = wx.StaticText(self, label=title, pos=self.conv(10, self.y_axis_accumulator))
-			_.Wrap(self.conv(self.width - 30))
-			_.SetFont(font)
-			set_color(_, False, False)
-			self.y_axis_accumulator += 35
 
 		self.set_static_text(content)
 
@@ -87,18 +108,11 @@ class message_dialog(_message_frame):
 class message_window(_message_frame):
 
 	def __init__(self, title: str = "", *, width: int = 280):
-		super( ).__init__(width)
+		super( ).__init__(width, '')
 		self.SetWindowStyle(wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX)
+		self.SetTitle(title)
 		self.input_boxes: list[Union[wx.ComboBox, wx.TextCtrl, wx.CheckBox]] = []
 		self.return_ = None
-
-		if title:
-			font = self.GetFont( ).Scale(1.35)
-			_ = wx.StaticText(self, label=title + ':', pos=self.conv(5, self.y_axis_accumulator))
-			_.Wrap(self.conv(self.width - 10))
-			_.SetFont(font)
-			set_color(_, False, False)
-			self.y_axis_accumulator += 35
 
 	def set_input_box(self, label: str = '', is_inline: bool = True):
 		if label:
@@ -143,33 +157,36 @@ class message_window(_message_frame):
 		set_color(cancel_btn, False, False)
 		set_color(ok_btn, True, True)
 		set_color(cancel_btn, True, True)
+
+		# self.SetScrollbar(wx.SB_VERTICAL, wx.RIGHT, -1, 200)
+
 		self.Fit( )
 		x, y = self.GetSize( )
-		_ = self.conv(10)
-		self.SetSize(x + _, y + _)
+		self.SetSize(x + self.conv(5), y + self.conv(10))
 		super( ).show( )
 		return self.return_
 
-# def main():
-# 	print(message_dialog('hello', 'title').show( ))
-#
-# def main2():
-# 	my_notification = message_window(width=320)
-# 	my_notification.set_static_text('this is a example of using message dialog to display static text. This text is too long, so the message dialog will wrap the line and '
-# 	                                'auto-adjust other contents\' position based on the length of the text. ')
-# 	my_notification.set_checkbox("is dark mode", detect_darkmode( ))
-# 	my_notification.set_input_box('input box')
-# 	my_notification.set_input_box('input box with a long description')
-# 	my_notification.set_input_box('input box with a very very long description', False)
-# 	# the method will block the thread until the user responds the message dialog. return None of user click cancel or close box. return all the
-# 	# contents with default sequence if the user click OK button.
-# 	print(my_notification.show( ))
-#
-#
-# if __name__ == "__main__":
-# 	main()
-# 	main2()
+def main():
+	if message_dialog('press ok to show a message box, cancel to show a message window', 'test').show( ):
+		message_box('test', 'test msgbox ok').show()
+	else:
+		my_notification = message_window(width=320, title='hello')
+		my_notification.set_static_text(
+			'this is a example of using message dialog to display static text. This text is too long, so the message dialog will wrap the line and '
+			'auto-adjust other contents\' position based on the length of the text. ')
+		my_notification.set_checkbox("is dark mode", detect_darkmode())
+		my_notification.set_input_box('input box')
+		my_notification.set_input_box('input box with a long description')
+		my_notification.set_input_box('input box with a very very long description', False)
+		# the method will block the thread until the user responds the message dialog. return None of user click cancel or close box. return all the
+		# contents with default sequence if the user click OK button.
+		print(my_notification.show())
 
+
+if __name__ == "__main__":
+	app = wx.App()
+	main()
+	app.MainLoop()
 
 
 

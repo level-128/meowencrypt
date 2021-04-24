@@ -2,7 +2,7 @@ from runlib.enc_session_manager import *
 from globalization.language_profile import print
 
 import threading
-
+import sys
 
 def _show():
 	print("This program should contains GUI, while currently, no GUI components were integrated in this program. ")
@@ -26,4 +26,5 @@ def _show():
 
 
 def show():
-	threading.Thread(target=_show).start()
+	if hasattr(sys.stderr, "isatty") and sys.stderr.isatty():  # detect console / IDE environment
+		threading.Thread(target=_show).start()
