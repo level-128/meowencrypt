@@ -22,16 +22,16 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
+
+# TODO: if a session created but not established, encrypt a message will cause error
+
+
 import platform
 import sys
 
-print(hasattr(sys, 'ps1'))
-
 from runlib.key_macro import start_keyboard_listen
-from UI.session_manager_UI import session_manager_show
-from UI.session_UI import show as UI_show
 from UI.cli import show as cli_show
-# from UI.message import main
+from UI.main_UI import show as main_show
 
 import wx
 
@@ -43,8 +43,9 @@ app = wx.App()
 
 if __name__ == '__main__':
 	start_keyboard_listen( )
-	session_manager_show()
-	UI_show()
+	# session_manager_show()
+	# UI_show()
 	cli_show()
+	main_show()
 
 	app.MainLoop()

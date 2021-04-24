@@ -53,6 +53,6 @@ class session_manager(wx.Frame):
 			self.list.SetItem(index, 3, strftime("%m/%d %H:%M:%S", localtime(time)))
 
 
-def session_manager_show( ):
+def show():
 	session_manager_frame = session_manager( )
 	session_manager_frame.Show( )

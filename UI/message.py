@@ -1,5 +1,3 @@
-import multiprocessing
-import platform
 from abc import ABCMeta, abstractmethod
 from typing import List, Union
 
@@ -149,8 +147,7 @@ class message_window(_message_frame):
 	def show(self) -> Union[List[Union[bool, str]], None]:
 		self.y_axis_accumulator += 3
 		ok_btn = wx.Button(self, label='OK', size=self.conv(int(self.width * 0.35), 30), pos=self.conv(15, self.y_axis_accumulator))
-		cancel_btn = wx.Button(self, label='cancel', size=self.conv(round(self.width * 0.35), 30), pos=self.conv(self.width - 5 - round(self.width * 0.35),
-		                                                                                                         self.y_axis_accumulator))
+		cancel_btn = wx.Button(self, label='cancel', size=self.conv(round(self.width * 0.35), 30), pos=self.conv(self.width - 5 - round(self.width * 0.35), self.y_axis_accumulator))
 		ok_btn.Bind(wx.EVT_BUTTON, self.on_ok)
 		cancel_btn.Bind(wx.EVT_BUTTON, self.on_cancel)
 		set_color(ok_btn, False, False)

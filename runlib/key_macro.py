@@ -123,7 +123,7 @@ def change_keyboard_hotkey() -> None:
 	keyboard.remove_all_hotkeys()
 	keyboard.add_hotkey(config.hotkey_select_all_text_to_session, _select_all_text_to_session)
 	keyboard.add_hotkey(config.hotkey_select_all_text_to_encrypt, _select_all_text_and_encrypt)
-	keyboard.add_hotkey(config.const_hotkey_toggle_listen_clipboard_change, _toggle_listen_clipboard)
+	keyboard.add_hotkey(config.hotkey_toggle_listen_clipboard_change, _toggle_listen_clipboard)
 	keyboard.add_hotkey(config.hotkey_select_all_text_and_auto_process, _select_all_text_and_auto_process)
 
 
@@ -131,7 +131,7 @@ def start_keyboard_listen():
 	def _start_keyboard_listen():
 		keyboard.add_hotkey(config.hotkey_select_all_text_to_session, _select_all_text_to_session)
 		keyboard.add_hotkey(config.hotkey_select_all_text_to_encrypt, _select_all_text_and_encrypt)
-		keyboard.add_hotkey(config.const_hotkey_toggle_listen_clipboard_change, _toggle_listen_clipboard)
+		keyboard.add_hotkey(config.hotkey_toggle_listen_clipboard_change, _toggle_listen_clipboard)
 		keyboard.add_hotkey(config.hotkey_select_all_text_and_auto_process, _select_all_text_and_auto_process)
 		keyboard.wait( )
 

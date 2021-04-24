@@ -4,7 +4,7 @@ from enclib.enc_session import ContentError
 from runlib.enc_session_manager import auto_process, encrypt_content, NullSessionError, SessionLimitExceedError, to_session
 from runlib.pushed_content import EvtNotification, push_clipboard
 from UI.theme_setter import set_color
-from UI.message import message_window, message_dialog
+from UI.message import message_box, message_window, message_dialog
 
 
 class session_UI(wx.Frame):
@@ -65,7 +65,7 @@ class session_UI(wx.Frame):
 				if e.content_to_clipboard:
 					self.set_enter_btn( )
 			except (SessionLimitExceedError, NullSessionError) as e:
-				message_dialog(str(e), 'error').show()
+				message_box(str(e), 'error').show()
 				# wx.MessageBox(str(e), "error", wx.OK | wx.ICON_ERROR)
 
 		elif self.mode_combobox.GetValue( ) == self.mode_combobox_choices[1]:
@@ -77,7 +77,7 @@ class session_UI(wx.Frame):
 				if e.content_to_clipboard:
 					self.set_enter_btn( )
 			except NullSessionError as e:
-				message_dialog(str(e), 'error').show()
+				message_box(str(e), 'error').show()
 				# wx.MessageBox(str(e), "error", wx.OK | wx.ICON_ERROR)
 
 		else:
@@ -90,7 +90,7 @@ class session_UI(wx.Frame):
 				if e.content_to_clipboard:
 					self.set_enter_btn( )
 			except (SessionLimitExceedError, NullSessionError, ContentError) as e:
-				message_dialog(str(e), 'error').show()
+				message_box(str(e), 'error').show()
 				# wx.MessageBox(str(e), "error", wx.OK | wx.ICON_ERROR)
 
 

@@ -21,16 +21,18 @@ class _default_config:
 	hotkey_select_all_text_to_session: str = 'ctrl + alt + a'
 	hotkey_select_all_text_to_encrypt: str = 'ctrl + alt + s'
 	hotkey_select_all_text_and_auto_process: str = 'ctrl + alt + z'
-	const_hotkey_toggle_listen_clipboard_change: str = 'ctrl + alt + q'
+	hotkey_toggle_listen_clipboard_change: str = 'ctrl + alt + q'
+	hotkey_new_session: str = 'ctrl + alt + n'
+
 
 	is_default_listen_clipboard: bool = False
 
-	# UI:
+	# UI:  TODO
 	language: str = 'default'  # default or local code
 	is_dark_mode: Union[bool, None] = None
 	is_default_load_session_UI: bool = False
-	# is_default_load_
 
+	icon_path: str = r'files/level-128_avatar_128x128.ico'
 
 class modify_config:
 
@@ -48,7 +50,7 @@ class modify_config:
 	def __getattr__(self, item: str) -> Any:
 		if item in self.__modifiable_config:
 			return self.__modifiable_config[item]
-		elif item in self.__default_config.__dict__:
+		if item in self.__default_config.__dict__:
 			return self.__default_config.__getattribute__(item)
 		else:
 			raise AttributeError(f"the '{item}' is not in config library.")

@@ -38,15 +38,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
+from typing import Union
 
 import pyperclip
-from win32api import GetModuleHandle, MessageBox
-from win32con import IMAGE_ICON, LR_DEFAULTSIZE, LR_LOADFROMFILE, WM_USER, WS_OVERLAPPED, WS_SYSMENU, MB_OK, \
-	MB_SETFOREGROUND
+from win32api import GetModuleHandle
+from win32con import IMAGE_ICON, LR_DEFAULTSIZE, LR_LOADFROMFILE, WM_USER, WS_OVERLAPPED, WS_SYSMENU
 from win32gui import CreateWindow, LoadImage, NIF_ICON, NIF_INFO, NIF_MESSAGE, NIF_TIP, NIM_ADD, \
 	NIM_MODIFY, RegisterClass, Shell_NotifyIcon, UpdateWindow, WNDCLASS
 
+from config.config_library import config
 from globalization.language_profile import _
+from UI.message import message_box
 
 _is_ignore_last_clipboard: bool = False
 
@@ -85,7 +87,7 @@ class windows_notification(object):
 		                         0, 0, 0, 0, 0, 0, self.hinst, None)
 		UpdateWindow(self.hwnd)
 		
-		icon_path = r'files/level-128_avatar_128x128.ico'  # TODO: register it into config_library
+		icon_path = config.icon_path
 		icon_flags = LR_LOADFROMFILE | LR_DEFAULTSIZE
 		try:
 			self.hicon = LoadImage(self.hinst, icon_path, IMAGE_ICON, 0, 0, icon_flags)
@@ -95,8 +97,12 @@ class windows_notification(object):
 		nid = (self.hwnd, 0, flags, WM_USER + 20, self.hicon, _("The meowencrypt is running"))
 		Shell_NotifyIcon(NIM_ADD, nid)
 	
-	def show_windows_notification(self, content_to_notification: str, notification_title: str = 'note:',
+	def show_windows_notification(self, content_to_notification: Union[str, EvtNotification], notification_title: str = 'note:', /,
 	                              is_force_message_box: bool = False):
+		if isinstance(content_to_notification, EvtNotification):
+			notification_title = content_to_notification.notification_title
+			content_to_notification = content_to_notification.content_to_notification
+
 		content_to_notification, notification_title = _(content_to_notification), _(notification_title)
 		if not is_force_message_box and self.__is_length_count_in_limit(content_to_notification):
 			Shell_NotifyIcon(NIM_MODIFY, (self.hwnd, 0, NIF_INFO,
@@ -104,7 +110,7 @@ class windows_notification(object):
 			                              self.hicon, "", content_to_notification, 200,
 			                              notification_title))
 		else:
-			MessageBox(0, content_to_notification, notification_title, MB_OK | MB_SETFOREGROUND)
+			message_box(content_to_notification, notification_title).show()
 	
 	@staticmethod
 	def __is_length_count_in_limit(content: str) -> bool:
