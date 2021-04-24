@@ -63,7 +63,7 @@ class EvtNotification(Exception):
 		self.notification_title = notification_title
 		super(EvtNotification, self).__init__("this event has not been handled")
 		
-		if self.content_to_notification:
+		if self.content_to_notification:  # TODO: not all content push as windows notifications
 			notification_.show_windows_notification(content_to_notification,
 			                                        notification_title if notification_title else 'note:')
 		if self.content_to_clipboard:
@@ -73,6 +73,7 @@ class EvtNotification(Exception):
 
 
 #  TODO: add commit about content inspiration source: https://github.com/jithurjacob/Windows-10-Toast-Notifications
+#  TODO: move this into UI.message.py
 class windows_notification(object):
 	def __init__(self):
 		
