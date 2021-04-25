@@ -45,7 +45,4 @@ if __name__ == '__main__':
 	cli_show()
 	main_show()
 
-	import UI.settings_UI
-	UI.settings_UI.show()
-
 	app.MainLoop()
