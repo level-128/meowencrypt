@@ -61,7 +61,7 @@ class session_UI(wx.Frame):
 			except EvtNotification as e:
 				self.output_tc.Clear( )
 				self.output_tc.WriteText(e.content_to_clipboard)
-				wx.MessageBox(e.content_to_notification, e.notification_title)
+				message_box(e.content_to_notification, e.notification_title).show()
 				if e.content_to_clipboard:
 					self.set_enter_btn( )
 			except (SessionLimitExceedError, NullSessionError) as e:
@@ -86,7 +86,7 @@ class session_UI(wx.Frame):
 			except EvtNotification as e:
 				self.output_tc.Clear( )
 				self.output_tc.WriteText(e.content_to_clipboard)
-				wx.MessageBox(e.content_to_notification, e.notification_title)
+				message_box(e.content_to_notification, e.notification_title).show()
 				if e.content_to_clipboard:
 					self.set_enter_btn( )
 			except (SessionLimitExceedError, NullSessionError, ContentError) as e:
