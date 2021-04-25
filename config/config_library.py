@@ -26,13 +26,10 @@ class _default_config:
 
 
 	is_default_listen_clipboard: bool = False
-
-	# UI:  TODO
 	language: str = 'default'  # default or local code
 	is_dark_mode: Union[bool, None] = None
-	is_default_load_session_UI: bool = False
-
 	icon_path: str = r'files/level-128_avatar_128x128.ico'
+
 
 class modify_config:
 

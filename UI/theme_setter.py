@@ -1,8 +1,13 @@
 import platform
 import wx
 
+from config.config_library import config
+
 
 def _detect_darkmode( ):
+	if config.is_dark_mode is not None:
+		return config.is_dark_mode
+
 	if platform.system() != 'Windows':  # does not support operating system other than windows
 		return False
 	reg_keypath = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize'
