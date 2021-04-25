@@ -12,6 +12,7 @@ from config.config_library import config
 from UI.theme_setter import set_color
 from UI.session_UI import show as session_UI_show
 from UI.session_manager_UI import show as session_manager_UI_show
+from UI.settings_UI import show as settings_UI_show
 
 
 class main_UI(wx.Frame):
@@ -70,7 +71,7 @@ class main_UI(wx.Frame):
 		...
 
 	def on_preferences(self, event=None):
-		...
+		settings_UI_show()
 
 	def on_shortcut_settings(self, event=None):
 		...
