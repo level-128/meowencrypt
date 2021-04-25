@@ -16,14 +16,18 @@ class _message_frame(wx.Frame):
 		super( ).__init__(None, style=0)
 		self.Bind(wx.EVT_CLOSE, self.on_cancel)
 		set_color(self, True)
+		self.panel = wx.ScrolledWindow(self)
+		set_color(self.panel, True)
 
 		if title:
 			font = self.GetFont( ).Scale(1.4)
-			_ = wx.StaticText(self, label=title, pos=self.conv(10, self.y_axis_accumulator), size=(self.width - 15, -1))
+			_ = wx.StaticText(self.panel, label=title, pos=self.conv(10, self.y_axis_accumulator), size=(self.width - 15, -1))
 			_.Wrap(self.conv(self.width - 25))
 			_.SetFont(font)
 			set_color(_, False, False)
 			self.y_axis_accumulator += 35
+
+		self.return_ = None
 
 	def conv(self, x, y = 0):
 		return (self.FromDIP(x), self.FromDIP(y)) if y else self.FromDIP(x)
@@ -37,15 +41,23 @@ class _message_frame(wx.Frame):
 		...
 
 	def set_static_text(self, label: str):
-		_ = wx.StaticText(self, label=label, pos=self.conv(10, self.y_axis_accumulator), style=wx.TE_MULTILINE)
-		_.Wrap(self.conv(self.width - 5))
+		_ = wx.StaticText(self.panel, label=label, pos=self.conv(10, self.y_axis_accumulator), style=wx.TE_MULTILINE)
+		_.Wrap(self.conv(self.width - 17))
 		set_color(_, False, False)
 		self.y_axis_accumulator += 18 + self.ToDIP(_.GetSize( )[1])
 
 	def show(self) -> None:
+		if self.y_axis_accumulator > 520:
+			self.panel.SetScrollbars(-1, self.conv(10), -1, self.conv(self.y_axis_accumulator // 10))
+			self.SetSize(wx.Size(self.conv(self.width + 35), self.conv(500)))
+		else:
+			self.SetSize(wx.Size(self.conv(self.width + 15), self.conv(self.y_axis_accumulator)))
 		self.Center( )
 		self.Show( )
-		self.app.MainLoop( )
+		print(self.GetSize())
+		if not isinstance(self, message_box):
+			self.app.MainLoop( )
+			return self.return_
 
 
 class message_box(_message_frame):
@@ -56,21 +68,19 @@ class message_box(_message_frame):
 		self.set_static_text(content)
 
 		self.SetSize(self.conv(self.width, self.y_axis_accumulator + 50))
-		ok_btn = wx.Button(self, label='OK', size=self.conv(200, 30), pos=self.conv(self.width - 230, self.y_axis_accumulator))
+
+		ok_btn = wx.Button(self.panel, label='OK', size=self.conv(200, 30), pos=self.conv(self.width - 220, self.y_axis_accumulator))
 		ok_btn.Bind(wx.EVT_BUTTON, self.on_ok)
 		set_color(ok_btn, True, True)
 		set_color(ok_btn, False, False)
 
+		self.y_axis_accumulator += 45
+
 	def on_ok(self, event):
 		self.Destroy()
 
-	def show(self) -> None:
-		self.Center( )
-		self.Show( )
-
 
 class message_dialog(_message_frame):
-	return_ = False
 
 	def __init__(self, content, title, *, width = 500):
 		super(message_dialog, self).__init__(width, title)
@@ -79,24 +89,22 @@ class message_dialog(_message_frame):
 		self.set_static_text(content)
 
 		self.SetSize(self.conv(self.width, self.y_axis_accumulator + 50))
-		ok_btn = wx.Button(self, label='OK', size=self.conv(140, 30), pos=self.conv(self.width - 170, self.y_axis_accumulator))
+		ok_btn = wx.Button(self.panel, label='OK', size=self.conv(140, 30), pos=self.conv(self.width - 155, self.y_axis_accumulator))
 		ok_btn.Bind(wx.EVT_BUTTON, self.on_ok)
 		set_color(ok_btn, True, True)
 		set_color(ok_btn, False, False)
 
 		self.SetSize(self.conv(self.width, self.y_axis_accumulator + 50))
-		ok_btn = wx.Button(self, label='cancel', size=self.conv(140, 30), pos=self.conv(self.width - 320, self.y_axis_accumulator))
+		ok_btn = wx.Button(self.panel, label='cancel', size=self.conv(140, 30), pos=self.conv(self.width - 305, self.y_axis_accumulator))
 		ok_btn.Bind(wx.EVT_BUTTON, self.on_cancel)
 		set_color(ok_btn, True, True)
 		set_color(ok_btn, False, False)
 
+		self.y_axis_accumulator += 45
+
 	def on_ok(self, event):
 		self.return_ = True
 		self.on_cancel(None)
-
-	def show(self):
-		super().show()
-		return self.return_
 
 
 class message_window(_message_frame):
@@ -105,10 +113,7 @@ class message_window(_message_frame):
 		super( ).__init__(width, '')
 		self.SetWindowStyle(wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX)
 		self.SetTitle(title)
-		self.panel = wx.ScrolledWindow(self)
-		set_color(self.panel, True)
 		self.input_boxes: list[Union[wx.ComboBox, wx.TextCtrl, wx.CheckBox]] = []
-		self.return_ = None
 
 	def set_input_box(self, label: str = '', is_inline: bool = True):
 		if label:
@@ -116,14 +121,14 @@ class message_window(_message_frame):
 				_ = wx.StaticText(self.panel, label=label + ':', pos=self.conv(10, self.y_axis_accumulator + 2))
 				set_color(_, False, False)
 				text_size = self.ToDIP(_.GetSize( )[0])
-				self.input_boxes.append(_ := wx.TextCtrl(self.panel, size=self.conv(self.width - 25 - text_size, 22), pos=self.conv(text_size + 15, self.y_axis_accumulator)))
+				self.input_boxes.append(_ := wx.TextCtrl(self.panel, size=self.conv(self.width - 30 - text_size, 22), pos=self.conv(text_size + 15, self.y_axis_accumulator)))
 			else:
 				_ = wx.StaticText(self.panel, label=label + ':', pos=self.conv(10, self.y_axis_accumulator), size=self.conv(self.width - 10, -1))
 				self.y_axis_accumulator += 22
 				set_color(_, False, False)
-				self.input_boxes.append(_ := wx.TextCtrl(self.panel, size=self.conv(self.width - 30, 22), pos=self.conv(20, self.y_axis_accumulator)))
+				self.input_boxes.append(_ := wx.TextCtrl(self.panel, size=self.conv(self.width - 30, 22), pos=self.conv(15, self.y_axis_accumulator)))
 		else:
-			self.input_boxes.append(_ := wx.TextCtrl(self.panel, size=self.conv(self.width - 20, 22), pos=self.conv(15, self.y_axis_accumulator)))
+			self.input_boxes.append(_ := wx.TextCtrl(self.panel, size=self.conv(self.width - 35, 22), pos=self.conv(15, self.y_axis_accumulator)))
 		set_color(_, True)
 		set_color(_, False, False)
 		self.y_axis_accumulator += 45
@@ -133,13 +138,7 @@ class message_window(_message_frame):
 		checkbox.SetValue(default)
 		self.input_boxes.append(checkbox)
 		_ = wx.StaticText(self.panel, label=label, pos=self.conv(30, self.y_axis_accumulator), style=wx.TE_MULTILINE)
-		_.Wrap(self.conv(self.width - 35))
-		set_color(_, False, False)
-		self.y_axis_accumulator += 18 + self.ToDIP(_.GetSize( )[1])
-
-	def set_static_text(self, label: str):
-		_ = wx.StaticText(self.panel, label=label, pos=self.conv(10, self.y_axis_accumulator), style=wx.TE_MULTILINE)
-		_.Wrap(self.conv(self.width - 5))
+		_.Wrap(self.conv(self.width - 40))
 		set_color(_, False, False)
 		self.y_axis_accumulator += 18 + self.ToDIP(_.GetSize( )[1])
 
@@ -151,7 +150,7 @@ class message_window(_message_frame):
 	def show(self) -> Union[List[Union[bool, str]], None]:
 		self.y_axis_accumulator += 3
 		ok_btn = wx.Button(self.panel, label='OK', size=self.conv(int(self.width * 0.35), 30), pos=self.conv(15, self.y_axis_accumulator))
-		cancel_btn = wx.Button(self.panel, label='cancel', size=self.conv(round(self.width * 0.35), 30), pos=self.conv(self.width - 5 - round(self.width * 0.35), self.y_axis_accumulator))
+		cancel_btn = wx.Button(self.panel, label='cancel', size=self.conv(round(self.width * 0.35), 30), pos=self.conv(self.width - 15 - round(self.width * 0.35), self.y_axis_accumulator))
 		ok_btn.Bind(wx.EVT_BUTTON, self.on_ok)
 		cancel_btn.Bind(wx.EVT_BUTTON, self.on_cancel)
 		set_color(ok_btn, False, False)
@@ -159,18 +158,15 @@ class message_window(_message_frame):
 		set_color(ok_btn, True, True)
 		set_color(cancel_btn, True, True)
 
-		if self.y_axis_accumulator > 500:
-			self.panel.SetScrollbars(-1, self.conv(10), -1, self.conv(self.y_axis_accumulator // 10 + 5))
-			self.SetSize(wx.Size(self.conv(round(self.width + 35)), self.conv(550)))
-		else:
-			self.SetSize(wx.Size(self.conv(round(self.width + 25)), self.conv(round(self.y_axis_accumulator + 80))))
+		self.y_axis_accumulator += 80
 
-		super( ).show( )
-		return self.return_
+		return super( ).show( )
+
 
 def main():
 	if message_dialog('press ok to show a message box, cancel to show a message window', 'test').show( ):
 		message_box('test', 'test msgbox ok').show()
+		print('not blocking the thread')
 	else:
 		my_notification = message_window(width=320, title='hello')
 		my_notification.set_static_text(
@@ -179,7 +175,6 @@ def main():
 		my_notification.set_checkbox("is dark mode", detect_darkmode())
 		my_notification.set_input_box('input box')
 		my_notification.set_input_box('input box with a long description')
-		my_notification.set_input_box('input box with a very very long description', False)
 		my_notification.set_input_box('input box with a very very long description', False)
 		# the method will block the thread until the user responds the message dialog. return None of user click cancel or close box. return all the
 		# contents with default sequence if the user click OK button.
