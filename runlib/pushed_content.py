@@ -57,15 +57,15 @@ _last_push_clipboard_content: str = ''
 
 class EvtNotification(Exception):
 	def __init__(self, *, content_to_clipboard: str = '', content_to_notification: str = '',
-	             notification_title: str = ''):
+	             notification_title: str = '', is_force_message_box: bool = False):
 		self.content_to_clipboard = content_to_clipboard
 		self.content_to_notification = content_to_notification
 		self.notification_title = notification_title
 		super(EvtNotification, self).__init__("this event has not been handled")
 		
-		if self.content_to_notification:  # TODO: not all content push as windows notifications
+		if self.content_to_notification:
 			notification_.show_windows_notification(content_to_notification,
-			                                        notification_title if notification_title else 'note:')
+			                                        notification_title if notification_title else 'note:', is_force_message_box)
 		if self.content_to_clipboard:
 			global _is_ignore_last_clipboard
 			_is_ignore_last_clipboard = True
@@ -73,7 +73,6 @@ class EvtNotification(Exception):
 
 
 #  TODO: add commit about content inspiration source: https://github.com/jithurjacob/Windows-10-Toast-Notifications
-#  TODO: move this into UI.message.py
 class windows_notification(object):
 	def __init__(self):
 		

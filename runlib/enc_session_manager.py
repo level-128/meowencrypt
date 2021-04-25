@@ -85,12 +85,16 @@ def to_session(content: str) -> None:
 		__add_session(session_)
 		raise EvtNotification(content_to_clipboard = session_.create_session_request(),
 		                      content_to_notification = 'received a new session request. paste the key exchange message '
-		                                                'from clipboard to the sender and then start sending messages.')
+		                                                'from clipboard to the sender and then start sending messages.',
+							  notification_title = 'New session request',
+							  is_force_message_box = True)
 
 	elif notation == CONST_KEY_EXCHANGE_NOTATION:
 		session_ = __get_session(text[:config.session_id_len])
 		session_.receive_session_request(text)
-		raise EvtNotification(content_to_notification = "the session has been established, start sending messages.")
+		raise EvtNotification(content_to_notification = "the session has been established, start sending messages.",
+							  notification_title = 'New session request',
+							  is_force_message_box = True)
 
 	else:
 		raise ContentError

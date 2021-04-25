@@ -78,7 +78,6 @@ class session_UI(wx.Frame):
 					self.set_enter_btn( )
 			except NullSessionError as e:
 				message_box(str(e), 'error').show()
-				# wx.MessageBox(str(e), "error", wx.OK | wx.ICON_ERROR)
 
 		else:
 			try:
@@ -91,7 +90,6 @@ class session_UI(wx.Frame):
 					self.set_enter_btn( )
 			except (SessionLimitExceedError, NullSessionError, ContentError) as e:
 				message_box(str(e), 'error').show()
-				# wx.MessageBox(str(e), "error", wx.OK | wx.ICON_ERROR)
 
 
 def show( ):

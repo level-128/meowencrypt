@@ -2,6 +2,7 @@ from abc import ABCMeta, abstractmethod
 from typing import List, Union
 
 import wx
+import winsound
 
 from UI.theme_setter import detect_darkmode, set_color
 
@@ -54,7 +55,7 @@ class _message_frame(wx.Frame):
 			self.SetSize(wx.Size(self.conv(self.width + 15), self.conv(self.y_axis_accumulator)))
 		self.Center( )
 		self.Show( )
-		print(self.GetSize())
+		winsound.PlaySound(r'files\notification_CClicense.wav', winsound.SND_FILENAME | winsound.SND_ASYNC)
 		if not isinstance(self, message_box):
 			self.app.MainLoop( )
 			return self.return_
