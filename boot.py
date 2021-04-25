@@ -27,7 +27,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 import platform
-import sys
 
 from runlib.key_macro import start_keyboard_listen
 from UI.cli import show as cli_show
@@ -43,9 +42,10 @@ app = wx.App()
 
 if __name__ == '__main__':
 	start_keyboard_listen( )
-	# session_manager_show()
-	# UI_show()
 	cli_show()
 	main_show()
+
+	import UI.settings_UI
+	UI.settings_UI.show()
 
 	app.MainLoop()

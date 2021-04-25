@@ -110,13 +110,13 @@ class message_dialog(_message_frame):
 
 class message_window(_message_frame):
 
-	def __init__(self, title: str = "", *, width: int = 280):
+	def __init__(self, title: str = "", *, width: int = 300):
 		super( ).__init__(width, '')
 		self.SetWindowStyle(wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX)
 		self.SetTitle(title)
 		self.input_boxes: list[Union[wx.ComboBox, wx.TextCtrl, wx.CheckBox]] = []
 
-	def set_input_box(self, label: str = '', is_inline: bool = True):
+	def set_input_box(self, label: str = '', is_inline: bool = True, /, default: str = ''):
 		if label:
 			if is_inline:
 				_ = wx.StaticText(self.panel, label=label + ':', pos=self.conv(10, self.y_axis_accumulator + 2))
@@ -132,6 +132,7 @@ class message_window(_message_frame):
 			self.input_boxes.append(_ := wx.TextCtrl(self.panel, size=self.conv(self.width - 35, 22), pos=self.conv(15, self.y_axis_accumulator)))
 		set_color(_, True)
 		set_color(_, False, False)
+		_.SetValue(str(default))
 		self.y_axis_accumulator += 45
 
 	def set_checkbox(self, label: str, /, default: bool = False):
@@ -142,6 +143,16 @@ class message_window(_message_frame):
 		_.Wrap(self.conv(self.width - 40))
 		set_color(_, False, False)
 		self.y_axis_accumulator += 18 + self.ToDIP(_.GetSize( )[1])
+
+	def set_combobox(self, label: str, choices: list, /, default: Union[str, None] = None):
+		_ = wx.StaticText(self.panel, label = label + ':', pos = self.conv(10, self.y_axis_accumulator + 2))
+		set_color(_, False, False)
+		text_size = self.ToDIP(_.GetSize()[0])
+		combobox = wx.ComboBox(self.panel, choices = choices, value = default if default else choices[0],
+		                       size=self.conv(self.width - 30 - text_size, 22), pos=self.conv(text_size + 15, self.y_axis_accumulator))
+		set_color(combobox, True, True)
+		set_color(combobox, False, False)
+		self.y_axis_accumulator += 45
 
 	def on_ok(self, event):
 		self.return_ = [_.GetValue( ) for _ in self.input_boxes]
@@ -179,6 +190,7 @@ def main():
 		my_notification.set_input_box('input box with a very very long description', False)
 		# the method will block the thread until the user responds the message dialog. return None of user click cancel or close box. return all the
 		# contents with default sequence if the user click OK button.
+		my_notification.set_combobox('test combobox', ['one', 'two', 'three'])
 		print(my_notification.show())
 
 

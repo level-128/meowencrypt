@@ -7,7 +7,7 @@ from config.config_library import config  # clear import
 
 # print function used for print translated items
 # noinspection PyShadowingBuiltins
-def print(*args, sep=' ', end='\n'):
+def print(*args, sep = ' ', end = '\n'):
 	sys.stdout.write(_(sep.join(args)) + end)
 
 
@@ -15,8 +15,12 @@ def get_all_supported_locals() -> tuple:
 	return tuple(_all_locals.keys())
 
 
-def to_local_notation(language_name: str) -> str:
+def from_name_to_notation(language_name: str) -> str:
 	return _all_locals[language_name]
+
+
+def from_notation_to_name(language_name: str) -> str:
+	return _all_locals_inv[language_name]
 
 
 def _(english_original_text: str) -> str:
@@ -29,6 +33,7 @@ if current_locale == 'default':
 
 with open(f'globalization\\languages\\all_locals', 'r') as file:
 	_all_locals = json.loads(file.read())
+	_all_locals_inv = dict(zip(_all_locals.values(), _all_locals.keys()))
 
 if current_locale not in _all_locals.values():
 	raise Exception(f"the selected language {current_locale} does not exist")

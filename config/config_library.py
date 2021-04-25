@@ -24,7 +24,6 @@ class _default_config:
 	hotkey_toggle_listen_clipboard_change: str = 'ctrl + alt + q'
 	hotkey_new_session: str = 'ctrl + alt + n'
 
-
 	is_default_listen_clipboard: bool = False
 	language: str = 'default'  # default or local code
 	is_dark_mode: Union[bool, None] = None
