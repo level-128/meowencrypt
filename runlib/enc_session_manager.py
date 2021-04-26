@@ -127,6 +127,7 @@ def encrypt_content(content: str, session_id: Union[int, None] = None) -> None:
 	:param content: message
 	:param session_id: the session to where the message belongs. default last session's id.
 	:raise NullSessionError: if the session does not exist.
+	:raise SessionError: the session is not established.
 	:raise EvtNotification: returns the encrypted content to the clipboard. No notification.
 	"""
 	if not session_id:

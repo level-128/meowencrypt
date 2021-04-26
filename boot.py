@@ -23,7 +23,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-# TODO: if a session created but not established, encrypt a message will cause error
 
 
 import platform

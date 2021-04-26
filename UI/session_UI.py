@@ -1,6 +1,6 @@
 import wx
 
-from enclib.enc_session import ContentError
+from enclib.enc_session import ContentError, SessionError
 from runlib.enc_session_manager import auto_process, encrypt_content, NullSessionError, SessionLimitExceedError, to_session
 from runlib.pushed_content import EvtNotification, push_clipboard
 from UI.theme_setter import set_color
@@ -64,7 +64,7 @@ class session_UI(wx.Frame):
 				message_box(e.content_to_notification, e.notification_title).show()
 				if e.content_to_clipboard:
 					self.set_enter_btn( )
-			except (SessionLimitExceedError, NullSessionError) as e:
+			except (SessionLimitExceedError, NullSessionError, SessionError) as e:
 				message_box(str(e), 'error').show()
 				# wx.MessageBox(str(e), "error", wx.OK | wx.ICON_ERROR)
 
@@ -76,7 +76,7 @@ class session_UI(wx.Frame):
 				self.output_tc.WriteText(e.content_to_clipboard)
 				if e.content_to_clipboard:
 					self.set_enter_btn( )
-			except NullSessionError as e:
+			except (NullSessionError, SessionError) as e:
 				message_box(str(e), 'error').show()
 
 		else:

@@ -23,6 +23,10 @@ class ContentError(Exception):
 		super(ContentError, self).__init__("this message is not in meowencrypt format")
 
 
+class SessionError(Exception):
+	def __init__(self):
+		super(SessionError, self).__init__("The session is not established.")
+
 class encryption:
 	"""
 	creates a encryption session object.
@@ -91,6 +95,8 @@ class encryption:
 		"""
 		encrypt the message by creating a AES algorithm object.
 		"""
+		if self.__key is None:
+			raise SessionError
 		original_content: bytes = original_content.encode('utf-8')
 		#  since the AES counter mode requires padding to fill the content,
 		#  making length of the content becomes the multiplier of 16.
