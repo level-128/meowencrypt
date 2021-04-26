@@ -4,7 +4,7 @@ from typing import *
 from config.config_library import config
 from enclib.enc_session import encryption, ContentError, CONST_NEW_SESSION_NOTATION, CONST_MSG_NOTATION, \
 	CONST_KEY_EXCHANGE_NOTATION  # clear import
-from enclib.enc_utilities import b94encode, b94decode_to_int
+from enclib.enc_utilities import b94encode, b94decode_to_int, is_md5_checksum_for_message_correct
 from runlib.pushed_content import EvtNotification, get_clipboard  # clear import
 
 active_session: Dict[str, encryption] = {}
@@ -12,7 +12,7 @@ active_session_time: Dict[str, float] = {}
 active_session_name: Dict[str, str] = {}
 last_session: str = ''
 
-# TODO: feat: complete the function auto_process
+CHECK_SUM_LEN = config.check_sum_len
 
 class NullSessionError(Exception):
 	def __init__(self, session_ID: str):
@@ -71,6 +71,10 @@ def to_session(content: str) -> None:
 	if len(content) <= 1 + config.session_id_len + config.check_sum_len:
 		raise ContentError
 
+	#  check the checksum
+	if not is_md5_checksum_for_message_correct(content, CHECK_SUM_LEN):
+		raise ContentError
+
 	notation, text = content[0], content[1:]
 
 	#  not starting a new session
@@ -89,6 +93,7 @@ def to_session(content: str) -> None:
 							  notification_title = 'New session request',
 							  is_force_message_box = True)
 
+	#  receive a message
 	elif notation == CONST_KEY_EXCHANGE_NOTATION:
 		session_ = __get_session(text[:config.session_id_len])
 		session_.receive_session_request(text)
@@ -143,17 +148,17 @@ def auto_process(content: str, session_id: Union[int, None] = None) -> None:
 	auto decide the process method based on the input content.
 	:param content: message
 	:param session_id: the session to where the message belongs. default last session's id.
-	
 	:raise NullSessionError: if the session does not exist. This exception will be raised if the message could be parsed
 		and checksum is correct. If the condition does not meet, the attempt will be made to encrypt this message.
-	
 	:raise SessionLimitExceedError: When the session count exceed the limit. Raised when receive a new session request.
+	:raise SessionError: the session is not established and the input can't be understand, which means auto_process guesses
+		that the user wants to encrypt the content but failed.
 	:raise EvtNotification: return the notification for output.
 	"""
-	if not session_id:
-		session_id = last_session
-	else:
-		session_id = b94encode(session_id).decode()
+	try:
+		to_session(content)
+	except ContentError:
+		encrypt_content(content, session_id)
 
 
 def get_last_session() -> int:
