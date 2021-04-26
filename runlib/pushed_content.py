@@ -62,7 +62,7 @@ class EvtNotification(Exception):
 		self.content_to_notification = content_to_notification
 		self.notification_title = notification_title
 		super(EvtNotification, self).__init__("this event has not been handled")
-		
+
 		if self.content_to_notification:
 			notification_.show_windows_notification(content_to_notification,
 			                                        notification_title if notification_title else 'note:', is_force_message_box)
@@ -72,21 +72,27 @@ class EvtNotification(Exception):
 			pyperclip.copy(self.content_to_clipboard)
 
 
-#  TODO: add commit about content inspiration source: https://github.com/jithurjacob/Windows-10-Toast-Notifications
+
 class windows_notification(object):
+	"""
+	this class will create a win32UI window object and uses it to push notification under windows.
+	This code is inspired by https://github.com/jithurjacob/Windows-10-Toast-Notifications.
+	comparing with win10toast, a window object will be created when this module is imported, instead of creating a new window for each push notification,
+	leading to faster speed and solving the problem which may lead to multiple icons in the taskbar.
+	"""
 	def __init__(self):
-		
+
 		# Register the window class.
 		self.wc = WNDCLASS()
 		self.hinst = self.wc.hInstance = GetModuleHandle(None)
 		self.wc.lpszClassName = 'pushed_content'
 		RegisterClass(self.wc)
-		
+
 		style = WS_OVERLAPPED | WS_SYSMENU
 		self.hwnd = CreateWindow(self.wc.lpszClassName, '', style,
 		                         0, 0, 0, 0, 0, 0, self.hinst, None)
 		UpdateWindow(self.hwnd)
-		
+
 		icon_path = config.icon_path
 		icon_flags = LR_LOADFROMFILE | LR_DEFAULTSIZE
 		try:
@@ -96,7 +102,7 @@ class windows_notification(object):
 		flags = NIF_ICON | NIF_MESSAGE | NIF_TIP
 		nid = (self.hwnd, 0, flags, WM_USER + 20, self.hicon, _("The meowencrypt is running"))
 		Shell_NotifyIcon(NIM_ADD, nid)
-	
+
 	def show_windows_notification(self, content_to_notification: Union[str, EvtNotification], notification_title: str = 'note:', /,
 	                              is_force_message_box: bool = False):
 		if isinstance(content_to_notification, EvtNotification):
@@ -111,7 +117,7 @@ class windows_notification(object):
 			                              notification_title))
 		else:
 			message_box(content_to_notification, notification_title).show()
-	
+
 	@staticmethod
 	def __is_length_count_in_limit(content: str) -> bool:
 		"""
