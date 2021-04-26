@@ -8,7 +8,7 @@ from UI.theme_setter import set_color
 from config.config_library import config
 from runlib.enc_session_manager import new_session
 from runlib.pushed_content import EvtNotification
-
+import webbrowser
 
 class main_UI(wx.Frame):
 
@@ -47,6 +47,10 @@ class main_UI(wx.Frame):
 			self.Bind(wx.EVT_MENU, self.on_preferences, shortcut_settings)
 			self.menu_bar.Append(self.settings_menu, "settings")
 
+			self.about_menu = wx.Menu()
+			self.menu_bar.Append(self.about_menu, "about")
+			self.about_menu.Bind(wx.EVT_MENU, self.on_about)
+
 		set_menu_bar()
 
 	# self.Fit( )
@@ -76,6 +80,10 @@ class main_UI(wx.Frame):
 
 	def on_session_manager(self, event=None):
 		session_manager_UI_show()
+
+	def on_about(self, event=None):
+		webbrowser.open("https://github.com/level-128/meowencrypt")
+
 
 
 def show():
