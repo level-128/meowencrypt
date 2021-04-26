@@ -54,42 +54,21 @@ class session_UI(wx.Frame):
 
 	def on_input_tc(self, event):
 		self.process_btn.SetFocus( )
-
-		if self.mode_combobox.GetValue( ) == self.mode_combobox_choices[0]:
-			try:
+		try:
+			if self.mode_combobox.GetValue() == self.mode_combobox_choices[0]:
 				auto_process(self.input_tc.GetValue( ))
-			except EvtNotification as e:
-				self.output_tc.Clear( )
-				self.output_tc.WriteText(e.content_to_clipboard)
-				message_box(e.content_to_notification, e.notification_title).show()
-				if e.content_to_clipboard:
-					self.set_enter_btn( )
-			except (SessionLimitExceedError, NullSessionError, SessionError) as e:
-				message_box(str(e), 'error').show()
-				# wx.MessageBox(str(e), "error", wx.OK | wx.ICON_ERROR)
-
-		elif self.mode_combobox.GetValue( ) == self.mode_combobox_choices[1]:
-			try:
-				encrypt_content(self.input_tc.GetValue( ))
-			except EvtNotification as e:
-				self.output_tc.Clear( )
-				self.output_tc.WriteText(e.content_to_clipboard)
-				if e.content_to_clipboard:
-					self.set_enter_btn( )
-			except (NullSessionError, SessionError) as e:
-				message_box(str(e), 'error').show()
-
-		else:
-			try:
-				to_session(self.input_tc.GetValue( ))
-			except EvtNotification as e:
-				self.output_tc.Clear( )
-				self.output_tc.WriteText(e.content_to_clipboard)
-				message_box(e.content_to_notification, e.notification_title).show()
-				if e.content_to_clipboard:
-					self.set_enter_btn( )
-			except (SessionLimitExceedError, NullSessionError, ContentError) as e:
-				message_box(str(e), 'error').show()
+			elif self.mode_combobox.GetValue() == self.mode_combobox_choices[1]:
+				encrypt_content(self.input_tc.GetValue())
+			else:
+				to_session(self.input_tc.GetValue())
+		except EvtNotification as e:
+			self.output_tc.Clear( )
+			self.output_tc.WriteText(e.content_to_clipboard)
+			# message_box(e.content_to_notification, e.notification_title).show()
+			if e.content_to_clipboard:
+				self.set_enter_btn( )
+		except (SessionLimitExceedError, NullSessionError, SessionError) as e:
+			message_box(str(e), 'error').show()
 
 
 def show( ):
