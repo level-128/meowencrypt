@@ -60,8 +60,8 @@ class encryption:
 			notation = CONST_NEW_SESSION_NOTATION
 		else:
 			notation = CONST_KEY_EXCHANGE_NOTATION
-		message = self.__session_id + b94encode(self.DHE_target_instance.get_shared_key()).decode('ASCII')
-		return notation + message + get_md5_checksum_str(message, CHECK_SUM_LEN)
+		message = notation + self.__session_id + b94encode(self.DHE_target_instance.get_shared_key()).decode('ASCII')
+		return message + get_md5_checksum_str(message, CHECK_SUM_LEN)
 
 	def receive_session_request(self, bob_share_key: str) -> None:
 		"""
@@ -104,8 +104,8 @@ class encryption:
 		original_content: bytes = self.__aes.encrypt(original_content)
 		original_content: str = b85encode(original_content).decode('ASCII')
 
-		message = self.__session_id + original_content
-		return CONST_MSG_NOTATION + message + get_md5_checksum_str(message, CHECK_SUM_LEN)
+		message = CONST_MSG_NOTATION + self.__session_id + original_content
+		return message + get_md5_checksum_str(message, CHECK_SUM_LEN)
 
 	def decrypt_content(self, content: str):
 		"""
