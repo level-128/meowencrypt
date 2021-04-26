@@ -1,4 +1,5 @@
 import json
+import os.path
 from dataclasses import dataclass
 from typing import *
 
@@ -57,6 +58,8 @@ class modify_config:
 		self.__modifiable_config[key] = value
 
 	def reset_config(self):
+		if not os.path.isdir('config'):
+			os.mkdir('config')
 		_ = open(FILE_DIR, 'w')
 		_.write('{}')
 		_.close( )

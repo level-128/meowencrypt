@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b18e717d-71d6-490a-b373-0a71ce9aba69" name="Default Changelist" comment="meow">
-      <change afterPath="$PROJECT_DIR$/build.bat" afterDir="false" />
+    <list default="true" id="b18e717d-71d6-490a-b373-0a71ce9aba69" name="Default Changelist" comment="add build.bat for compile meowencrypt">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.bat" beforeDir="false" afterPath="$PROJECT_DIR$/build.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/config_library.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/config_library.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -217,7 +218,7 @@
       <workItem from="1619002275926" duration="2406000" />
       <workItem from="1619282645803" duration="3415000" />
       <workItem from="1619399451022" duration="2027000" />
-      <workItem from="1619470735598" duration="246000" />
+      <workItem from="1619470735598" duration="850000" />
     </task>
     <task id="LOCAL-00001" summary="doc: add API docstring">
       <created>1618601303407</created>
@@ -471,7 +472,14 @@
       <option name="project" value="LOCAL" />
       <updated>1619470440729</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="add build.bat for compile meowencrypt">
+      <created>1619471008729</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1619471008729</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -500,7 +508,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add show_UI method in main_UI.py" />
     <MESSAGE value="removed main_UI.py and add function show to handle displaying" />
     <MESSAGE value="remove todo" />
     <MESSAGE value="add theme_setter.py and modified notification_window.py" />
@@ -525,7 +532,8 @@
     <MESSAGE value="bugfix" />
     <MESSAGE value="modified on_input_tc" />
     <MESSAGE value="meow" />
-    <option name="LAST_COMMIT_MESSAGE" value="meow" />
+    <MESSAGE value="add build.bat for compile meowencrypt" />
+    <option name="LAST_COMMIT_MESSAGE" value="add build.bat for compile meowencrypt" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
