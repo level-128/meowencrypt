@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b18e717d-71d6-490a-b373-0a71ce9aba69" name="Default Changelist" comment="bugfix">
+    <list default="true" id="b18e717d-71d6-490a-b373-0a71ce9aba69" name="Default Changelist" comment="modified on_input_tc">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UI/session_UI.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/session_UI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/main_UI.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/main_UI.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -448,7 +448,14 @@
       <option name="project" value="LOCAL" />
       <updated>1619469741816</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="modified on_input_tc">
+      <created>1619469937967</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1619469937967</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -477,7 +484,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add checksum check when receiving messages." />
     <MESSAGE value="add show_UI method in main_UI.py" />
     <MESSAGE value="removed main_UI.py and add function show to handle displaying" />
     <MESSAGE value="remove todo" />
@@ -502,7 +508,8 @@
     <MESSAGE value="add doc" />
     <MESSAGE value="create function auto_process and add validate in to_session" />
     <MESSAGE value="bugfix" />
-    <option name="LAST_COMMIT_MESSAGE" value="bugfix" />
+    <MESSAGE value="modified on_input_tc" />
+    <option name="LAST_COMMIT_MESSAGE" value="modified on_input_tc" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -524,7 +531,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/UI/main_UI.py</url>
-          <line>60</line>
+          <line>55</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>

@@ -1,18 +1,13 @@
-from runlib.enc_session_manager import new_session
-from runlib.pushed_content import EvtNotification
-
-if __name__ == '__main__':
-	import os
-
-	os.chdir('..')
-
 import wx
 
-from config.config_library import config
-from UI.theme_setter import set_color
+from UI.message import message_box
 from UI.session_UI import show as session_UI_show
 from UI.session_manager_UI import show as session_manager_UI_show
 from UI.settings_UI import show as settings_UI_show
+from UI.theme_setter import set_color
+from config.config_library import config
+from runlib.enc_session_manager import new_session
+from runlib.pushed_content import EvtNotification
 
 
 class main_UI(wx.Frame):
@@ -65,16 +60,16 @@ class main_UI(wx.Frame):
 
 
 	def on_new_advanced_session(self, event = None):
-		...
+		message_box('this feature is messing. You should wait for the official release of the beta version to use this feature.', 'error').show()
 
 	def on_enable_clipboard_listener(self, event = None):
-		...
+		message_box('this feature is messing. You should wait for the official release of the beta version to use this feature.', 'error').show()
 
 	def on_preferences(self, event=None):
 		settings_UI_show()
 
 	def on_shortcut_settings(self, event=None):
-		...
+		message_box('this feature is messing. You should wait for the official release of the beta version to use this feature.', 'error').show()
 
 	def on_dialog_window(self, event=None):
 		session_UI_show()
