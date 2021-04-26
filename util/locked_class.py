@@ -2,13 +2,8 @@ def lock(cls):
 	def new_init(self, *args, **kwargs):
 		raise LockedContentError("you can't create another instance since it has already been created once")
 	
-	def new_getattr(*args):
-		raise LockedContentError("you are not allowed to modify variables inside the instance.")
-	
 	cls.__init__ = new_init
-	cls.__setattr__ = new_getattr
 	del new_init
-	del new_getattr
 
 
 class LockedContentError(Exception):
