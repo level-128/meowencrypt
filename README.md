@@ -29,7 +29,8 @@ __ANY__ message.
 
 ## Install
 
-On Microsoft Windows, download the [Windows installation package]() and complete the installation wizard. 
+On Microsoft Windows, download the 
+[Windows installation package](https://github.com/level-128/meowencrypt/releases/download/0.1.210427-alpha/meowencrypt_installer.msi) and complete the installation wizard. 
 Meowencrypt does not support any other operating systems (yet).
 
 ## Usage
