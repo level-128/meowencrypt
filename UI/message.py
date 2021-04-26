@@ -150,6 +150,7 @@ class message_window(_message_frame):
 		text_size = self.ToDIP(_.GetSize()[0])
 		combobox = wx.ComboBox(self.panel, choices = choices, value = default if default else choices[0],
 		                       size=self.conv(self.width - 30 - text_size, 22), pos=self.conv(text_size + 15, self.y_axis_accumulator))
+		self.input_boxes.append(combobox)
 		set_color(combobox, True, True)
 		set_color(combobox, False, False)
 		self.y_axis_accumulator += 45
