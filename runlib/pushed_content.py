@@ -79,6 +79,7 @@ class windows_notification(object):
 	This code is inspired by https://github.com/jithurjacob/Windows-10-Toast-Notifications.
 	comparing with win10toast, a window object will be created when this module is imported, instead of creating a new window for each push notification,
 	leading to faster speed and solving the problem which may lead to multiple icons in the taskbar.
+	Also, when the message is too long to be displayed, a message box will be shown.
 	"""
 	def __init__(self):
 
