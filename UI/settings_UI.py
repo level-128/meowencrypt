@@ -14,4 +14,11 @@ def show():
 	                         default = darkmode_options[(None, False, True).index(config.is_dark_mode)])
 	settings_UI.set_input_box('GUI process DPI awareness', default = config.GUI_os_process_dpi_awareness)
 	settings_UI.set_input_box('max session number', default = config.max_session)
-	settings_UI.show()
+
+	content = settings_UI.show()
+
+	config.is_default_listen_clipboard = content.pop(0)
+	config.language = 'default' if (_ := content.pop(0)) == 'default' else from_name_to_notation(_)
+	config.is_dark_mode = (None, False, True)[darkmode_options.index(content.pop(0))]
+	config.GUI_os_process_dpi_awareness = int(content.pop(0))
+	config.max_session = int(content.pop(0))

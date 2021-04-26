@@ -1,5 +1,5 @@
 from abc import ABCMeta, abstractmethod
-from typing import List, Union
+from typing import Any, List, Union
 
 import wx
 import winsound
@@ -116,7 +116,7 @@ class message_window(_message_frame):
 		self.SetTitle(title)
 		self.input_boxes: list[Union[wx.ComboBox, wx.TextCtrl, wx.CheckBox]] = []
 
-	def set_input_box(self, label: str = '', is_inline: bool = True, /, default: str = ''):
+	def set_input_box(self, label: str = '', is_inline: bool = True, /, default: Any = ''):
 		if label:
 			if is_inline:
 				_ = wx.StaticText(self.panel, label=label + ':', pos=self.conv(10, self.y_axis_accumulator + 2))
