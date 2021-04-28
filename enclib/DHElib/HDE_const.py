@@ -83,13 +83,12 @@ if __name__ == "__main__":
 	input("press enter to run prime test for public key, requires sympy toolkit.")
 	try:
 		exec("import sympy")  # symbolic mathematical library for python.
-		#  using exec to make sure sympy will not be packed into the final executable when tracing imports.
+		#  using exec to make sure sympy will not be packed into the final executable when tracing imports with nuitka.
 	except ImportError:
 		input("install sympy first")
 		exit(-1)
 	for x in MODB_GROUPS.values():
 		print("testing")
-		# noinspection PyUnresolvedReferences
-		assert sympy.ntheory.primetest.isprime(x[1])
+		assert eval('sympy.ntheory.primetest.isprime(x[1])')  # same as above
 	print("all numbers are prime.")
 	

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b18e717d-71d6-490a-b373-0a71ce9aba69" name="Default Changelist" comment="add build.bat for compile meowencrypt">
-      <change beforePath="$PROJECT_DIR$/.idea/meowencrypt.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/meowencrypt.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="b18e717d-71d6-490a-b373-0a71ce9aba69" name="Default Changelist" comment="use GMP to compute DHE shared key, increased key generate speed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enclib/DHElib/DHE.py" beforeDir="false" afterPath="$PROJECT_DIR$/enclib/DHElib/DHE.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enclib/DHElib/HDE_const.py" beforeDir="false" afterPath="$PROJECT_DIR$/enclib/DHElib/HDE_const.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -222,7 +220,7 @@
       <workItem from="1619282645803" duration="3415000" />
       <workItem from="1619399451022" duration="2027000" />
       <workItem from="1619470735598" duration="4533000" />
-      <workItem from="1619624486012" duration="8071000" />
+      <workItem from="1619624486012" duration="8655000" />
     </task>
     <task id="LOCAL-00001" summary="doc: add API docstring">
       <created>1618601303407</created>
@@ -511,7 +509,14 @@
       <option name="project" value="LOCAL" />
       <updated>1619473404989</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="use GMP to compute DHE shared key, increased key generate speed">
+      <created>1619643227697</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1619643227697</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -540,7 +545,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed main_UI.py and add function show to handle displaying" />
     <MESSAGE value="remove todo" />
     <MESSAGE value="add theme_setter.py and modified notification_window.py" />
     <MESSAGE value="high dpi and dark mode for session_manager_UI.py" />
@@ -565,7 +569,8 @@
     <MESSAGE value="modified on_input_tc" />
     <MESSAGE value="meow" />
     <MESSAGE value="add build.bat for compile meowencrypt" />
-    <option name="LAST_COMMIT_MESSAGE" value="add build.bat for compile meowencrypt" />
+    <MESSAGE value="use GMP to compute DHE shared key, increased key generate speed" />
+    <option name="LAST_COMMIT_MESSAGE" value="use GMP to compute DHE shared key, increased key generate speed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -600,7 +605,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/meowencrypt$message_window__1_.coverage" NAME="message Coverage Results" MODIFIED="1619124745284" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
-    <SUITE FILE_PATH="coverage/meowencrypt$HDE_const.coverage" NAME="HDE_const Coverage Results" MODIFIED="1619642699790" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/enclib/DHElib" />
+    <SUITE FILE_PATH="coverage/meowencrypt$HDE_const.coverage" NAME="HDE_const Coverage Results" MODIFIED="1619643118447" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/enclib/DHElib" />
     <SUITE FILE_PATH="coverage/meowencrypt$message_dialog__1_.coverage" NAME="message_dialog (1) Coverage Results" MODIFIED="1619081898581" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/meowencrypt$message.coverage" NAME="message Coverage Results" MODIFIED="1619371767814" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/meowencrypt$message__1_.coverage" NAME="message (1) Coverage Results" MODIFIED="1619126031851" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
