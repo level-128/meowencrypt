@@ -62,7 +62,7 @@ def __create_session_request(_session: encryption) -> str:
 	if result:
 		return _session.create_session_request(result[0])
 	else:
-		return ''
+		return _session.create_session_request()
 
 
 def to_session(content: str) -> None:
