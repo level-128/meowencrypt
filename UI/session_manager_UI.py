@@ -29,11 +29,13 @@ class session_manager(wx.Frame):
 
 		self.list.InsertColumn(0, "")
 		self.list.InsertColumn(1, "ID")
-		self.list.InsertColumn(2, "established")
-		self.list.InsertColumn(3, "time")
+		self.list.InsertColumn(2, "name")
+		self.list.InsertColumn(3, "established")
+		self.list.InsertColumn(4, "time")
 
 		self.list.SetColumnWidth(0, self.FromDIP(40))
 		self.list.SetColumnWidth(1, self.FromDIP(80))
+		self.list.SetColumnWidth(2, self.FromDIP(130))
 		self.list.SetColumnWidth(2, self.FromDIP(100))
 		self.list.SetColumnWidth(3, self.FromDIP(150))
 
@@ -45,12 +47,13 @@ class session_manager(wx.Frame):
 	def refresh(self, event: None):
 		print("refresh")
 		self.list.DeleteAllItems( )
-		for index, _ in enumerate(get_active_sessions( )):
-			session_ID, is_established, time = _
+		for index, content in enumerate(get_active_sessions( )):
+			session_ID, session_name, is_established, time = content
 			self.list.InsertItem(index, str(index))
 			self.list.SetItem(index, 1, str(session_ID))
-			self.list.SetItem(index, 2, str(is_established))
-			self.list.SetItem(index, 3, strftime("%m/%d %H:%M:%S", localtime(time)))
+			self.list.SetItem(index, 2, session_name)
+			self.list.SetItem(index, 3, str(is_established))
+			self.list.SetItem(index, 4, strftime("%m/%d %H:%M:%S", localtime(time)))
 
 
 def show():

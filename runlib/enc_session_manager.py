@@ -184,20 +184,22 @@ def get_active_session_count() -> int:
 	return len(active_session)
 
 
-def get_active_sessions(sort_: str = 'none') -> Iterator[tuple[int, bool, float]]:
+def get_active_sessions(sort_: str = 'none') -> Iterator[tuple[int, str, bool, float]]:
 	"""
 	return a iterator of all sessions.
 	Usually, this function should not be called, unless generating a summery of all sessions.
-	:return: session ID in int, is session established, session establish time
+	:return: session ID in int, session name in str, is session established, session establish time
 	"""
 	active_session_ID = (b94decode_to_int(_) for _ in active_session.keys())
-	content = zip(active_session_ID, (_.get_is_session_established() for _ in active_session.values()),
+	content = zip(active_session_ID,
+	              (_.session_name for _ in active_session.values()),
+	              (_.get_is_session_established() for _ in active_session.values()),
 	              active_session_time.values())
 	if sort_ == 'none':
 		return content
 	if sort_ == 'session ID':
-		return sorted(content, key = lambda x, _, __: x).__iter__()
+		return sorted(content, key = lambda x, _, __, ___: x).__iter__()
 	if sort_ == 'session time':
-		return sorted(content, key = lambda _, __, x: x).__iter__()
+		return sorted(content, key = lambda _, __, ___, x: x).__iter__()
 	else:
 		raise ValueError("param: sort_ should be one in ('none', 'session ID', 'session time')")
