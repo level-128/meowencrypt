@@ -6,6 +6,7 @@ from enclib.enc_session import encryption, ContentError, CONST_NEW_SESSION_NOTAT
 	CONST_KEY_EXCHANGE_NOTATION  # clear import
 from enclib.enc_utilities import b94encode, b94decode_to_int, is_md5_checksum_for_message_correct
 from runlib.pushed_content import EvtNotification, get_clipboard  # clear import
+from UI.message import message_window
 
 active_session: Dict[str, encryption] = {}
 active_session_time: Dict[str, float] = {}
@@ -13,6 +14,7 @@ active_session_name: Dict[str, str] = {}
 last_session: str = ''
 
 CHECK_SUM_LEN = config.check_sum_len
+
 
 class NullSessionError(Exception):
 	def __init__(self, session_ID: str):
@@ -53,6 +55,16 @@ def __get_session(session_ID: str) -> encryption:
 	raise NullSessionError(session_ID)
 
 
+def __create_session_request(_session: encryption) -> str:
+	session_request_window = message_window(title = "create session", width = 500)
+	session_request_window.set_input_box("create a new name of this session (use for notification only)", False)
+	result: Union[None, List[str]] = session_request_window.show()
+	if result:
+		return _session.create_session_request(result[0])
+	else:
+		return ''
+
+
 def to_session(content: str) -> None:
 	"""
 	enters a message and determine the right session to process the message
@@ -87,19 +99,19 @@ def to_session(content: str) -> None:
 		session_ = encryption()
 		session_.receive_session_request(text)
 		__add_session(session_)
-		raise EvtNotification(content_to_clipboard = session_.create_session_request(),
+		raise EvtNotification(content_to_clipboard = __create_session_request(session_),
 		                      content_to_notification = 'received a new session request. paste the key exchange message '
 		                                                'from clipboard to the sender and then start sending messages.',
-							  notification_title = 'New session request',
-							  is_force_message_box = True)
+		                      notification_title = 'New session request',
+		                      is_force_message_box = True)
 
 	#  receive a message
 	elif notation == CONST_KEY_EXCHANGE_NOTATION:
 		session_ = __get_session(text[:config.session_id_len])
 		session_.receive_session_request(text)
 		raise EvtNotification(content_to_notification = "the session has been established, start sending messages.",
-							  notification_title = 'New session request',
-							  is_force_message_box = True)
+		                      notification_title = 'New session request',
+		                      is_force_message_box = True)
 
 	else:
 		raise ContentError
@@ -120,7 +132,7 @@ def new_session() -> None:
 	:raise SessionLimitExceedError: When the session count exceed the limit.
 	"""
 	session_ = encryption()
-	session_request = session_.create_session_request()
+	session_request = __create_session_request(session_)
 	__add_session(session_)
 	raise EvtNotification(content_to_clipboard = session_request,
 	                      content_to_notification = "session request has been created.")
@@ -184,8 +196,8 @@ def get_active_sessions(sort_: str = 'none') -> Iterator[tuple[int, bool, float]
 	if sort_ == 'none':
 		return content
 	if sort_ == 'session ID':
-		return sorted(content, key=lambda x, _, __: x).__iter__()
+		return sorted(content, key = lambda x, _, __: x).__iter__()
 	if sort_ == 'session time':
-		return sorted(content, key=lambda _, __, x: x).__iter__()
+		return sorted(content, key = lambda _, __, x: x).__iter__()
 	else:
 		raise ValueError("param: sort_ should be one in ('none', 'session ID', 'session time')")
