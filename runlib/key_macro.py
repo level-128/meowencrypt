@@ -33,7 +33,8 @@ import mouse
 
 from config.config_library import config
 from enclib.enc_session import SessionError
-from runlib.clipboard_listener import toggle_listen_clipboard, get_is_listen_clipboard, start_clipboard_listen, \
+from runlib.clipboard_listener import toggle_listen_clipboard as clipboard_listener_toggle_listen_clipboard
+from runlib.clipboard_listener import get_is_listen_clipboard, start_clipboard_listen, \
 	toggle_listen_clipboard_wrapper, NullSessionError, ContentError, EvtNotification
 from runlib.enc_session_manager import to_session, encrypt_content
 from runlib.pushed_content import push_clipboard, get_clipboard, push_notification
@@ -117,16 +118,16 @@ def _select_all_text_and_auto_process():
 		pass
 
 
-def _toggle_listen_clipboard():
+def toggle_listen_clipboard():
 	push_notification("Clipboard listener has turned off" if get_is_listen_clipboard() else "clipboard listener active")
-	toggle_listen_clipboard()
+	clipboard_listener_toggle_listen_clipboard()
 
 
 def change_keyboard_hotkey() -> None:
 	keyboard.remove_all_hotkeys()
 	keyboard.add_hotkey(config.hotkey_select_all_text_to_session, _select_all_text_to_session)
 	keyboard.add_hotkey(config.hotkey_select_all_text_to_encrypt, _select_all_text_and_encrypt)
-	keyboard.add_hotkey(config.hotkey_toggle_listen_clipboard_change, _toggle_listen_clipboard)
+	keyboard.add_hotkey(config.hotkey_toggle_listen_clipboard_change, toggle_listen_clipboard)
 	keyboard.add_hotkey(config.hotkey_select_all_text_and_auto_process, _select_all_text_and_auto_process)
 
 
@@ -134,7 +135,7 @@ def start_keyboard_listen():
 	def _start_keyboard_listen():
 		keyboard.add_hotkey(config.hotkey_select_all_text_to_session, _select_all_text_to_session)
 		keyboard.add_hotkey(config.hotkey_select_all_text_to_encrypt, _select_all_text_and_encrypt)
-		keyboard.add_hotkey(config.hotkey_toggle_listen_clipboard_change, _toggle_listen_clipboard)
+		keyboard.add_hotkey(config.hotkey_toggle_listen_clipboard_change, toggle_listen_clipboard)
 		keyboard.add_hotkey(config.hotkey_select_all_text_and_auto_process, _select_all_text_and_auto_process)
 		keyboard.wait()
 

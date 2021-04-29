@@ -7,6 +7,7 @@ from util.locked_class import lock
 
 FILE_DIR: str = fr"config\bootconfig.cfg"
 
+VERSION = '0.1.210430-alpha'
 
 @dataclass
 class _default_config:

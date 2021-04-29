@@ -1,3 +1,5 @@
+import webbrowser
+
 import wx
 
 from UI.message import message_box
@@ -5,10 +7,11 @@ from UI.session_UI import show as session_UI_show
 from UI.session_manager_UI import show as session_manager_UI_show
 from UI.settings_UI import show as settings_UI_show
 from UI.theme_setter import set_color
-from config.config_library import config
+from config.config_library import config, VERSION
 from runlib.enc_session_manager import new_session
 from runlib.pushed_content import EvtNotification
-import webbrowser
+from runlib.key_macro import toggle_listen_clipboard
+
 
 class main_UI(wx.Frame):
 
@@ -16,7 +19,8 @@ class main_UI(wx.Frame):
 		return (self.FromDIP(x), self.FromDIP(y)) if y else self.FromDIP(x)
 
 	def __init__(self):
-		super().__init__(None, title='session frame', style=wx.MINIMIZE_BOX | wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN)
+		super().__init__(None, title = 'session frame',
+		                 style = wx.MINIMIZE_BOX | wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN)
 		set_color(self, True)
 
 		def set_menu_bar():
@@ -38,8 +42,9 @@ class main_UI(wx.Frame):
 			self.menu_bar.Append(self.open_menu, "open")
 
 			self.settings_menu = wx.Menu()
-			enable_clipboard_listener = self.settings_menu.AppendCheckItem(wx.ID_ANY, f'enable clipboard listener\t{config.hotkey_toggle_listen_clipboard_change}')
-			self.Bind(wx.EVT_MENU, self.on_enable_clipboard_listener, enable_clipboard_listener)
+			enable_clipboard_listener = self.settings_menu.Append(wx.ID_ANY,
+			                                                      f'toggle clipboard listener\t{config.hotkey_toggle_listen_clipboard_change}')
+			self.Bind(wx.EVT_MENU, self.on_toggle_clipboard_listener, enable_clipboard_listener)
 			self.settings_menu.AppendSeparator()
 			preferences = self.settings_menu.Append(wx.ID_ANY, "preferences")
 			self.Bind(wx.EVT_MENU, self.on_preferences, preferences)
@@ -48,8 +53,11 @@ class main_UI(wx.Frame):
 			self.menu_bar.Append(self.settings_menu, "settings")
 
 			self.about_menu = wx.Menu()
-			self.menu_bar.Append(self.about_menu, "about")
-			self.about_menu.Bind(wx.EVT_MENU, self.on_about)
+			about = self.about_menu.Append(wx.ID_ANY, "about")
+			self.Bind(wx.EVT_MENU, self.on_about, about)
+			github = self.about_menu.Append(wx.ID_ANY, "GitHub project page")
+			self.Bind(wx.EVT_MENU, self.on_github, github)
+			self.menu_bar.Append(self.about_menu, "help")
 
 		set_menu_bar()
 
@@ -61,29 +69,57 @@ class main_UI(wx.Frame):
 		except EvtNotification as e:
 			pass
 
-
-
 	def on_new_advanced_session(self, event = None):
-		message_box('this feature is messing. You should wait for the official release of the beta version to use this feature.', 'error').show()
+		message_box(
+			'this feature is messing. You should wait for the official release of the beta version to use this feature.',
+			'error').show()
 
-	def on_enable_clipboard_listener(self, event = None):
-		message_box('this feature is messing. You should wait for the official release of the beta version to use this feature.', 'error').show()
+	def on_toggle_clipboard_listener(self, event = None):
+		toggle_listen_clipboard()
 
-	def on_preferences(self, event=None):
+	def on_preferences(self, event = None):
 		settings_UI_show()
 
-	def on_shortcut_settings(self, event=None):
-		message_box('this feature is messing. You should wait for the official release of the beta version to use this feature.', 'error').show()
+	def on_shortcut_settings(self, event = None):
+		message_box(
+			'this feature is messing. You should wait for the official release of the beta version to use this feature.',
+			'error').show()
 
-	def on_dialog_window(self, event=None):
+	def on_dialog_window(self, event = None):
 		session_UI_show()
 
-	def on_session_manager(self, event=None):
+	def on_session_manager(self, event = None):
 		session_manager_UI_show()
 
-	def on_about(self, event=None):
+	def on_github(self, event = None):
 		webbrowser.open("https://github.com/level-128/meowencrypt")
 
+	def on_about(self, event = None):
+		about = message_box('Created by level-128 and other contributors\n'
+		                    'Meowencrypt is a real-time end-to-end encryption software which encodes encrypted data into printable characters\n\n'
+		                    "COPYRIGHT NOTICE:\nmeowencrypt  Copyright (C) 2021  level-128\n\n"
+		                    "This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under "
+		                    "certain conditions:\n\n"
+
+		                    "The software Meowencrypt is licensed under GPL-3.0 (GNU General Public License 3.0) and LGPL-3.0 (GNU Lesser General "
+		                    "Public License 3.0) depends on different parts of the program. Both licences are provided in /document folder.\n\n"
+
+		                    "All the codes under meowencrypt/enclib are licensed under LGPL-3.0, while the rest of the program is licensed under "
+		                    "GPL-3.0.\n\n"
+
+		                    "The purpose for using different licenses for different parts of this software is because codes in folder "
+		                    "meowencrypt/enclib may be used in other independent projects. These codes implement Diffie-Hellman key exchange "
+		                    "algorithm and multi-session key support that might be useful in other scenarios. GNU GPL is a strong copyleft license "
+		                    "that may, in my opinion, hinders the free-software development when other programmers founded that their work must be "
+		                    "open-sourced under GPL, which they may not intended to do so.\n\n"
+
+		                    "As a programming hobbyist, I hope I could respect users' and developers' freedom. While GNU GPL ensures freedom for "
+		                    "all entities, it does not ensure the software is fully utilized and disseminated.\n\n"
+
+		                    "You should have received copies of the GNU General Public License and GNU Lesser General Public License along with this"
+		                    " program.  If not, see <https://www.gnu.org/licenses/>.",
+		                    f'About: Meowencrypt        --version {VERSION}', width = 700)
+		about.show()
 
 
 def show():
