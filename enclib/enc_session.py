@@ -43,24 +43,26 @@ class encryption:
 		you shouldn't modify the param enc_strength.
 		"""
 		self.__key: Union[bytes, None] = None
-		self.DHE_target_instance = DHE_target(enc_strength)
+		self.__DHE_target_instance = DHE_target(enc_strength)
 		self.session_id_len = config.session_id_len
 		self.__key: Union[bytes, None] = None
 		self.__session_id: Union[str, None] = None
 		self.__aes: Union[Any, None] = None
+		self.session_name: str = ''
 
-	def create_session_request(self) -> str:
+	def create_session_request(self, session_name: str = '') -> str:
 		"""
 		create a session request by generating a session ID and a public key, then return the encoded key.
 		:return: key in str with checksum
 		"""
+		self.session_name = session_name
 		if self.__session_id is None:
 			#  generate a random printable session ID.
 			self.__session_id = ''.join([chr(randint(33, 126)) for _ in range(self.session_id_len)])
 			notation = CONST_NEW_SESSION_NOTATION
 		else:
 			notation = CONST_KEY_EXCHANGE_NOTATION
-		message = notation + self.__session_id + b94encode(self.DHE_target_instance.get_shared_key()).decode('ASCII')
+		message = notation + self.__session_id + b94encode(self.__DHE_target_instance.get_shared_key()).decode('ASCII')
 		return message + get_md5_checksum_str(message, CHECK_SUM_LEN)
 
 	def receive_session_request(self, bob_share_key: str) -> None:
@@ -75,7 +77,7 @@ class encryption:
 			self.__session_id = bob_share_key[:self.session_id_len]
 		bob_share_key: str = bob_share_key[self.session_id_len: -CHECK_SUM_LEN]
 		bob_share_key: bytes = b94decode(bob_share_key)
-		self.__key = self.DHE_target_instance.generate_shared_key(bob_share_key)
+		self.__key = self.__DHE_target_instance.generate_shared_key(bob_share_key)
 
 	def get_session_id(self) -> str:
 		"""
