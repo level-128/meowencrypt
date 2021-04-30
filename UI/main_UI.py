@@ -12,6 +12,7 @@ from runlib.enc_session_manager import new_session
 from runlib.pushed_content import EvtNotification
 from runlib.key_macro import toggle_listen_clipboard
 
+# TODO: use main_UI to capture keyboard shortcut.
 
 class main_UI(wx.Frame):
 
@@ -60,8 +61,15 @@ class main_UI(wx.Frame):
 			self.menu_bar.Append(self.about_menu, "help")
 
 		set_menu_bar()
-
-		main_text = wx.StaticText(self, '')
+		"""
+		        self.accel_tbl = wx.AcceleratorTable([(wx.ACCEL_CTRL, ord('R'), refreshMenuItem.GetId()),
+                                              (wx.ACCEL_ALT, ord('X'), xit_id),
+                                              (wx.ACCEL_SHIFT|wx.ACCEL_ALT, ord('Y'), yit_id)
+                                             ])
+        self.SetAcceleratorTable(self.accel_tbl)
+		"""
+		#
+		# main_text = wx.StaticText(self, '')
 
 	def on_new_session(self, event = None):
 		try:

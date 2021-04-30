@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b18e717d-71d6-490a-b373-0a71ce9aba69" name="Default Changelist" comment="modified cli">
+    <list default="true" id="b18e717d-71d6-490a-b373-0a71ce9aba69" name="Default Changelist" comment="add TODO">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/main_UI.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/main_UI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UI/message.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/message.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -199,7 +200,7 @@
       <workItem from="1619399451022" duration="2027000" />
       <workItem from="1619470735598" duration="4533000" />
       <workItem from="1619624486012" duration="8655000" />
-      <workItem from="1619811265821" duration="6610000" />
+      <workItem from="1619811265821" duration="7204000" />
     </task>
     <task id="LOCAL-00001" summary="doc: add API docstring">
       <created>1618601303407</created>
@@ -537,7 +538,14 @@
       <option name="project" value="LOCAL" />
       <updated>1619774103560</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="add TODO">
+      <created>1619817931117</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1619817931117</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -566,7 +574,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="change file name" />
     <MESSAGE value="add class message_box in message.py&#10;add file notification_banner.py" />
     <MESSAGE value="modified message.py" />
     <MESSAGE value="change main_UI.py and other improvements" />
@@ -591,7 +598,8 @@
     <MESSAGE value="create dialog box for asking session name when a new session was created" />
     <MESSAGE value="add custom session name function" />
     <MESSAGE value="modified cli" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified cli" />
+    <MESSAGE value="add TODO" />
+    <option name="LAST_COMMIT_MESSAGE" value="add TODO" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -608,7 +616,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/UI/main_UI.py</url>
-          <line>67</line>
+          <line>75</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -636,7 +644,7 @@
     <SUITE FILE_PATH="coverage/meowencrypt$notification_window.coverage" NAME="notification_window Coverage Results" MODIFIED="1619077923481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/meowencrypt$enc_session_manager.coverage" NAME="enc_session_manager Coverage Results" MODIFIED="1619816083280" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/runlib" />
     <SUITE FILE_PATH="coverage/temp$session_selector_UI.coverage" NAME="session_selector_UI Coverage Results" MODIFIED="1618734722390" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
-    <SUITE FILE_PATH="coverage/meowencrypt$boot.coverage" NAME="boot Coverage Results" MODIFIED="1619817638028" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/meowencrypt$boot.coverage" NAME="boot Coverage Results" MODIFIED="1619818618354" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/meowencrypt$theme_setter.coverage" NAME="theme_setter Coverage Results" MODIFIED="1619039706207" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/meowencrypt$main_UI.coverage" NAME="main_UI Coverage Results" MODIFIED="1619298477665" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/meowencrypt$DHE.coverage" NAME="DHE Coverage Results" MODIFIED="1619637304543" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/enclib/DHElib" />
