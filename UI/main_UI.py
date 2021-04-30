@@ -61,7 +61,7 @@ class main_UI(wx.Frame):
 
 		set_menu_bar()
 
-	# self.Fit( )
+		main_text = wx.StaticText(self, '')
 
 	def on_new_session(self, event = None):
 		try:
