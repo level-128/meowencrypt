@@ -30,6 +30,7 @@ class _default_config:
 	language: str = 'default'  # default or local code
 	is_dark_mode: Union[bool, None] = None
 	icon_path: str = r'files/level-128_avatar_128x128.ico'
+	is_show_cli: bool = True
 
 
 class modify_config:
