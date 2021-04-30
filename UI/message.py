@@ -7,6 +7,8 @@ import winsound
 from UI.theme_setter import detect_darkmode, set_color
 
 
+# TODO: turn process into multiprocess lib. a window is called by sending message in pipe.
+
 class _message_frame(wx.Frame):
 	__metaclass__ = ABCMeta
 	y_axis_accumulator: int = 5
