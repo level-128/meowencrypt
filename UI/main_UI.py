@@ -9,7 +9,7 @@ from UI.session_manager_UI import show as session_manager_UI_show
 from UI.settings_UI import show as settings_UI_show
 from UI.theme_setter import set_color
 from config.config_library import config, VERSION
-from runlib.enc_session_manager import new_session
+from runlib.enc_session_manager import new_session, on_new_session
 from runlib.pushed_content import EvtNotification
 from runlib.key_macro import toggle_listen_clipboard
 
@@ -75,14 +75,7 @@ class main_UI(wx.Frame):
 	# main_text = wx.StaticText(self, '')
 	@staticmethod
 	def on_new_session(event=None):
-
-		def _on_new_session():
-			try:
-				new_session()
-			except EvtNotification as e:
-				pass
-
-		threading.Thread(target=_on_new_session).start()
+		on_new_session()
 
 	@staticmethod
 	def on_new_advanced_session(event=None):

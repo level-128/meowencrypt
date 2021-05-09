@@ -41,10 +41,6 @@ if platform.system() == 'Windows':
 app = wx.App()
 
 if __name__ == '__main__':
-	create_window(
-		[['create_dialog', 'hello', 'hi'],
-		 ['show']], False
-	)
 	start_keyboard_listen( )
 	# cli_show()
 	main_show()

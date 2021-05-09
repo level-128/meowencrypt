@@ -1,3 +1,4 @@
+import threading
 from time import time
 from typing import *
 
@@ -94,26 +95,26 @@ def to_session(content: str) -> None:
 	#  not starting a new session
 	if notation == CONST_MSG_NOTATION:
 		session_ = __get_session(text[:config.check_sum_len])
-		raise EvtNotification(content_to_notification = session_.decrypt_content(text))
+		raise EvtNotification(content_to_notification=session_.decrypt_content(text))
 
 	#  starting a new session
 	elif notation == CONST_NEW_SESSION_NOTATION:
 		session_ = encryption()
 		session_.receive_session_request(text)
 		__add_session(session_)
-		raise EvtNotification(content_to_clipboard = __create_session_request(session_),
-		                      content_to_notification = 'received a new session request. paste the key exchange message '
-		                                                'from clipboard to the sender and then start sending messages.',
-		                      notification_title = 'New session request',
-		                      is_force_message_box = True)
+		raise EvtNotification(content_to_clipboard=__create_session_request(session_),
+		                      content_to_notification='received a new session request. paste the key exchange message '
+		                                              'from clipboard to the sender and then start sending messages.',
+		                      notification_title='New session request',
+		                      is_force_message_box=True)
 
 	#  receive a message
 	elif notation == CONST_KEY_EXCHANGE_NOTATION:
 		session_ = __get_session(text[:config.session_id_len])
 		session_.receive_session_request(text)
-		raise EvtNotification(content_to_notification = "the session has been established, start sending messages.",
-		                      notification_title = 'New session request',
-		                      is_force_message_box = True)
+		raise EvtNotification(content_to_notification="the session has been established, start sending messages.",
+		                      notification_title='New session request',
+		                      is_force_message_box=True)
 
 	else:
 		raise ContentError
@@ -136,8 +137,24 @@ def new_session() -> None:
 	session_ = encryption()
 	session_request = __create_session_request(session_)
 	__add_session(session_)
-	raise EvtNotification(content_to_clipboard = session_request,
-	                      content_to_notification = "session request has been created.")
+	raise EvtNotification(content_to_clipboard=session_request,
+	                      content_to_notification="session request has been created.")
+
+
+def on_new_session() -> None:
+	"""
+	create a new session just like new_session() in a new thread.
+	This function will catch EvtNotification and SessionLimitExceedError, handle them in a normal way.
+	"""
+	def inner():
+		try:
+			new_session()
+		except EvtNotification:
+			pass
+		except SessionLimitExceedError:
+			create_window([['create_box', f'the session number has reached the limit: {config.max_session}. terminate other session to continue.', 'error']])
+
+	threading.Thread(target=inner).start()
 
 
 def encrypt_content(content: str, session_id: Union[int, None] = None) -> None:
@@ -154,7 +171,7 @@ def encrypt_content(content: str, session_id: Union[int, None] = None) -> None:
 	else:
 		session_id = b94encode(session_id).decode()
 	# print(session_id, __get_session(session_id))
-	raise EvtNotification(content_to_clipboard = __get_session(session_id).encrypt_content(content))
+	raise EvtNotification(content_to_clipboard=__get_session(session_id).encrypt_content(content))
 
 
 def auto_process(content: str, session_id: Union[int, None] = None) -> None:
@@ -200,8 +217,8 @@ def get_active_sessions(sort_: str = 'none') -> Iterator[tuple[int, str, bool, f
 	if sort_ == 'none':
 		return content
 	if sort_ == 'session ID':
-		return sorted(content, key = lambda x, _, __, ___: x).__iter__()
+		return sorted(content, key=lambda x, _, __, ___: x).__iter__()
 	if sort_ == 'session time':
-		return sorted(content, key = lambda _, __, ___, x: x).__iter__()
+		return sorted(content, key=lambda _, __, ___, x: x).__iter__()
 	else:
 		raise ValueError("param: sort_ should be one in ('none', 'session ID', 'session time')")
