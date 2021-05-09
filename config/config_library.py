@@ -3,8 +3,6 @@ import os.path
 from dataclasses import dataclass
 from typing import *
 
-from util.locked_class import lock
-
 FILE_DIR: str = fr"config\bootconfig.cfg"
 
 VERSION = '0.1.210430-alpha'
@@ -44,7 +42,6 @@ class modify_config:
 			self.reset_config( )
 		except PermissionError:
 			raise IOError(f"Permission denied while loading config at {FILE_DIR} ")
-		lock(self.__class__)
 
 	def __getattr__(self, item: str) -> Any:
 		if item in self.__modifiable_config:

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b18e717d-71d6-490a-b373-0a71ce9aba69" name="Default Changelist" comment="now message.py uses multiprocess and uses pipe to pass values, insuring the UI will display in all conditions.">
+    <list default="true" id="b18e717d-71d6-490a-b373-0a71ce9aba69" name="Default Changelist" comment="fixed bug caused by the message processing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UI/main_UI.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/main_UI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/boot.py" beforeDir="false" afterPath="$PROJECT_DIR$/boot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/runlib/enc_session_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/runlib/enc_session_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/runlib/pushed_content.py" beforeDir="false" afterPath="$PROJECT_DIR$/runlib/pushed_content.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/config_library.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/config_library.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/execeptions.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/locked_class.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -204,14 +203,7 @@
       <workItem from="1619624486012" duration="8655000" />
       <workItem from="1619811265821" duration="7204000" />
       <workItem from="1620207857090" duration="663000" />
-      <workItem from="1620550589975" duration="7814000" />
-    </task>
-    <task id="LOCAL-00002" summary="feat: rewrite DHE_const to limit line length.">
-      <created>1618651087511</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1618651087511</updated>
+      <workItem from="1620550589975" duration="7982000" />
     </task>
     <task id="LOCAL-00003" summary="edit indent for file">
       <created>1618668668846</created>
@@ -549,7 +541,14 @@
       <option name="project" value="LOCAL" />
       <updated>1620599453499</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="fixed bug caused by the message processing">
+      <created>1620602358438</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1620602358438</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -578,7 +577,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modified message.py" />
     <MESSAGE value="change main_UI.py and other improvements" />
     <MESSAGE value="add auto scrollbar for long UIs" />
     <MESSAGE value="update message.py" />
@@ -603,7 +601,8 @@
     <MESSAGE value="modified cli" />
     <MESSAGE value="add TODO" />
     <MESSAGE value="now message.py uses multiprocess and uses pipe to pass values, insuring the UI will display in all conditions." />
-    <option name="LAST_COMMIT_MESSAGE" value="now message.py uses multiprocess and uses pipe to pass values, insuring the UI will display in all conditions." />
+    <MESSAGE value="fixed bug caused by the message processing" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed bug caused by the message processing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
