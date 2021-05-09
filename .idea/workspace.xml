@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b18e717d-71d6-490a-b373-0a71ce9aba69" name="Default Changelist" comment="add TODO">
+      <change beforePath="$PROJECT_DIR$/.idea/meowencrypt.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/meowencrypt.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UI/main_UI.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/main_UI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UI/message.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/message.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +52,7 @@
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -60,7 +60,7 @@
       <recent name="C:\Users\Wang7\OneDrive\python\meowencrypt\files" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.boot">
+  <component name="RunManager" selected="Python.message">
     <configuration name="HDE_const" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="meowencrypt" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -173,8 +173,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.boot" />
         <item itemvalue="Python.message" />
+        <item itemvalue="Python.boot" />
         <item itemvalue="Python.enc_session_manager" />
         <item itemvalue="Python.HDE_const" />
         <item itemvalue="Python.enc_utilities" />
@@ -201,6 +201,8 @@
       <workItem from="1619470735598" duration="4533000" />
       <workItem from="1619624486012" duration="8655000" />
       <workItem from="1619811265821" duration="7204000" />
+      <workItem from="1620207857090" duration="663000" />
+      <workItem from="1620550589975" duration="4792000" />
     </task>
     <task id="LOCAL-00001" summary="doc: add API docstring">
       <created>1618601303407</created>
@@ -636,7 +638,7 @@
     <SUITE FILE_PATH="coverage/meowencrypt$message_window__1_.coverage" NAME="message Coverage Results" MODIFIED="1619124745284" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/meowencrypt$HDE_const.coverage" NAME="HDE_const Coverage Results" MODIFIED="1619643118447" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/enclib/DHElib" />
     <SUITE FILE_PATH="coverage/meowencrypt$message_dialog__1_.coverage" NAME="message_dialog (1) Coverage Results" MODIFIED="1619081898581" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
-    <SUITE FILE_PATH="coverage/meowencrypt$message.coverage" NAME="message Coverage Results" MODIFIED="1619816644126" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
+    <SUITE FILE_PATH="coverage/meowencrypt$message.coverage" NAME="message Coverage Results" MODIFIED="1620599263258" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/meowencrypt$message__1_.coverage" NAME="message (1) Coverage Results" MODIFIED="1619126031851" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/meowencrypt$session_selector_UI.coverage" NAME="session_selector_UI Coverage Results" MODIFIED="1618673236444" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/temp$enc_utilities.coverage" NAME="enc_utilities Coverage Results" MODIFIED="1618738449451" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/enclib" />
