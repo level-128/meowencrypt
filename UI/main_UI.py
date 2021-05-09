@@ -1,3 +1,4 @@
+import threading
 import webbrowser
 
 import wx
@@ -12,16 +13,17 @@ from runlib.enc_session_manager import new_session
 from runlib.pushed_content import EvtNotification
 from runlib.key_macro import toggle_listen_clipboard
 
+
 # TODO: use main_UI to capture keyboard shortcut.
 
 class main_UI(wx.Frame):
 
-	def _conv(self, x, y = 0):
+	def _conv(self, x, y=0):
 		return (self.FromDIP(x), self.FromDIP(y)) if y else self.FromDIP(x)
 
 	def __init__(self):
-		super().__init__(None, title = 'session frame',
-		                 style = wx.MINIMIZE_BOX | wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN)
+		super().__init__(None, title='session frame',
+		                 style=wx.MINIMIZE_BOX | wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN)
 		set_color(self, True)
 
 		def set_menu_bar():
@@ -68,41 +70,50 @@ class main_UI(wx.Frame):
                                              ])
         self.SetAcceleratorTable(self.accel_tbl)
 		"""
-		#
-		# main_text = wx.StaticText(self, '')
 
-	def on_new_session(self, event = None):
-		try:
-			new_session()
-		except EvtNotification as e:
-			pass
+	#
+	# main_text = wx.StaticText(self, '')
+	@staticmethod
+	def on_new_session(event=None):
 
-	def on_new_advanced_session(self, event = None):
+		def _on_new_session():
+			try:
+				new_session()
+			except EvtNotification as e:
+				pass
+
+		threading.Thread(target=_on_new_session).start()
+
+	@staticmethod
+	def on_new_advanced_session(event=None):
 		message_box(
 			'this feature is messing. You should wait for the official release of the beta version to use this feature.',
 			'error').show()
 
-	def on_toggle_clipboard_listener(self, event = None):
+	@staticmethod
+	def on_toggle_clipboard_listener(event=None):
 		toggle_listen_clipboard()
 
-	def on_preferences(self, event = None):
+	@staticmethod
+	def on_preferences(event=None):
 		settings_UI_show()
 
-	def on_shortcut_settings(self, event = None):
+	@staticmethod
+	def on_shortcut_settings(event=None):
 		message_box(
 			'this feature is messing. You should wait for the official release of the beta version to use this feature.',
 			'error').show()
 
-	def on_dialog_window(self, event = None):
+	def on_dialog_window(self, event=None):
 		session_UI_show()
 
-	def on_session_manager(self, event = None):
+	def on_session_manager(self, event=None):
 		session_manager_UI_show()
 
-	def on_github(self, event = None):
+	def on_github(self, event=None):
 		webbrowser.open("https://github.com/level-128/meowencrypt")
 
-	def on_about(self, event = None):
+	def on_about(self, event=None):
 		about = message_box('Created by level-128 and other contributors\n'
 		                    'Meowencrypt is a real-time end-to-end encryption software which encodes encrypted data into printable characters\n\n'
 		                    "COPYRIGHT NOTICE:\nmeowencrypt  Copyright (C) 2021  level-128\n\n"
@@ -126,7 +137,7 @@ class main_UI(wx.Frame):
 
 		                    "You should have received copies of the GNU General Public License and GNU Lesser General Public License along with this"
 		                    " program.  If not, see <https://www.gnu.org/licenses/>.",
-		                    f'About: Meowencrypt        --version {VERSION}', width = 700)
+		                    f'About: Meowencrypt        --version {VERSION}', width=700)
 		about.show()
 
 

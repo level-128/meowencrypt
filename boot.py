@@ -27,6 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import platform
 
+from UI.message import create_window
 from runlib.key_macro import start_keyboard_listen
 from UI.cli import show as cli_show
 from UI.main_UI import show as main_show
@@ -40,8 +41,12 @@ if platform.system() == 'Windows':
 app = wx.App()
 
 if __name__ == '__main__':
+	create_window(
+		[['create_dialog', 'hello', 'hi'],
+		 ['show']], False
+	)
 	start_keyboard_listen( )
-	cli_show()
+	# cli_show()
 	main_show()
-
+	#
 	app.MainLoop()

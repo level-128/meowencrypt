@@ -6,7 +6,7 @@ from enclib.enc_session import encryption, ContentError, CONST_NEW_SESSION_NOTAT
 	CONST_KEY_EXCHANGE_NOTATION  # clear import
 from enclib.enc_utilities import b94encode, b94decode_to_int, is_md5_checksum_for_message_correct
 from runlib.pushed_content import EvtNotification, get_clipboard  # clear import
-from UI.message import message_window
+from UI.message import create_window
 
 active_session: Dict[str, encryption] = {}
 active_session_time: Dict[str, float] = {}
@@ -56,9 +56,11 @@ def __get_session(session_ID: str) -> encryption:
 
 
 def __create_session_request(_session: encryption) -> str:
-	session_request_window = message_window(title = "create session", width = 500)
-	session_request_window.set_input_box("create a new name of this session (use for notification only)", False)
-	result: Union[None, List[str]] = session_request_window.show()
+	result = create_window([
+		['create_window', 'create session', 500],
+		['set_input_box', "create a new name of this session (use for notification only)", False],
+		['show']
+	])
 	if result:
 		return _session.create_session_request(result[0])
 	else:

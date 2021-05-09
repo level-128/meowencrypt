@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b18e717d-71d6-490a-b373-0a71ce9aba69" name="Default Changelist" comment="add TODO">
-      <change beforePath="$PROJECT_DIR$/.idea/meowencrypt.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/meowencrypt.iml" afterDir="false" />
+    <list default="true" id="b18e717d-71d6-490a-b373-0a71ce9aba69" name="Default Changelist" comment="now message.py uses multiprocess and uses pipe to pass values, insuring the UI will display in all conditions.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UI/message.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/message.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/main_UI.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/main_UI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boot.py" beforeDir="false" afterPath="$PROJECT_DIR$/boot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/runlib/enc_session_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/runlib/enc_session_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/runlib/pushed_content.py" beforeDir="false" afterPath="$PROJECT_DIR$/runlib/pushed_content.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +62,7 @@
       <recent name="C:\Users\Wang7\OneDrive\python\meowencrypt\files" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.message">
+  <component name="RunManager" selected="Python.boot">
     <configuration name="HDE_const" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="meowencrypt" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -127,28 +129,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="enc_utilities" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="meowencrypt" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/enclib" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/enclib/enc_utilities.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="message" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="meowencrypt" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -171,13 +151,35 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="meowencrypt" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.message" />
         <item itemvalue="Python.boot" />
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.message" />
         <item itemvalue="Python.enc_session_manager" />
         <item itemvalue="Python.HDE_const" />
-        <item itemvalue="Python.enc_utilities" />
       </list>
     </recent_temporary>
   </component>
@@ -202,14 +204,7 @@
       <workItem from="1619624486012" duration="8655000" />
       <workItem from="1619811265821" duration="7204000" />
       <workItem from="1620207857090" duration="663000" />
-      <workItem from="1620550589975" duration="4792000" />
-    </task>
-    <task id="LOCAL-00001" summary="doc: add API docstring">
-      <created>1618601303407</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1618601303407</updated>
+      <workItem from="1620550589975" duration="7814000" />
     </task>
     <task id="LOCAL-00002" summary="feat: rewrite DHE_const to limit line length.">
       <created>1618651087511</created>
@@ -547,7 +542,14 @@
       <option name="project" value="LOCAL" />
       <updated>1619817931117</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="now message.py uses multiprocess and uses pipe to pass values, insuring the UI will display in all conditions.">
+      <created>1620599453499</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1620599453499</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -576,7 +578,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add class message_box in message.py&#10;add file notification_banner.py" />
     <MESSAGE value="modified message.py" />
     <MESSAGE value="change main_UI.py and other improvements" />
     <MESSAGE value="add auto scrollbar for long UIs" />
@@ -601,7 +602,8 @@
     <MESSAGE value="add custom session name function" />
     <MESSAGE value="modified cli" />
     <MESSAGE value="add TODO" />
-    <option name="LAST_COMMIT_MESSAGE" value="add TODO" />
+    <MESSAGE value="now message.py uses multiprocess and uses pipe to pass values, insuring the UI will display in all conditions." />
+    <option name="LAST_COMMIT_MESSAGE" value="now message.py uses multiprocess and uses pipe to pass values, insuring the UI will display in all conditions." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -615,11 +617,6 @@
           <url>file://$PROJECT_DIR$/../../../../../Program Files/Python39/Lib/site-packages/sympy/ntheory/primetest.py</url>
           <line>633</line>
           <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/UI/main_UI.py</url>
-          <line>75</line>
-          <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/enclib/enc_session.py</url>
@@ -646,10 +643,11 @@
     <SUITE FILE_PATH="coverage/meowencrypt$notification_window.coverage" NAME="notification_window Coverage Results" MODIFIED="1619077923481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/meowencrypt$enc_session_manager.coverage" NAME="enc_session_manager Coverage Results" MODIFIED="1619816083280" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/runlib" />
     <SUITE FILE_PATH="coverage/temp$session_selector_UI.coverage" NAME="session_selector_UI Coverage Results" MODIFIED="1618734722390" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
-    <SUITE FILE_PATH="coverage/meowencrypt$boot.coverage" NAME="boot Coverage Results" MODIFIED="1619818618354" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/meowencrypt$boot.coverage" NAME="boot Coverage Results" MODIFIED="1620602084338" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/meowencrypt$theme_setter.coverage" NAME="theme_setter Coverage Results" MODIFIED="1619039706207" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/meowencrypt$main_UI.coverage" NAME="main_UI Coverage Results" MODIFIED="1619298477665" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/meowencrypt$DHE.coverage" NAME="DHE Coverage Results" MODIFIED="1619637304543" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/enclib/DHElib" />
+    <SUITE FILE_PATH="coverage/meowencrypt$test.coverage" NAME="test Coverage Results" MODIFIED="1620601589264" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/temp$boot.coverage" NAME="boot Coverage Results" MODIFIED="1618744343456" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

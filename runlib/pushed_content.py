@@ -48,7 +48,7 @@ from win32gui import CreateWindow, LoadImage, NIF_ICON, NIF_INFO, NIF_MESSAGE, N
 
 from config.config_library import config
 from globalization.language_profile import _
-from UI.message import message_box
+from UI.message import message_box, create_window
 
 _is_ignore_last_clipboard: bool = False
 
@@ -117,7 +117,7 @@ class windows_notification(object):
 			                              self.hicon, "", content_to_notification, 200,
 			                              notification_title))
 		else:
-			message_box(content_to_notification, notification_title).show()
+			create_window([['create_box', content_to_notification, notification_title], ['show']])
 
 	@staticmethod
 	def __is_length_count_in_limit(content: str) -> bool:
