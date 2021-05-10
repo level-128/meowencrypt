@@ -23,6 +23,7 @@ class _default_config:
 	hotkey_select_all_text_and_auto_process: str = 'ctrl + alt + z'
 	hotkey_toggle_listen_clipboard_change: str = 'ctrl + alt + q'
 	hotkey_new_session: str = 'ctrl + alt + n'
+	hotkey_show_main_UI: str = 'ctrl + alt + u'
 
 	is_default_listen_clipboard: bool = False
 	language: str = 'default'  # default or local code

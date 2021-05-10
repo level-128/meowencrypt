@@ -22,14 +22,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-
-
-
 import platform
 
-from UI.message import create_window
 from runlib.key_macro import start_keyboard_listen
-from UI.cli import show as cli_show
 from UI.main_UI import show as main_show
 
 import wx

@@ -1,20 +1,19 @@
+import os
+import sys
 import threading
 import webbrowser
 
 import wx
 
-from UI.message import message_box
+from UI.message import message_box, message_dialog
 from UI.session_UI import show as session_UI_show
 from UI.session_manager_UI import show as session_manager_UI_show
 from UI.settings_UI import show as settings_UI_show
 from UI.theme_setter import set_color
 from config.config_library import config, VERSION
+from runlib.clipboard_listener import toggle_listen_clipboard
 from runlib.enc_session_manager import new_session, on_new_session
-from runlib.pushed_content import EvtNotification
-from runlib.key_macro import toggle_listen_clipboard
 
-
-# TODO: use main_UI to capture keyboard shortcut.
 
 class main_UI(wx.Frame):
 
@@ -25,6 +24,7 @@ class main_UI(wx.Frame):
 		super().__init__(None, title='session frame',
 		                 style=wx.MINIMIZE_BOX | wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN)
 		set_color(self, True)
+		self.Bind(wx.EVT_CLOSE, self.on_exit)
 
 		def set_menu_bar():
 			self.menu_bar = wx.MenuBar()
@@ -73,6 +73,13 @@ class main_UI(wx.Frame):
 
 	#
 	# main_text = wx.StaticText(self, '')
+
+	def on_exit(self, event=None):
+		x = message_dialog("Exiting meowencrypt will lost all established sessions, and the content will be impossible to decrypt. Do you want to do so?", "warning").show()
+		if x:
+			self.Destroy()
+			os.abort()
+
 	@staticmethod
 	def on_new_session(event=None):
 		on_new_session()
