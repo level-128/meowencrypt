@@ -141,7 +141,7 @@ def new_session() -> None:
 	                      content_to_notification="session request has been created.")
 
 
-def on_new_session() -> None:
+def auto_new_session() -> None:
 	"""
 	create a new session just like new_session() in a new thread.
 	This function will catch EvtNotification and SessionLimitExceedError, handle them in a normal way.

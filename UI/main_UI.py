@@ -12,7 +12,7 @@ from UI.settings_UI import show as settings_UI_show
 from UI.theme_setter import set_color
 from config.config_library import config, VERSION
 from runlib.clipboard_listener import toggle_listen_clipboard
-from runlib.enc_session_manager import new_session, on_new_session
+from runlib.enc_session_manager import auto_new_session
 
 
 class main_UI(wx.Frame):
@@ -82,7 +82,7 @@ class main_UI(wx.Frame):
 
 	@staticmethod
 	def on_new_session(event=None):
-		on_new_session()
+		auto_new_session()
 
 	@staticmethod
 	def on_new_advanced_session(event=None):
