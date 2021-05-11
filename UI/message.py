@@ -62,7 +62,6 @@ def create_window(*args):
 	raise NotImplementedError("replace this function with message method.")
 
 
-
 class __message:
 	__metaclass__ = ABCMeta
 
