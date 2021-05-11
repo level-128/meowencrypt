@@ -144,7 +144,7 @@ def new_session() -> None:
 def auto_new_session() -> None:
 	"""
 	create a new session just like new_session() in a new thread.
-	This function will catch EvtNotification and SessionLimitExceedError, handle them in a normal way.
+	This function will catch EvtNotification and SessionLimitExceedError and handle them in a normal way.
 	"""
 	def inner():
 		try:

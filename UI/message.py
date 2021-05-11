@@ -1,6 +1,8 @@
 import ctypes
 from abc import ABCMeta, abstractmethod
-from typing import Any, List, Union
+from dataclasses import dataclass
+from functools import lru_cache
+from typing import Any, List, Union, Annotated, NewType
 
 import wx
 import winsound
@@ -8,29 +10,43 @@ import winsound
 import multiprocessing
 
 from UI.theme_setter import detect_darkmode, set_color
+from config.config_library import config
+
+DIP = NewType('DIP', int)
+
+SHOW = 0
+
+CREATE_MESSAGE_BOX = 1
+CREATE_MESSAGE_DIALOG = 2
+CREATE_MESSAGE_WINDOW = 3
+
+SET_STATIC_TEXT = 10
+SET_INPUT_BOX = 20
+SET_CHECKBOX = 30
+SET_COMBOBOX = 40
 
 
-def __main(pipe: multiprocessing.Pipe):
-	app = wx.App()
-	ctypes.windll.shcore.SetProcessDpiAwareness(1)
-	instance: Union[message_window, message_dialog, message_box, None] = None
+def _main(pipe: multiprocessing.Pipe):
+	ctypes.windll.shcore.SetProcessDpiAwareness(config.GUI_os_process_dpi_awareness)
+	instance: Union[_message_window, _message_dialog, _message_box, None] = None
 	for content in pipe.recv():
 		type_, *content = content
-		if type_ == 'create_box':
-			instance = message_box(*content)
-		elif type_ == 'create_dialog':
-			instance = message_dialog(*content)
-		elif type_ == 'create_window':
-			instance = message_window(*content)
-		elif type_ == 'set_static_text':
+		if type_ == CREATE_MESSAGE_BOX:
+			instance = _message_box(*content)
+		elif type_ == CREATE_MESSAGE_DIALOG:
+			instance = _message_dialog(*content)
+		elif type_ == CREATE_MESSAGE_WINDOW:
+			instance = _message_window(*content)
+		elif type_ == SET_STATIC_TEXT:
+			print(content)
 			instance.set_static_text(*content)
-		elif type_ == 'set_input_box':
+		elif type_ == SET_INPUT_BOX:
 			instance.set_input_box(*content)
-		elif type_ == 'set_checkbox':
+		elif type_ == SET_CHECKBOX:
 			instance.set_checkbox(*content)
-		elif type_ == 'set_combobox':
+		elif type_ == SET_COMBOBOX:
 			instance.set_combobox(*content)
-		elif type_ == 'show':
+		elif type_ == SHOW:
 			try:
 				pipe.send(instance.show())
 			except BrokenPipeError:
@@ -42,41 +58,90 @@ def __main(pipe: multiprocessing.Pipe):
 			raise Exception
 
 
-def create_window(items: List[List[Union[str, any]]], /, is_block = True):
-	message_frame_pipe, __receive_pipe = multiprocessing.Pipe()
-	process = multiprocessing.Process(target=__main, args=(__receive_pipe,))
-	process.start()
-	message_frame_pipe.send(items)
-	if is_block:
-		return_ = message_frame_pipe.recv()
-		message_frame_pipe.close()
-		return return_
-	else:
-		message_frame_pipe.close()
+def create_window(*args):
+	raise NotImplementedError("replace this function with message method.")
+
+
+
+class __message:
+	__metaclass__ = ABCMeta
+
+	def __init__(self):
+		self.items: List[List[Union[int, Any]]] = []
+		self.message_frame_pipe, self.__receive_pipe = multiprocessing.Pipe()
+		self.process = multiprocessing.Process(target=_main, args=(self.__receive_pipe,))
+
+	def show(self, is_block=True):
+		self.process.start()
+		self.items.append([SHOW])
+		self.message_frame_pipe.send(self.items)
+		if is_block:
+			return_ = self.message_frame_pipe.recv()
+			self.message_frame_pipe.close()
+			return return_
+		else:
+			self.message_frame_pipe.close()
+
+	def set_static_text(self, label: str):
+		self.items.append([SET_STATIC_TEXT, label])
+
+
+class message_box(__message):
+
+	def __init__(self, content, title, width=500):
+		super(message_box, self).__init__()
+		self.items.append([CREATE_MESSAGE_BOX, content, title, width])
+
+	def show(self, is_block=False):
+		super().show(is_block)
+
+
+class message_dialog(__message):
+
+	def __init__(self, content, title, width=500):
+		super(message_dialog, self).__init__()
+		self.items.append([CREATE_MESSAGE_DIALOG, content, title, width])
+
+
+class message_window(__message):
+
+	def __init__(self, title: str = "", width: int = 300):
+		super(message_window, self).__init__()
+		self.items.append([CREATE_MESSAGE_WINDOW, title, width])
+
+	def set_input_box(self, label: str = '', is_inline: bool = True, default: Any = ''):
+		self.items.append([SET_INPUT_BOX, label, is_inline, default])
+
+	def set_checkbox(self, label: str, default: bool = False):
+		self.items.append([SET_CHECKBOX, label, default])
+
+	def set_combobox(self, label: str, choices: list, default: Union[str, None] = None):
+		self.items.append([SET_COMBOBOX, label, choices, default])
 
 
 class _message_frame(wx.Frame):
 	__metaclass__ = ABCMeta
-	y_axis_accumulator: int = 5
+	y_axis_accumulator: int = 5  # indicates the next element's y axis position.
+	return_ = None  # the return value after the window is shown.
 
 	def __init__(self, width: int, title: str):
 		self.width = width
-		self.app = wx.App.GetInstance()
+
+		self.app = wx.App()
 		super().__init__(None, style=0)
 		self.Bind(wx.EVT_CLOSE, self.on_cancel)
-		set_color(self, True)
 		self.panel = wx.ScrolledWindow(self)
+
+		set_color(self, True)
 		set_color(self.panel, True)
 
-		if title:
+		if title:  # if the title exist, add title and move other contents down.
 			font = self.GetFont().Scale(1.4)
-			_ = wx.StaticText(self.panel, label=title, pos=self.conv(10, self.y_axis_accumulator), size=(self.width - 15, -1))
-			_.Wrap(self.conv(self.width - 25))
-			_.SetFont(font)
-			set_color(_, False, False)
+			title_text = wx.StaticText(self.panel, label=title, pos=self.conv(10, self.y_axis_accumulator), size=(self.width - 15, -1))
+			title_text.Wrap(self.conv(self.width - 25))
+			title_text.SetFont(font)
+			set_color(title_text, False, False)
 			self.y_axis_accumulator += 35
-
-		self.return_ = None
 
 	def conv(self, x, y=0):
 		return (self.FromDIP(x), self.FromDIP(y)) if y else self.FromDIP(x)
@@ -90,10 +155,10 @@ class _message_frame(wx.Frame):
 		...
 
 	def set_static_text(self, label: str):
-		_ = wx.StaticText(self.panel, label=label, pos=self.conv(10, self.y_axis_accumulator), style=wx.TE_MULTILINE)
-		_.Wrap(self.conv(self.width - 17))
-		set_color(_, False, False)
-		self.y_axis_accumulator += 18 + self.ToDIP(_.GetSize()[1])
+		static_text = wx.StaticText(self.panel, label=label, pos=self.conv(10, self.y_axis_accumulator), style=wx.TE_MULTILINE)
+		static_text.Wrap(self.conv(self.width - 17))
+		set_color(static_text, False, False)
+		self.y_axis_accumulator += 18 + self.ToDIP(static_text.GetSize()[1])
 
 	def show(self) -> None:
 		if self.y_axis_accumulator > 520:  # add scroll bar when the y axis count is larger than 520
@@ -109,9 +174,9 @@ class _message_frame(wx.Frame):
 		return self.return_
 
 
-class message_box(_message_frame):
+class _message_box(_message_frame):
 	def __init__(self, content, title, width=500):
-		super(message_box, self).__init__(width, title)
+		super(_message_box, self).__init__(width, title)
 		self.SetWindowStyle(wx.STAY_ON_TOP | wx.FRAME_NO_TASKBAR | wx.FRAME_TOOL_WINDOW)
 
 		self.set_static_text(content)
@@ -129,10 +194,10 @@ class message_box(_message_frame):
 		self.Destroy()
 
 
-class message_dialog(_message_frame):
+class _message_dialog(_message_frame):
 
 	def __init__(self, content, title, width=500):
-		super(message_dialog, self).__init__(width, title)
+		super(_message_dialog, self).__init__(width, title)
 		self.SetWindowStyle(wx.STAY_ON_TOP | wx.FRAME_NO_TASKBAR | wx.FRAME_TOOL_WINDOW)
 
 		self.set_static_text(content)
@@ -156,31 +221,31 @@ class message_dialog(_message_frame):
 		self.on_cancel(None)
 
 
-class message_window(_message_frame):
+class _message_window(_message_frame):
+	input_boxes: list[Union[wx.ComboBox, wx.TextCtrl, wx.CheckBox]] = []
 
-	def __init__(self, title: str = "", width: int = 300):
-		super().__init__(width, '')
+	def __init__(self, title: str, width: int):
+		super(_message_window, self).__init__(width, '')
 		self.SetWindowStyle(wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX)
 		self.SetTitle(title)
-		self.input_boxes: list[Union[wx.ComboBox, wx.TextCtrl, wx.CheckBox]] = []
 
 	def set_input_box(self, label: str = '', is_inline: bool = True, default: Any = ''):
 		if label:
 			if is_inline:
-				_ = wx.StaticText(self.panel, label=label + ':', pos=self.conv(10, self.y_axis_accumulator + 2))
-				set_color(_, False, False)
-				text_size = self.ToDIP(_.GetSize()[0])
-				self.input_boxes.append(_ := wx.TextCtrl(self.panel, size=self.conv(self.width - 30 - text_size, 22), pos=self.conv(text_size + 15, self.y_axis_accumulator)))
+				label_text = wx.StaticText(self.panel, label=label + ':', pos=self.conv(10, self.y_axis_accumulator + 2))
+				set_color(label_text, False, False)
+				text_size = self.ToDIP(label_text.GetSize()[0])  # the length of the text, in DIP
+				self.input_boxes.append(label_box := wx.TextCtrl(self.panel, size=self.conv(self.width - 30 - text_size, 22), pos=self.conv(text_size + 15, self.y_axis_accumulator)))
 			else:
-				_ = wx.StaticText(self.panel, label=label + ':', pos=self.conv(10, self.y_axis_accumulator), size=self.conv(self.width - 10, -1))
+				label_text = wx.StaticText(self.panel, label=label + ':', pos=self.conv(10, self.y_axis_accumulator), size=self.conv(self.width - 10, -1))
 				self.y_axis_accumulator += 22
-				set_color(_, False, False)
-				self.input_boxes.append(_ := wx.TextCtrl(self.panel, size=self.conv(self.width - 30, 22), pos=self.conv(15, self.y_axis_accumulator)))
+				set_color(label_text, False, False)
+				self.input_boxes.append(label_box := wx.TextCtrl(self.panel, size=self.conv(self.width - 30, 22), pos=self.conv(15, self.y_axis_accumulator)))
 		else:
-			self.input_boxes.append(_ := wx.TextCtrl(self.panel, size=self.conv(self.width - 35, 22), pos=self.conv(15, self.y_axis_accumulator)))
-		set_color(_, True)
-		set_color(_, False, False)
-		_.SetValue(str(default))
+			self.input_boxes.append(label_box := wx.TextCtrl(self.panel, size=self.conv(self.width - 35, 22), pos=self.conv(15, self.y_axis_accumulator)))
+		set_color(label_box, True)
+		set_color(label_box, False, False)
+		label_box.SetValue(str(default))
 		self.y_axis_accumulator += 45
 
 	def set_checkbox(self, label: str, default: bool = False):
@@ -245,10 +310,9 @@ def test():
 
 
 if __name__ == "__main__":
+	# print(message(
+	# 	[['create_dialog', 'hello', 'hi'],
+	# 	 ['show']]
+	# ).show())
 
-	create_window(
-		[['create_dialog', 'hello', 'hi'],
-		 ['show']], False
-	)
-
-	print('re')
+	test()
