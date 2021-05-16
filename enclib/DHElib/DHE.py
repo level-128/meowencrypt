@@ -2,10 +2,13 @@ from hashlib import sha256
 from math import log, ceil
 from secrets import randbelow
 
-from gmpy2 import mpz
-
 from enclib.DHElib.HDE_const import MODB_GROUPS
 
+try:
+	from gmpy2 import mpz
+except ModuleNotFoundError:
+	print("gmpy not found")
+	mpz = int
 
 def pow_mod(g, k, p):
 	g, k, p = mpz(g), mpz(k), mpz(p)
