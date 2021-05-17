@@ -8,7 +8,7 @@ import wx
 from UI.message import message_box, message_dialog
 from UI.settings_UI import show as settings_UI_show
 from UI.theme_setter import set_color
-from UI.UI_process_creater import get_pipe, show_UI
+from UI.UI_process_manager import get_frame_pipe, show_UI
 from UI.session_manager_UI import session_manager as session_manager_UI
 from UI.session_UI import session_UI
 from config.config_library import config, VERSION

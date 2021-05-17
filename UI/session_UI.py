@@ -53,6 +53,7 @@ class session_UI(wx.Frame):
 		push_clipboard(self.output_tc.GetValue( ))
 
 	def on_input_tc(self, event):
+		# TODO: move part of the content out of this process into main process, then the other part remains.
 		self.process_btn.SetFocus( )
 		try:
 			if self.mode_combobox.GetValue() == self.mode_combobox_choices[0]:
