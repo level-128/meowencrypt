@@ -6,14 +6,14 @@ import webbrowser
 import wx
 
 from UI.message import message_box, message_dialog
-from UI.session_UI import show as session_UI_show
-from UI.session_manager_UI import show as session_manager_UI_show
 from UI.settings_UI import show as settings_UI_show
 from UI.theme_setter import set_color
+from UI.UI_process_creater import get_pipe, show_UI
+from UI.session_manager_UI import session_manager as session_manager_UI
+from UI.session_UI import session_UI
 from config.config_library import config, VERSION
 from runlib.clipboard_listener import toggle_listen_clipboard
 from runlib.enc_session_manager import auto_new_session
-
 
 class main_UI(wx.Frame):
 
@@ -105,10 +105,12 @@ class main_UI(wx.Frame):
 			'error').show()
 
 	def on_dialog_window(self, event=None):
-		session_UI_show()
+		show_UI(session_UI)
+		# session_UI_show()
 
 	def on_session_manager(self, event=None):
-		session_manager_UI_show()
+		show_UI(session_manager_UI)
+		# session_manager_UI_show()
 
 	def on_github(self, event=None):
 		webbrowser.open("https://github.com/level-128/meowencrypt")
@@ -139,14 +141,3 @@ class main_UI(wx.Frame):
 		                    " program.  If not, see <https://www.gnu.org/licenses/>.",
 		                    f'About: Meowencrypt        --version {VERSION}', width=700)
 		about.show()
-
-
-def show():
-	main_UI_frame = main_UI()
-	main_UI_frame.Show()
-
-
-if __name__ == '__main__':
-	app = wx.App()
-	show()
-	app.MainLoop()

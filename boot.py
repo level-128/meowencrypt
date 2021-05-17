@@ -23,10 +23,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 import platform
+import threading
+import time
 
 from runlib.key_macro import start_keyboard_listen
-from UI.main_UI import show as main_show
-
+from UI.cli import show as cli_show
+from UI.message import _message_box
+from pubsub import pub
 import wx
 
 if platform.system() == 'Windows':
@@ -37,7 +40,9 @@ app = wx.App()
 
 if __name__ == '__main__':
 	start_keyboard_listen( )
-	# cli_show()
-	main_show()
-	#
-	app.MainLoop()
+
+	from UI.UI_process_creater import main, get_pipe
+	main()
+	pipe = get_pipe()
+	pipe.send(["show_main"])
+	pipe.send(["show_session_manager"])

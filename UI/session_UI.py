@@ -70,7 +70,3 @@ class session_UI(wx.Frame):
 		except (SessionLimitExceedError, NullSessionError, SessionError) as e:
 			message_box(str(e), 'error').show()
 
-
-def show( ):
-	session_UI_frame = session_UI( )
-	session_UI_frame.Show( )

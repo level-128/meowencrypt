@@ -39,7 +39,6 @@ from runlib.clipboard_listener import get_is_listen_clipboard, start_clipboard_l
 	toggle_listen_clipboard_wrapper, NullSessionError, ContentError, EvtNotification
 from runlib.enc_session_manager import to_session, encrypt_content, new_session, SessionLimitExceedError, auto_new_session
 from runlib.pushed_content import push_clipboard, get_clipboard, push_notification
-from UI.main_UI import show as mainui_show
 
 
 def _all_keys_released(keys: str):

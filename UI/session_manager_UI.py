@@ -55,7 +55,3 @@ class session_manager(wx.Frame):
 			self.list.SetItem(index, 3, str(is_established))
 			self.list.SetItem(index, 4, strftime("%m/%d %H:%M:%S", localtime(time)))
 
-
-def show():
-	session_manager_frame = session_manager( )
-	session_manager_frame.Show( )

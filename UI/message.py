@@ -38,7 +38,6 @@ def _main(pipe: multiprocessing.Pipe):
 		elif type_ == CREATE_MESSAGE_WINDOW:
 			instance = _message_window(*content)
 		elif type_ == SET_STATIC_TEXT:
-			print(content)
 			instance.set_static_text(*content)
 		elif type_ == SET_INPUT_BOX:
 			instance.set_input_box(*content)
@@ -307,11 +306,3 @@ def test():
 		my_notification.set_combobox('test combobox', ['one', 'two', 'three'])
 		print(my_notification.show())
 
-
-if __name__ == "__main__":
-	# print(message(
-	# 	[['create_dialog', 'hello', 'hi'],
-	# 	 ['show']]
-	# ).show())
-
-	test()
