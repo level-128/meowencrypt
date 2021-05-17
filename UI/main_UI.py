@@ -11,6 +11,7 @@ from UI.theme_setter import set_color
 from UI.UI_process_manager import get_frame_pipe, show_UI
 from UI.session_manager_UI import session_manager as session_manager_UI
 from UI.session_UI import session_UI
+from UI.UI_process_manager import function_call
 from config.config_library import config, VERSION
 from runlib.clipboard_listener import toggle_listen_clipboard
 from runlib.enc_session_manager import auto_new_session
@@ -82,7 +83,7 @@ class main_UI(wx.Frame):
 
 	@staticmethod
 	def on_new_session(event=None):
-		auto_new_session()
+		function_call(auto_new_session)
 
 	@staticmethod
 	def on_new_advanced_session(event=None):
@@ -92,7 +93,7 @@ class main_UI(wx.Frame):
 
 	@staticmethod
 	def on_toggle_clipboard_listener(event=None):
-		toggle_listen_clipboard()
+		function_call(toggle_listen_clipboard)
 
 	@staticmethod
 	def on_preferences(event=None):

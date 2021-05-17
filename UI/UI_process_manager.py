@@ -3,7 +3,7 @@ import threading
 import platform
 from multiprocessing.dummy import Lock
 from multiprocessing.dummy.connection import Connection
-from typing import Optional
+from typing import Optional, Callable
 
 import wx
 
@@ -42,7 +42,7 @@ def get_frame_pipe():
 def _main_function_call_process(pipe):
 	while True:
 		func, args, kwargs = pipe.recv()
-		pipe.send(eval(func)(*args, **kwargs))
+		pipe.send(func(*args, **kwargs))
 
 
 def _main_UI_thread(__message_frame_receive_pipe, __function_call_receive_pipe):
@@ -86,9 +86,8 @@ def show_UI(frame):
 	frame_instance.Show()
 
 
-def function_call(function: str, *args, **kwargs):
+def function_call(function: Callable, *args, **kwargs):
 	global function_call_receive_pipe, function_call_lock
-
 	function_call_lock.acquire(True)
 	function_call_receive_pipe.send([function, args, kwargs])
 	return_ = function_call_receive_pipe.recv()

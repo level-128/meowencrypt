@@ -7,7 +7,7 @@ from enclib.enc_session import encryption, ContentError, CONST_NEW_SESSION_NOTAT
 	CONST_KEY_EXCHANGE_NOTATION  # clear import
 from enclib.enc_utilities import b94encode, b94decode_to_int, is_md5_checksum_for_message_correct
 from runlib.pushed_content import EvtNotification, get_clipboard  # clear import
-from UI.message import create_window
+from UI.message import message_window, message_box
 
 active_session: Dict[str, encryption] = {}
 active_session_time: Dict[str, float] = {}
@@ -57,11 +57,10 @@ def __get_session(session_ID: str) -> encryption:
 
 
 def __create_session_request(_session: encryption) -> str:
-	result = create_window([
-		['create_window', 'create session', 500],
-		['set_input_box', "create a new name of this session (use for notification only)", False],
-		['show']
-	])
+	msg = message_window('create session', 500)
+	msg.set_input_box("create a new name of this session (use for notification only)", False)
+	result = msg.show()
+
 	if result:
 		return _session.create_session_request(result[0])
 	else:
@@ -152,7 +151,7 @@ def auto_new_session() -> None:
 		except EvtNotification:
 			pass
 		except SessionLimitExceedError:
-			create_window([['create_box', f'the session number has reached the limit: {config.max_session}. terminate other session to continue.', 'error']])
+			message_box(f'the session number has reached the limit: {config.max_session}. terminate other session to continue.', 'error').show()
 
 	threading.Thread(target=inner).start()
 
